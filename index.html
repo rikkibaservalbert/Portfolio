@@ -4,8 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Rikki Valbert Baser — Graphic Designer, IT Support Specialist, and Content & Social Media Manager.">
-  <meta name="theme-color" content="#0a0b0f">
+  <meta name="theme-color" content="#100c0b">
   <title>Rikki Valbert Baser — Portfolio</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,15 +45,33 @@
 </div>
 <!-- End Portfolio Intro -->
 
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-  <div class="noise"></div>
+  <div class="background-scene" aria-hidden="true">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <div class="ambient ambient-three"></div>
+    <div class="background-orbit orbit-coral"></div>
+    <div class="background-orbit orbit-amber"></div>
+    <div class="background-lines">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <div class="background-particles">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span>
+    </div>
+    <div class="noise"></div>
+  </div>
 
   <header class="site-header">
     <nav class="navbar container" aria-label="Primary navigation">
       <a class="brand" href="#home" aria-label="Rikki Valbert Baser home">
-        <span class="brand-mark">RV</span>
-        <span>Rikki<span class="brand-dot">.</span></span>
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 29V11h9a7 7 0 0 1 0 14H6m9 0 7 4M23 11l6 18 6-18" />
+          </svg>
+        </span>
+        <span class="brand-label">Design &amp; Technology</span>
       </a>
 
       <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
@@ -61,7 +82,7 @@
       <div class="nav-links">
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
-        <a href="#projects">Project</a>
+        <a href="#projects">Projects</a>
         <a href="#gallery">Designs</a>
         <a href="#contact">Contact</a>
         
@@ -277,8 +298,8 @@
     <section class="section" id="projects">
       <div class="container">
         <div class="section-heading reveal">
-          <span class="section-kicker">03 / FEATURED PROJECT</span>
-          <h2>Built to make <span class="gradient-text">documents move.</span></h2>
+          <span class="section-kicker">03 / FEATURED PROJECTS</span>
+          <h2>Built to bring <span class="gradient-text">ideas to life.</span></h2>
         </div>
 
         <article class="project-card glass tilt-card reveal">
@@ -318,6 +339,44 @@
             </div>
           </div>
         </article>
+
+        <article class="project-card glass tilt-card reveal">
+          <div class="project-content">
+            <div class="project-topline">
+              <span class="project-tag">Business Website</span>
+              <span class="project-stack">HTML · CSS · JavaScript · Supabase</span>
+            </div>
+
+            <h3>MIORE</h3>
+            <p>
+              A cafe and restaurant supplies website with a searchable product catalog,
+              category and brand filters, and an admin dashboard for managing products and availability.
+            </p>
+
+            <div class="project-features">
+              <span>Product Catalog</span>
+              <span>Search &amp; Filters</span>
+              <span>Admin Dashboard</span>
+              <span>Responsive Design</span>
+            </div>
+
+            <a class="text-link" href="https://miore.vercel.app/" target="_blank" rel="noopener noreferrer">
+              Visit live website
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="project-visual">
+            <div class="dashboard-window">
+              <div class="window-bar" aria-hidden="true">
+                <span></span><span></span><span></span>
+              </div>
+              <img class="project-preview" src="images/miore-preview.png"
+                alt="MIORE cafe and restaurant supplies website featuring its ingredient collection."
+                width="1440" height="900" loading="lazy" decoding="async">
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -328,22 +387,69 @@
             <span class="section-kicker">04 / GRAPHIC DESIGN</span>
             <h2>Selected <span class="gradient-text">social designs.</span></h2>
           </div>
-          <p></p>
+          <p>Swipe through the collection. Select a design to see it in full size.</p>
         </div>
 
-        <div class="gallery-grid">
-          <img src="images/jpegs/jpeg1.jpg" alt="Social Media Design 1" class="gallery-item reveal">
-          <img src="images/jpegs/jpeg2.jpg" alt="Social Media Design 2" class="gallery-item reveal reveal-delay">
-          <img src="images/jpegs/jpeg3.jpg" alt="Social Media Design 3" class="gallery-item reveal reveal-delay-2">
-          <img src="images/jpegs/jpeg4.jpg" alt="Social Media Design 4" class="gallery-item reveal">
-          <img src="images/jpegs/jpeg5.jpg" alt="Social Media Design 5" class="gallery-item reveal reveal-delay">
-          <img src="images/jpegs/jpeg6.jpg" alt="Social Media Design 6" class="gallery-item reveal reveal-delay-2">
-          <img src="images/jpegs/jpeg7.jpg" alt="Social Media Design 7" class="gallery-item reveal">
-          <img src="images/jpegs/jpeg8.jpg" alt="Social Media Design 8" class="gallery-item reveal reveal-delay">
-          <img src="images/jpegs/jpeg9.jpg" alt="Social Media Design 9" class="gallery-item reveal reveal-delay-2">
-          <img src="images/jpegs/jpeg10.jpg" alt="Social Media Design 10" class="gallery-item reveal">
-          <img src="images/jpegs/jpeg11.jpg" alt="Social Media Design 11" class="gallery-item reveal reveal-delay">
-          <img src="images/jpegs/jpeg12.jpg" alt="Social Media Design 12" class="gallery-item reveal reveal-delay-2">
+        <div class="gallery-slideshow glass reveal" role="region" aria-roledescription="carousel" aria-label="Social design collection">
+          <div class="gallery-stage">
+            <button class="gallery-peek gallery-peek-prev" type="button" aria-label="Previous design">
+              <img alt="" decoding="async">
+            </button>
+          <div class="gallery-viewport" tabindex="0" aria-label="Design slideshow. Use left and right arrow keys to browse.">
+            <div class="gallery-track">
+              <button class="gallery-slide" type="button" aria-label="Open social media design 1 in full size">
+                <img src="images/jpegs/jpeg1.jpg" alt="Social Media Design 1" class="gallery-item" loading="eager" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 2 in full size">
+                <img src="images/jpegs/jpeg2.jpg" alt="Social Media Design 2" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 3 in full size">
+                <img src="images/jpegs/jpeg3.jpg" alt="Social Media Design 3" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 4 in full size">
+                <img src="images/jpegs/jpeg4.jpg" alt="Social Media Design 4" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 5 in full size">
+                <img src="images/jpegs/jpeg5.jpg" alt="Social Media Design 5" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 6 in full size">
+                <img src="images/jpegs/jpeg6.jpg" alt="Social Media Design 6" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 7 in full size">
+                <img src="images/jpegs/jpeg7.jpg" alt="Social Media Design 7" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 8 in full size">
+                <img src="images/jpegs/jpeg8.jpg" alt="Social Media Design 8" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 9 in full size">
+                <img src="images/jpegs/jpeg9.jpg" alt="Social Media Design 9" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 10 in full size">
+                <img src="images/jpegs/jpeg10.jpg" alt="Social Media Design 10" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 11 in full size">
+                <img src="images/jpegs/jpeg11.jpg" alt="Social Media Design 11" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+              <button class="gallery-slide" type="button" aria-label="Open social media design 12 in full size">
+                <img src="images/jpegs/jpeg12.jpg" alt="Social Media Design 12" class="gallery-item" loading="lazy" decoding="async">
+              </button>
+            </div>
+          </div>
+            <button class="gallery-peek gallery-peek-next" type="button" aria-label="Next design">
+              <img alt="" decoding="async">
+            </button>
+          </div>
+          <div class="gallery-toolbar">
+            <div class="gallery-pagination">
+              <span class="gallery-counter" aria-live="polite" aria-atomic="true">01 / 12</span>
+              <span class="gallery-hint">Swipe to explore <span aria-hidden="true">&#8596;</span></span>
+            </div>
+            <div class="gallery-navigation">
+              <button class="gallery-prev" type="button" aria-label="Previous design"><span aria-hidden="true">&#8592;</span></button>
+              <button class="gallery-next" type="button" aria-label="Next design"><span aria-hidden="true">&#8594;</span></button>
+            </div>
+          </div>
+          <div class="gallery-thumbnails" aria-label="Choose a design"></div>
         </div>
       </div>
     </section>
@@ -384,7 +490,7 @@
   <meta property="og:image" content="images/profile.jpg">
   <meta property="og:type" content="website">
 
-  <div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Full size design preview" aria-hidden="true">
     <button class="lightbox-close" type="button" aria-label="Close image preview">×</button>
     <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
     <img class="lightbox-image" id="lightbox-image" src="" alt="">

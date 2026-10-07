@@ -118,7 +118,7 @@
   function applyTheme(theme) {
     const isLight = theme === "light";
     document.body.classList.toggle("light-mode", isLight);
-    if (themeMeta) themeMeta.setAttribute("content", isLight ? "#f8fafc" : "#090a0e");
+    if (themeMeta) themeMeta.setAttribute("content", isLight ? "#f4f8ff" : "#100c0b");
     if (themeToggle) {
       themeToggle.setAttribute("aria-pressed", String(isLight));
       themeToggle.setAttribute("aria-label", isLight ? "Switch to dark mode" : "Switch to light mode");
@@ -211,8 +211,142 @@ document.addEventListener("DOMContentLoaded", () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const galleryImages = Array.from(
-    document.querySelectorAll(".gallery-grid .gallery-item")
+    document.querySelectorAll(".gallery-track .gallery-item")
   );
+
+  const slideshow = document.querySelector(".gallery-slideshow");
+  const viewport = document.querySelector(".gallery-viewport");
+  const slides = Array.from(document.querySelectorAll(".gallery-slide"));
+  const thumbnailStrip = document.querySelector(".gallery-thumbnails");
+  const galleryCounter = document.querySelector(".gallery-counter");
+  const galleryPrev = document.querySelector(".gallery-prev");
+  const galleryNext = document.querySelector(".gallery-next");
+  const peekPrev = document.querySelector(".gallery-peek-prev");
+  const peekNext = document.querySelector(".gallery-peek-next");
+
+  if (!galleryImages.length || !slideshow || !viewport || !thumbnailStrip || !galleryPrev || !galleryNext) return;
+
+  let currentSlide = 0;
+  let scrollFrame = null;
+  let scrollEndTimer = null;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const wrapIndex = (index) => (index % slides.length + slides.length) % slides.length;
+  // End copies let touch scrolling cross either boundary without rewinding the collection.
+  const beforeFirst = slides[slides.length - 1].cloneNode(true);
+  const afterLast = slides[0].cloneNode(true);
+  [beforeFirst, afterLast].forEach((copy) => {
+    copy.classList.add("gallery-clone");
+    copy.tabIndex = -1;
+    copy.setAttribute("aria-hidden", "true");
+  });
+  document.querySelector(".gallery-track").prepend(beforeFirst);
+  document.querySelector(".gallery-track").append(afterLast);
+  const thumbnails = galleryImages.map((image, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "gallery-thumbnail";
+    button.setAttribute("aria-label", `View design ${index + 1}`);
+    const preview = document.createElement("img");
+    preview.src = `images/thumbnails/design${index + 1}.jpg`;
+    preview.alt = "";
+    preview.loading = "eager";
+    preview.decoding = "async";
+    button.appendChild(preview);
+    button.addEventListener("click", () => goToSlide(index));
+    thumbnailStrip.appendChild(button);
+    return button;
+  });
+
+  function updateSlide(index) {
+    currentSlide = index;
+    galleryCounter.textContent = `${String(index + 1).padStart(2, "0")} / ${galleryImages.length}`;
+    const previous = wrapIndex(index - 1);
+    const next = wrapIndex(index + 1);
+    peekPrev.querySelector("img").src = galleryImages[previous].src;
+    peekNext.querySelector("img").src = galleryImages[next].src;
+    peekPrev.setAttribute("aria-label", `Previous design, ${previous + 1} of ${slides.length}`);
+    peekNext.setAttribute("aria-label", `Next design, ${next + 1} of ${slides.length}`);
+    slides.forEach((slide, slideIndex) => {
+      slide.tabIndex = slideIndex === index ? 0 : -1;
+      slide.setAttribute("aria-hidden", String(slideIndex !== index));
+      thumbnails[slideIndex].setAttribute("aria-current", String(slideIndex === index));
+    });
+    const selected = thumbnails[index];
+    const stripBounds = thumbnailStrip.getBoundingClientRect();
+    const thumbBounds = selected.getBoundingClientRect();
+    if (thumbBounds.left < stripBounds.left || thumbBounds.right > stripBounds.right) {
+      thumbnailStrip.scrollLeft += thumbBounds.left - stripBounds.left - (stripBounds.width - thumbBounds.width) / 2;
+    }
+  }
+
+  function goToSlide(index, animate = true) {
+    const target = wrapIndex(index);
+    let position = target + 1;
+    if (animate && index === -1 && currentSlide === 0) position = 0;
+    if (animate && index === slides.length && currentSlide === slides.length - 1) position = slides.length + 1;
+    viewport.scrollTo({
+      left: position * viewport.clientWidth,
+      behavior: animate && !reducedMotion.matches ? "smooth" : "instant"
+    });
+    if (!animate || reducedMotion.matches) updateSlide(target);
+  }
+
+  galleryPrev.addEventListener("click", () => goToSlide(currentSlide - 1));
+  galleryNext.addEventListener("click", () => goToSlide(currentSlide + 1));
+  peekPrev.addEventListener("click", () => goToSlide(currentSlide - 1));
+  peekNext.addEventListener("click", () => goToSlide(currentSlide + 1));
+  [peekPrev, peekNext].forEach((peek) => {
+    let startX = 0;
+    let startY = 0;
+    peek.addEventListener("touchstart", (event) => {
+      startX = event.changedTouches[0].clientX;
+      startY = event.changedTouches[0].clientY;
+    }, { passive: true });
+    peek.addEventListener("touchend", (event) => {
+      const dx = event.changedTouches[0].clientX - startX;
+      const dy = event.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy)) return;
+      event.preventDefault();
+      goToSlide(currentSlide + (dx > 0 ? -1 : 1));
+    });
+  });
+  function normalizeLoop() {
+    const width = viewport.clientWidth;
+    if (Math.abs(viewport.scrollLeft) < 2) {
+      viewport.scrollTo({ left: slides.length * width, behavior: "instant" });
+    } else if (Math.abs(viewport.scrollLeft - (slides.length + 1) * width) < 2) {
+      viewport.scrollTo({ left: width, behavior: "instant" });
+    }
+  }
+  viewport.addEventListener("scrollend", normalizeLoop);
+  viewport.addEventListener("scroll", () => {
+    if (!("onscrollend" in viewport)) {
+      clearTimeout(scrollEndTimer);
+      scrollEndTimer = setTimeout(normalizeLoop, 160);
+    }
+    if (scrollFrame !== null) return;
+    scrollFrame = requestAnimationFrame(() => {
+      const index = wrapIndex(Math.round(viewport.scrollLeft / viewport.clientWidth) - 1);
+      if (index !== currentSlide) updateSlide(index);
+      scrollFrame = null;
+    });
+  }, { passive: true });
+  slideshow.addEventListener("keydown", (event) => {
+    if (lightbox.classList.contains("active")) return;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      goToSlide(currentSlide + (event.key === "ArrowRight" ? 1 : -1));
+    } else if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      goToSlide(event.key === "Home" ? 0 : slides.length - 1);
+    }
+  });
+  if ("ResizeObserver" in window) {
+    new ResizeObserver(() => goToSlide(currentSlide, false)).observe(viewport);
+  } else {
+    window.addEventListener("resize", () => goToSlide(currentSlide, false));
+  }
+  goToSlide(0, false);
 
   const lightbox = document.getElementById("lightbox");
   const lightboxImage = document.getElementById("lightbox-image");
@@ -259,7 +393,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.body.style.overflow = "hidden";
 
-    closeButton.focus();
+    requestAnimationFrame(() => {
+      if (lightbox.classList.contains("active")) closeButton.focus();
+    });
   }
 
   function closeLightbox() {
@@ -269,6 +405,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.style.overflow = "";
 
     lightboxImage.src = "";
+    goToSlide(currentIndex, false);
+    slides[currentIndex].focus({ preventScroll: true });
   }
 
   function showPrevious() {
@@ -280,10 +418,12 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Open the selected design.
+  beforeFirst.addEventListener("click", () => openLightbox(slides.length - 1));
+  afterLast.addEventListener("click", () => openLightbox(0));
   galleryImages.forEach((image, index) => {
     image.style.cursor = "zoom-in";
 
-    image.addEventListener("click", () => {
+    slides[index].addEventListener("click", () => {
       openLightbox(index);
     });
   });
@@ -314,15 +454,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!lightbox.classList.contains("active")) return;
 
     if (event.key === "Escape") {
+      event.preventDefault();
       closeLightbox();
     }
 
     if (event.key === "ArrowLeft") {
+      event.preventDefault();
       showPrevious();
     }
 
     if (event.key === "ArrowRight") {
+      event.preventDefault();
       showNext();
+    }
+
+    if (event.key === "Tab") {
+      const controls = [closeButton, prevButton, nextButton];
+      const index = controls.indexOf(document.activeElement);
+      event.preventDefault();
+      controls[(index + (event.shiftKey ? -1 : 1) + controls.length) % controls.length].focus();
     }
   });
 
