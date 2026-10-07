@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1441" height="818" viewBox="0 0 1441 818">
+  <title>ReldevDocs — FJ8 Real Estate internal document workflow</title>
+  <defs>
+    <linearGradient id="hero" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#05091a"/><stop offset=".48" stop-color="#0f1729"/><stop offset="1" stop-color="#047857"/></linearGradient>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="150%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#0f172a" flood-opacity=".12"/></filter>
+    <clipPath id="hero-clip"><rect x="46" y="262" width="785" height="443" rx="28"/></clipPath>
+  </defs>
+  <rect width="1441" height="818" fill="#f7f5f0"/>
+  <g font-family="Arial, Helvetica, sans-serif" font-size="15">
+    <text x="46" y="49" fill="#008577" font-weight="600">ReldevDocs</text>
+    <text x="46" y="70" fill="#647b9c">FJ8 Real Estate · Internal Document Workflow</text>
+    <rect x="1305" y="34" width="78" height="40" rx="14" fill="#0f172a"/>
+    <text x="1344" y="59" text-anchor="middle" fill="white" font-weight="600">Log in</text>
+    <rect x="46" y="262" width="785" height="443" rx="28" fill="#fff" filter="url(#shadow)"/>
+    <g clip-path="url(#hero-clip)"><rect x="46" y="262" width="785" height="398" fill="url(#hero)"/></g>
+    <rect x="90" y="307" width="246" height="28" rx="14" fill="#0b2630" stroke="#0e6059"/>
+    <text x="104" y="325" fill="#83ffe4" font-size="13" font-weight="700" letter-spacing="2.6">MVP FOUNDATION READY</text>
+    <text x="90" y="400" fill="#fff" font-size="38" font-weight="700"><tspan x="90">Track, route, and verify internal</tspan><tspan x="90" dy="49">documents with confidence.</tspan></text>
+    <text x="90" y="497" fill="#fff"><tspan x="90">ReldevDocs is the internal document tracking and workflow system for FJ8 Real Estate, designed to</tspan><tspan x="90" dy="26">streamline submissions, reviews, approvals, and verification-ready records.</tspan></text>
+    <rect x="90" y="566" width="176" height="50" rx="14" fill="#fff"/>
+    <text x="178" y="596" text-anchor="middle" fill="#0f172a" font-weight="600">Sign in to continue</text>
+    <rect x="279" y="566" width="164" height="50" rx="14" fill="none" stroke="#425865"/>
+    <text x="361" y="596" text-anchor="middle" fill="#fff" font-weight="600">Forgot password</text>
+    <rect x="859" y="262" width="524" height="269" rx="28" fill="#fff" stroke="#e2e8f0" filter="url(#shadow)"/>
+    <text x="890" y="315" fill="#0f172a" font-size="20" font-weight="600">Operational capabilities</text>
+    <g fill="#10b981"><circle cx="895.5" cy="351.5" r="5.5"/><circle cx="895.5" cy="409" r="5.5"/><circle cx="895.5" cy="466" r="5.5"/></g>
+    <g fill="#52627d">
+      <text x="914" y="357"><tspan x="914">End-to-end workflow: draft, review, approve, return, reject,</tspan><tspan x="914" dy="22">sign</tspan></text>
+      <text x="914" y="415"><tspan x="914">Verification controls with QR checks, certificate expiry, and</tspan><tspan x="914" dy="22">revocation enforcement</tspan></text>
+      <text x="914" y="472"><tspan x="914">Visual analytics dashboard with exports and scheduled role-</tspan><tspan x="914" dy="22">based reporting</tspan></text>
+    </g>
+    <rect x="859" y="559" width="524" height="146" rx="28" fill="#fff" stroke="#e2e8f0" filter="url(#shadow)"/>
+    <text x="890" y="612" fill="#0f172a" font-size="20" font-weight="600">Usage focus</text>
+    <text x="890" y="645" fill="#647b9c"><tspan x="890">Designed for secure internal document operations, audit-ready</tspan><tspan x="890" dy="22">tracking, and management oversight in real-estate workflows.</tspan></text>
+  </g>
+</svg>
