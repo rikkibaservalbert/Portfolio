@@ -98,10 +98,18 @@ body.modal-open {
 .cursor-follower.is-interactive::before {
   inset: 0;
   background: color-mix(in srgb, var(--ink) 16%, transparent);
-  scale: 1.4;
+  scale: 0.9;
 }
 .cursor-follower.is-interactive::after {
-  scale: 1.55;
+  scale: 1;
+}
+:root:not([data-theme="dark"]) .cursor-follower::after {
+  border-color: #062b49b3;
+  opacity: 1;
+  box-shadow: 0 0 0 1.5px #ffffffeb;
+}
+:root:not([data-theme="dark"]) .cursor-follower:not(.is-interactive)::before {
+  box-shadow: 0 0 0 1.5px #ffffffeb;
 }
 :root[data-theme="dark"] .cursor-follower::after {
   border-color: #ffffff;
@@ -589,10 +597,16 @@ h1 {
 }
 .hero-asterisk {
   display: inline-block;
-  font-size: 0.8em;
+  width: 0.62em;
+  height: 0.62em;
   color: var(--accent);
   margin-left: 44px;
   vertical-align: 4px;
+}
+.hero-asterisk svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 .hero-role {
   font-size: 17px;
@@ -841,9 +855,12 @@ h1 {
   letter-spacing: -0.03em;
 }
 .discipline-strip b {
-  font-size: 22px;
-  font-weight: 400;
-  color: var(--highlight);
+  flex: 0 0 1px;
+  width: 1px;
+  height: 18px;
+  border-radius: 1px;
+  background: var(--highlight);
+  opacity: 0.4;
 }
 .section-heading {
   display: flex;
@@ -1839,7 +1856,7 @@ h1 {
     font-size: 13px;
   }
   .discipline-strip b {
-    font-size: 17px;
+    height: 15px;
   }
   .discipline-strip .container {
     gap: 10px;
@@ -2091,7 +2108,7 @@ h1 {
     font-size: 12px;
   }
   .discipline-strip b {
-    font-size: 13px;
+    height: 12px;
   }
   .discipline-strip b:nth-child(4) {
     display: none;
