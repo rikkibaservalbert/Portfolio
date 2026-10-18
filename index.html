@@ -1,503 +1,1798 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Rikki Valbert Baser — Graphic Designer, IT Support Specialist, and Content & Social Media Manager.">
-  <meta name="theme-color" content="#100c0b">
-  <title>Rikki Valbert Baser — Portfolio</title>
-  <link rel="icon" href="favicon.ico" sizes="any">
-  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<!-- Portfolio Intro -->
-<div class="intro-loader" id="introLoader">
-
-  <div class="intro-overlay"></div>
-
-  <div class="intro-content">
-
-    <div class="intro-spinner" aria-hidden="true"></div>
-
-    <div class="intro-roles">
-      <span class="intro-role active">IT Support Specialist</span>
-      <span class="intro-arrow">→</span>
-      <span class="intro-role">Graphic Designer</span>
-      <span class="intro-arrow">→</span>
-      <span class="intro-role">Content & Social Media Manager</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Rikki Valbert Baser — graphic designer and IT support specialist in the Philippines. Visual design, websites, and systems projects."
+    />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      (() => {
+        const root = document.documentElement;
+        try {
+          root.dataset.theme =
+            localStorage.getItem("theme") === "dark" ? "dark" : "light";
+        } catch (_) {
+          root.dataset.theme = "light";
+        }
+        root.classList.add("intro-active");
+        window.setTimeout(() => {
+          root.classList.remove("intro-active");
+          document.querySelectorAll("[data-intro-inert]").forEach((element) => {
+            element.inert = false;
+            element.removeAttribute("data-intro-inert");
+          });
+          document.dispatchEvent(new Event("intro-ready"));
+        }, 2400);
+        window.addEventListener("pageshow", (event) => {
+          if (event.persisted) root.classList.remove("intro-active");
+        });
+      })();
+    </script>
+    <meta property="og:title" content="Rikki Valbert Baser — Design & IT" />
+    <meta
+      property="og:description"
+      content="A creative eye. A technical mind. Graphic design, IT support, and useful digital experiences."
+    />
+    <meta
+      property="og:image"
+      content="https://rikkivalbert.vercel.app/images/profile.jpg"
+    />
+    <meta property="og:type" content="website" />
+    <title>Rikki Valbert Baser — Design & IT</title>
+    <link rel="icon" href="favicon.ico?v=20261018-rv" sizes="any" />
+    <link
+      rel="icon"
+      href="images/favicon.svg?v=20261018-rv"
+      type="image/svg+xml"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="images/apple-touch-icon.png?v=20261018-rv"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <div class="cursor-follower" aria-hidden="true" hidden>
+      <span class="cursor-arrow">↗</span>
     </div>
-
-    <div class="intro-bottom">
-      <span class="intro-name">Rikki Valbert</span>
-      <span class="intro-loading">INITIALIZING PORTFOLIO</span>
+    <div class="portfolio-intro" aria-hidden="true">
+      <div class="intro-echo intro-echo-top">PORT</div>
+      <div class="intro-echo intro-echo-bottom">FOLIO</div>
+      <div class="intro-composition">
+        <span class="intro-port">PORT</span>
+        <span class="intro-discipline">graphics <i>×</i> IT</span>
+        <span class="intro-name">rikki valbert<br />baser</span>
+        <span class="intro-folio">FOLIO</span>
+        <span class="intro-progress"></span>
+      </div>
     </div>
-
-  </div>
-
-</div>
-<!-- End Portfolio Intro -->
-
-  <div class="background-scene" aria-hidden="true">
-    <div class="ambient ambient-one"></div>
-    <div class="ambient ambient-two"></div>
-    <div class="ambient ambient-three"></div>
-    <div class="background-orbit orbit-coral"></div>
-    <div class="background-orbit orbit-amber"></div>
-    <div class="background-lines">
-      <span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span>
+    <div class="ambient-background" aria-hidden="true">
+      <span class="ambient-ring"></span
+      ><span class="ambient-ring ambient-ring-small"></span
+      ><span class="ambient-cross"></span><span class="ambient-diamond"></span
+      ><span class="ambient-dots"></span>
     </div>
-    <div class="background-particles">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span>
-    </div>
-    <div class="noise"></div>
-  </div>
-
-  <header class="site-header">
-    <nav class="navbar container" aria-label="Primary navigation">
-      <a class="brand" href="#home" aria-label="Rikki Valbert Baser home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 29V11h9a7 7 0 0 1 0 14H6m9 0 7 4M23 11l6 18 6-18" />
-          </svg>
-        </span>
-        <span class="brand-label">Design &amp; Technology</span>
-      </a>
-
-      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
-        <span></span>
-        <span></span>
-      </button>
-
-      <div class="nav-links">
-        <a href="#about">About</a>
-        <a href="#skills">Skills</a>
-        <a href="#projects">Projects</a>
-        <a href="#gallery">Designs</a>
-        <a href="#contact">Contact</a>
-        
-        <div class="theme-switch" aria-label="Theme switcher">
-          <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-            <!-- Sun Icon (Visible in Light Mode) -->
-            <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-            <!-- Moon Icon (Visible in Dark Mode) -->
-            <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="container navigation" aria-label="Main navigation">
+        <a class="brand" href="#home" aria-label="Rikki Valbert, home"
+          >RIKKI VALBERT</a
+        >
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="nav-links"
+          hidden
+        >
+          Menu <span aria-hidden="true">+</span>
+        </button>
+        <div class="nav-links" id="nav-links">
+          <a href="#projects">IT Projects</a><a href="#gallery">Design Work</a
+          ><a href="#about">About</a><a href="#skills">Toolkit</a
+          ><a class="nav-contact nav-mobile-contact" href="#contact"
+            >Let’s talk <span aria-hidden="true">↗</span></a
+          >
+        </div>
+        <div class="nav-actions">
+          <button
+            class="theme-toggle"
+            id="theme-toggle"
+            type="button"
+            aria-label="Switch to dark theme"
+            aria-pressed="false"
+            hidden
+          >
+            <span aria-hidden="true">◐</span>
           </button>
+          <a class="nav-contact" href="#contact"
+            >Let’s talk <span aria-hidden="true">↗</span></a
+          >
         </div>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero section" id="home">
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <div class="eyebrow">
-            <span class="status-dot"></span>
-            Available for creative & technical work
-          </div>
-
-          <h1>
-            Hi, I'm
-            <span class="gradient-text">Rikki Valbert Baser</span>
-          </h1>
-
-          <div class="hero-role" aria-live="polite">
-            <span class="role-prefix">I'm a </span><span id="typed-text"></span><span class="cursor">|</span>
-          </div>
-
-          <p class="hero-description">
-            I combine technical problem-solving with visual design to build useful digital experiences,
-            support teams, and create content that looks polished and performs with purpose.
-          </p>
-
-          <div class="hero-actions">
-            <a href="files/RikkiValbert-RESUME.pdf" download class="btn btn-primary">
-              Download CV
-              <span aria-hidden="true">↓</span>
-            </a>
-            <a href="#gallery" class="btn btn-ghost">
-              View Work
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          <div class="hero-meta">
-            <span>Graphic Design</span>
-            <span>IT Support</span>
-            <span>Social Media</span>
-          </div>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="hero container" id="home" aria-labelledby="hero-title">
+        <div class="hero-topline">
+          <span class="eyebrow"
+            ><span class="status-dot"></span> OPEN TO CREATIVE &amp; TECHNICAL
+            WORK</span
+          ><span class="location">BASED IN THE PHILIPPINES ↗</span>
         </div>
-
-        <div class="hero-visual reveal reveal-delay">
-          <div class="profile-orbit orbit-a"></div>
-          <div class="profile-orbit orbit-b"></div>
-
-          <div class="profile-glow"></div>
-          <div class="profile-card glass">
-            <div class="profile-image-wrap">
-              <img src="images/profile.jpg" alt="Rikki Valbert Baser" class="profile-image">
-            </div>
-            <div class="profile-caption">
-              <div>
-                <span class="caption-label">Based in</span>
-                <strong>Philippines</strong>
-              </div>
-              <div class="caption-badge">RV</div>
-            </div>
-          </div>
-
-          <div class="floating-card floating-card-top glass">
-            <span class="floating-icon">✦</span>
-            <div>
-              <small>Focus</small>
-              <strong>Design × IT</strong>
-            </div>
-          </div>
-
-          <div class="floating-card floating-card-bottom glass">
-            <span class="floating-icon">⌁</span>
-            <div>
-              <small>Current role</small>
-              <strong>Content & Social</strong>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section compact-section" id="about">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-kicker">01 / ABOUT</span>
-          <h2>Two sides. One <span class="gradient-text">workflow.</span></h2>
-          <p>
-            My background sits between technology, operations, and creative production —
-            helping me understand both how systems work and how people experience them.
-          </p>
-        </div>
-
-        <div class="about-grid">
-          <article class="info-card glass reveal tilt-card">
-            <div class="card-number">01</div>
-            <div class="card-icon">⌘</div>
-            <h3>Technical & Operations</h3>
-            <p>
-              Practical IT support and operations skills focused on troubleshooting,
-              systems, data, and keeping everyday workflows moving.
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <p
+              class="intro-line"
+              aria-label="IT Support Specialist, Social Media Manager, and Graphic Designer."
+            >
+              <span class="typing-roles" aria-hidden="true"
+                ><strong id="typed-role">IT Support Specialist</strong
+                ><span class="typing-caret">|</span></span
+              >
             </p>
-
-            <div class="skill-pills">
-              <span>Network Support</span>
-              <span>System Administration</span>
-              <span>Hardware Troubleshooting</span>
-              <span>Database Management</span>
-              <span>Laravel / PHP</span>
-              <span>MySQL</span>
-            </div>
-          </article>
-
-          <article class="info-card glass reveal tilt-card reveal-delay">
-            <div class="card-number">02</div>
-            <div class="card-icon">✦</div>
-            <h3>Creative & Design</h3>
-            <p>
-              Visual content and social-media production with an emphasis on consistent
-              branding, clear messaging, and fast content execution.
+            <h1 id="hero-title">
+              A creative eye.<br />A technical<br /><span class="serif-word"
+                >mind.</span
+              ><span class="hero-asterisk" aria-hidden="true">✳</span>
+            </h1>
+            <p class="hero-role">Graphic designer. IT problem-solver.</p>
+            <p class="hero-description">
+              From a visual that tells your story to a system that makes work
+              simpler. I bring design thinking and technical know-how to the
+              same table.
             </p>
-
-            <div class="skill-pills">
-              <span>Social Media Branding</span>
-              <span>Adobe Photoshop</span>
-              <span>Premiere Pro</span>
-              <span>Canva</span>
-              <span>Video Editing</span>
-              <span>Content Calendars</span>
-              <span>Marketing Strategist</span>
+            <div class="hero-actions">
+              <a class="button button-dark" href="#contact"
+                >Let’s Collaborate <span aria-hidden="true">↗</span></a
+              ><a
+                class="button button-outline"
+                href="files/RikkiValbert-RESUME.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Resume <span aria-hidden="true">↗</span></a
+              >
             </div>
-          </article>
+          </div>
+          <div class="profile-portrait">
+            <div class="portrait-frame">
+              <span class="portrait-detail" aria-hidden="true"></span>
+              <span class="portrait-accent" aria-hidden="true"></span>
+              <img
+                src="images/profile-cutout-v2.png"
+                alt="Rikki Valbert Baser"
+                width="1086"
+                height="1448"
+                fetchpriority="high"
+              />
+            </div>
+            <p class="portrait-name">
+              Rikki Valbert <span class="portrait-surname">Baser</span>
+            </p>
+            <div class="portrait-caption">
+              <span>DESIGN × IT</span><span>PHILIPPINES ↗</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-footnote">
+          <span>ONE PERSON. TWO CONNECTED DISCIPLINES.</span
+          ><a href="#projects"
+            >SCROLL TO EXPLORE <span aria-hidden="true">↓</span></a
+          >
+        </div>
+      </section>
+      <div class="discipline-strip" aria-label="Areas of expertise">
+        <div class="container">
+          <span>Graphic design</span><b aria-hidden="true">✳</b
+          ><span>IT support</span><b aria-hidden="true">✳</b
+          ><span>Web &amp; systems</span><b aria-hidden="true">✳</b
+          ><span>Visual storytelling</span>
         </div>
       </div>
-    </section>
-
-    <section class="section" id="skills">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-kicker">02 / TOOLKIT</span>
-          <h2>Tools I use to <span class="gradient-text">get things done.</span></h2>
-        </div>
-
-        <div class="toolkit-grid">
-          <div class="toolkit-card glass reveal">
-            <span class="tool-number">01</span>
-            <h3>IT & Systems</h3>
-            <p>Support, hardware, software, databases, productivity systems, and web technologies.</p>
-            <div class="tool-list">
-              <span>Windows</span>
-              <span>Microsoft 365</span>
-              <span>Google Workspace</span>
-              <span>PHP / Laravel</span>
-              <span>MySQL</span>
-              <span>HTML / CSS / JS</span>
-            </div>
-          </div>
-
-          <div class="toolkit-card glass reveal reveal-delay">
-            <span class="tool-number">02</span>
-            <h3>Creative Stack</h3>
-            <p>Design and short-form editing tools for social content, campaigns, and visual communication.</p>
-            <div class="tool-list">
-              <span>Photoshop</span>
-              <span>Canva</span>
-              <span>Premiere Pro</span>
-              <span>CapCut</span>
-              <span>Vegas Pro</span>
-              <span>Content Planning</span>
-            </div>
-          </div>
-
-          <div class="toolkit-card glass reveal reveal-delay-2">
-            <span class="tool-number">03</span>
-            <h3>Collaboration</h3>
-            <p>Organized communication across clients, teams, schedules, revisions, and deliverables.</p>
-            <div class="tool-list">
-              <span>Microsoft Teams</span>
-              <span>Slack</span>
-              <span>Discord</span>
-              <span>Zoom</span>
-              <span>Email Management</span>
-              <span>Documentation</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="projects">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="section-kicker">03 / FEATURED PROJECTS</span>
-          <h2>Built to bring <span class="gradient-text">ideas to life.</span></h2>
-        </div>
-
-        <article class="project-card glass tilt-card reveal">
-          <div class="project-content">
-            <div class="project-topline">
-              <span class="project-tag">Cloud System</span>
-              <span class="project-stack">PHP · Laravel · MySQL · JS</span>
-            </div>
-
-            <h3>FJ8 Reldev</h3>
-            <p>
-              Cloud-Based Document Tracking and Workflow Automation System with real-time
-              status updates, document routing, centralized search, audit logs, and RBAC permissions.
-            </p>
-
-            <div class="project-features">
-              <span>Role-Based Access</span>
-              <span>Workflow Automation</span>
-              <span>Real-Time Notifications</span>
-              <span>Audit Logs</span>
-            </div>
-
-            <a class="text-link" href="https://fj8reldev.site" target="_blank" rel="noopener noreferrer">
-              Visit live demo
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          <div class="project-visual">
-            <div class="dashboard-window">
-              <div class="window-bar" aria-hidden="true">
-                <span></span><span></span><span></span>
-              </div>
-              <img class="project-preview" src="images/reldevdocs-preview.svg"
-                alt="ReldevDocs landing page with document tracking, workflow verification, and operational capabilities."
-                width="1441" height="818" loading="lazy" decoding="async">
-            </div>
-          </div>
-        </article>
-
-        <article class="project-card glass tilt-card reveal">
-          <div class="project-content">
-            <div class="project-topline">
-              <span class="project-tag">Business Website</span>
-              <span class="project-stack">HTML · CSS · JavaScript · Supabase</span>
-            </div>
-
-            <h3>MIORE</h3>
-            <p>
-              A cafe and restaurant supplies website with a searchable product catalog,
-              category and brand filters, and an admin dashboard for managing products and availability.
-            </p>
-
-            <div class="project-features">
-              <span>Product Catalog</span>
-              <span>Search &amp; Filters</span>
-              <span>Admin Dashboard</span>
-              <span>Responsive Design</span>
-            </div>
-
-            <a class="text-link" href="https://miore.vercel.app/" target="_blank" rel="noopener noreferrer">
-              Visit live website
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          <div class="project-visual">
-            <div class="dashboard-window">
-              <div class="window-bar" aria-hidden="true">
-                <span></span><span></span><span></span>
-              </div>
-              <img class="project-preview" src="images/miore-preview.png"
-                alt="MIORE cafe and restaurant supplies website featuring its ingredient collection."
-                width="1440" height="900" loading="lazy" decoding="async">
-            </div>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section class="section" id="gallery">
-      <div class="container">
-        <div class="section-heading gallery-heading reveal">
+      <section
+        class="section container"
+        id="projects"
+        aria-labelledby="projects-title"
+      >
+        <div class="section-heading">
           <div>
-            <span class="section-kicker">04 / GRAPHIC DESIGN</span>
-            <h2>Selected <span class="gradient-text">social designs.</span></h2>
+            <p class="eyebrow">01 / THE TECHNICAL SIDE</p>
+            <h2 id="projects-title">Ideas, made <em>functional.</em></h2>
           </div>
-          <p>Swipe through the collection. Select a design to see it in full size.</p>
+          <p>
+            Websites and systems built around real tasks. Clear interfaces,
+            organized information, and practical workflows.
+          </p>
         </div>
-
-        <div class="gallery-slideshow glass reveal" role="region" aria-roledescription="carousel" aria-label="Social design collection">
-          <div class="gallery-stage">
-            <button class="gallery-peek gallery-peek-prev" type="button" aria-label="Previous design">
-              <img alt="" decoding="async">
-            </button>
-          <div class="gallery-viewport" tabindex="0" aria-label="Design slideshow. Use left and right arrow keys to browse.">
-            <div class="gallery-track">
-              <button class="gallery-slide" type="button" aria-label="Open social media design 1 in full size">
-                <img src="images/jpegs/jpeg1.jpg" alt="Social Media Design 1" class="gallery-item" loading="eager" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 2 in full size">
-                <img src="images/jpegs/jpeg2.jpg" alt="Social Media Design 2" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 3 in full size">
-                <img src="images/jpegs/jpeg3.jpg" alt="Social Media Design 3" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 4 in full size">
-                <img src="images/jpegs/jpeg4.jpg" alt="Social Media Design 4" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 5 in full size">
-                <img src="images/jpegs/jpeg5.jpg" alt="Social Media Design 5" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 6 in full size">
-                <img src="images/jpegs/jpeg6.jpg" alt="Social Media Design 6" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 7 in full size">
-                <img src="images/jpegs/jpeg7.jpg" alt="Social Media Design 7" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 8 in full size">
-                <img src="images/jpegs/jpeg8.jpg" alt="Social Media Design 8" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 9 in full size">
-                <img src="images/jpegs/jpeg9.jpg" alt="Social Media Design 9" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 10 in full size">
-                <img src="images/jpegs/jpeg10.jpg" alt="Social Media Design 10" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 11 in full size">
-                <img src="images/jpegs/jpeg11.jpg" alt="Social Media Design 11" class="gallery-item" loading="lazy" decoding="async">
-              </button>
-              <button class="gallery-slide" type="button" aria-label="Open social media design 12 in full size">
-                <img src="images/jpegs/jpeg12.jpg" alt="Social Media Design 12" class="gallery-item" loading="lazy" decoding="async">
-              </button>
+        <div class="projects-grid">
+          <article class="project">
+            <a
+              class="project-image project-image-reldev"
+              href="https://fj8reldev.site"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit FJ8 Reldev (opens in a new tab)"
+              ><div class="project-image-label">
+                <span>01 / DOCUMENT WORKFLOW</span
+                ><span aria-hidden="true">↗</span>
+              </div>
+              <img
+                src="images/reldevdocs-preview.svg"
+                alt="ReldevDocs document tracking and workflow website"
+                width="1441"
+                height="818"
+                loading="lazy"
+            /></a>
+            <div class="project-title">
+              <h3>FJ8 Reldev</h3>
+              <span class="project-type">SYSTEM DEVELOPMENT</span>
             </div>
-          </div>
-            <button class="gallery-peek gallery-peek-next" type="button" aria-label="Next design">
-              <img alt="" decoding="async">
-            </button>
+            <p>
+              A cloud-based document tracking and workflow automation system.
+              Document routing, centralized search, audit logs, and role-based
+              access help keep information moving.
+            </p>
+            <div class="project-bottom">
+              <span>PHP / Laravel / MySQL / JavaScript</span
+              ><a
+                class="text-link"
+                href="https://fj8reldev.site"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Explore project <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </article>
+          <article class="project">
+            <a
+              class="project-image project-image-miore"
+              href="https://miore.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Visit MIORE (opens in a new tab)"
+              ><div class="project-image-label">
+                <span>02 / BUSINESS WEBSITE</span
+                ><span aria-hidden="true">↗</span>
+              </div>
+              <img
+                src="images/miore-preview.png"
+                alt="MIORE café and restaurant supplies website"
+                width="1440"
+                height="900"
+                loading="lazy"
+            /></a>
+            <div class="project-title">
+              <h3>MIORE</h3>
+              <span class="project-type">WEB DEVELOPMENT</span>
+            </div>
+            <p>
+              A café and restaurant supplies website with a searchable product
+              catalog, category and brand filters, and an admin dashboard for
+              managing products and availability.
+            </p>
+            <div class="project-bottom">
+              <span>HTML / CSS / JavaScript / Supabase</span
+              ><a
+                class="text-link"
+                href="https://miore.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Explore project <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </article>
+        </div>
+        <div class="technical-note">
+          <span class="note-icon" aria-hidden="true">⌘</span>
+          <p>
+            <strong>Behind the interface, I’m a problem-solver.</strong> My IT
+            toolkit also covers hardware troubleshooting, network support,
+            system administration, and database management.
+          </p>
+          <a href="#skills" class="text-link"
+            >See my toolkit <span aria-hidden="true">↗</span></a
+          >
+        </div>
+      </section>
+      <section
+        class="design-section section"
+        id="gallery"
+        aria-labelledby="gallery-title"
+      >
+        <div class="container">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">02 / SELECTED WORK</p>
+              <h2 id="gallery-title">Ideas made <em>visible.</em></h2>
+            </div>
+            <p>
+              Social campaigns, brand identities, print materials, and event
+              invitations created for businesses in the Philippines and the US.
+            </p>
           </div>
           <div class="gallery-toolbar">
-            <div class="gallery-pagination">
-              <span class="gallery-counter" aria-live="polite" aria-atomic="true">01 / 12</span>
-              <span class="gallery-hint">Swipe to explore <span aria-hidden="true">&#8596;</span></span>
+            <div
+              class="filters"
+              role="group"
+              aria-label="Filter design work"
+              hidden
+            >
+              <button type="button" data-filter="all" aria-pressed="true">
+                All work <span>61</span>
+              </button>
+              <button type="button" data-filter="social" aria-pressed="false">
+                Social media <span>40</span>
+              </button>
+              <button type="button" data-filter="branding" aria-pressed="false">
+                Branding &amp; print <span>15</span>
+              </button>
+              <button
+                type="button"
+                data-filter="invitations"
+                aria-pressed="false"
+              >
+                Invitations <span>6</span>
+              </button>
             </div>
-            <div class="gallery-navigation">
-              <button class="gallery-prev" type="button" aria-label="Previous design"><span aria-hidden="true">&#8592;</span></button>
-              <button class="gallery-next" type="button" aria-label="Next design"><span aria-hidden="true">&#8594;</span></button>
-            </div>
+            <span class="gallery-count" role="status" aria-live="polite"
+              >61 selected works</span
+            >
           </div>
-          <div class="gallery-thumbnails" aria-label="Choose a design"></div>
+          <div class="design-grid">
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
+                  alt="ETX Valley — Service Showcase 1"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Service Showcase 1</h3>
+                <span>01 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
+                  alt="GhostAI — Product Showcase"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Product Showcase</h3>
+                <span>02 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/NAKS%20%26%20CB/Naks%20Product%20Showcase.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/NAKS%20%26%20CB/Naks%20Product%20Showcase.jpg"
+                  alt="NAKS / Clean Bright — Product Showcase"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>NAKS / Clean Bright — Product Showcase</h3>
+                <span>03 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Insurance/jpeg7.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Insurance/jpeg7.jpg"
+                  alt="Insurance — Leave Love, Not Bills"
+                  width="1254"
+                  height="1254"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Insurance — Leave Love, Not Bills</h3>
+                <span>04 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
+                  alt="Jelexie — Red Velvet Poster"
+                  width="560"
+                  height="698"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Red Velvet Poster</h3>
+                <span>05 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jumpshot%20Coffee%20Tyler%2C%20TX%20-%20US/post_wprice.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jumpshot%20Coffee%20Tyler%2C%20TX%20-%20US/post_wprice.jpg"
+                  alt="Jumpshot Coffee — Coffee Offer"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jumpshot Coffee — Coffee Offer</h3>
+                <span>06 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Bagnet%20Grill/bagnet-sisig-tall-promotion.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Bagnet%20Grill/bagnet-sisig-tall-promotion.jpg"
+                  alt="Bagnet Grill — Sisig Tall Promotion"
+                  width="540"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Bagnet Grill — Sisig Tall Promotion</h3>
+                <span>07 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Greg's%20Kitchen/gregs-cafe-signage.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Greg's%20Kitchen/gregs-cafe-signage.jpg"
+                  alt="Greg's Kitchen — Signage"
+                  width="1425"
+                  height="376"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Greg's Kitchen — Signage</h3>
+                <span>08 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/yvette-debut-invitation.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/yvette-debut-invitation.jpg"
+                  alt="Debut — Yvette Debut Invitation"
+                  width="495"
+                  height="693"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Yvette Debut Invitation</h3>
+                <span>09 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Bagnet%20Grill/bagnet-grill-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Bagnet%20Grill/bagnet-grill-logo.jpg"
+                  alt="Bagnet Grill — Grill Logo"
+                  width="900"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Bagnet Grill — Grill Logo</h3>
+                <span>10 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Bagnet%20Grill/bagnet-menu-alternate.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Bagnet%20Grill/bagnet-menu-alternate.jpg"
+                  alt="Bagnet Grill — Menu Alternate"
+                  width="900"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Bagnet Grill — Menu Alternate</h3>
+                <span>11 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Bagnet%20Grill/bagnet-menu-square.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Bagnet%20Grill/bagnet-menu-square.jpg"
+                  alt="Bagnet Grill — Menu Square"
+                  width="900"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Bagnet Grill — Menu Square</h3>
+                <span>12 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Bagnet%20Grill/bagnet-unli-rice-promotion.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Bagnet%20Grill/bagnet-unli-rice-promotion.jpg"
+                  alt="Bagnet Grill — Unli Rice Promotion"
+                  width="750"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Bagnet Grill — Unli Rice Promotion</h3>
+                <span>13 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/mika-debut-invitation.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/mika-debut-invitation.jpg"
+                  alt="Debut — Mika Debut Invitation"
+                  width="511"
+                  height="695"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Mika Debut Invitation</h3>
+                <span>14 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/shain-eighteenth-invitation.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/shain-eighteenth-invitation.jpg"
+                  alt="Debut — Shain Eighteenth Invitation"
+                  width="510"
+                  height="692"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Shain Eighteenth Invitation</h3>
+                <span>15 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/shaine-butterfly-invitation.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/shaine-butterfly-invitation.jpg"
+                  alt="Debut — Shaine Butterfly Invitation"
+                  width="486"
+                  height="695"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Shaine Butterfly Invitation</h3>
+                <span>16 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/shaine-dress-code-details.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/shaine-dress-code-details.jpg"
+                  alt="Debut — Shaine Dress Code Details"
+                  width="479"
+                  height="692"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Shaine Dress Code Details</h3>
+                <span>17 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Debut%20Invitations/yvette-debut-details.jpg"
+              data-category="invitations"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Debut%20Invitations/yvette-debut-details.jpg"
+                  alt="Debut — Yvette Debut Details"
+                  width="495"
+                  height="692"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Debut — Yvette Debut Details</h3>
+                <span>18 / INVITATION</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg"
+                  alt="ETX Valley — Calling Card"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Calling Card</h3>
+                <span>19 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
+                  alt="ETX Valley — Website Campaign"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Website Campaign</h3>
+                <span>20 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg"
+                  alt="ETX Valley — Friday Service Promotion"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Friday Service Promotion</h3>
+                <span>21 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg"
+                  alt="ETX Valley — Tree Safety Tips"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Tree Safety Tips</h3>
+                <span>22 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
+                  alt="ETX Valley — Service Showcase 2"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Service Showcase 2</h3>
+                <span>23 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
+                  alt="ETX Valley — Service Showcase 3"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>ETX Valley — Service Showcase 3</h3>
+                <span>24 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
+                  alt="GhostAI — AI for Business"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — AI for Business</h3>
+                <span>25 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg"
+                  alt="GhostAI — Carousel 1"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 1</h3>
+                <span>26 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg"
+                  alt="GhostAI — Carousel 2"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 2</h3>
+                <span>27 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg"
+                  alt="GhostAI — Carousel 3"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 3</h3>
+                <span>28 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg"
+                  alt="GhostAI — Carousel 4"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 4</h3>
+                <span>29 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg"
+                  alt="GhostAI — Carousel 5"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 5</h3>
+                <span>30 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg"
+                  alt="GhostAI — Carousel 6"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel 6</h3>
+                <span>31 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
+                  alt="GhostAI — Carousel Post 1"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel Post 1</h3>
+                <span>32 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
+                  alt="GhostAI — Carousel Post 2"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel Post 2</h3>
+                <span>33 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
+                  alt="GhostAI — Carousel Post 4"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel Post 4</h3>
+                <span>34 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
+                  alt="GhostAI — Carousel Post 5"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel Post 5</h3>
+                <span>35 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
+                  alt="GhostAI — Carousel Post 6"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Carousel Post 6</h3>
+                <span>36 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
+                  alt="GhostAI — How GhostAI Can Help"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — How GhostAI Can Help</h3>
+                <span>37 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
+                  alt="GhostAI — Interactive Comment Campaign 02"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Interactive Comment Campaign 02</h3>
+                <span>38 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
+                  alt="GhostAI — Interactive Comment Campaign"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>GhostAI — Interactive Comment Campaign</h3>
+                <span>39 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Greg's%20Kitchen/gregs-cafe-id-back.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Greg's%20Kitchen/gregs-cafe-id-back.jpg"
+                  alt="Greg's Kitchen — Id Back"
+                  width="307"
+                  height="466"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Greg's Kitchen — Id Back</h3>
+                <span>40 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Greg's%20Kitchen/gregs-cafe-id-front.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Greg's%20Kitchen/gregs-cafe-id-front.jpg"
+                  alt="Greg's Kitchen — Id Front"
+                  width="389"
+                  height="617"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Greg's Kitchen — Id Front</h3>
+                <span>41 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Greg's%20Kitchen/gregs-cafe-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Greg's%20Kitchen/gregs-cafe-logo.jpg"
+                  alt="Greg's Kitchen — Logo"
+                  width="623"
+                  height="554"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Greg's Kitchen — Logo</h3>
+                <span>42 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Greg's%20Kitchen/gregs-cafe-menu.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Greg's%20Kitchen/gregs-cafe-menu.jpg"
+                  alt="Greg's Kitchen — Menu"
+                  width="687"
+                  height="938"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Greg's Kitchen — Menu</h3>
+                <span>43 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Insurance/jpeg8.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Insurance/jpeg8.jpg"
+                  alt="Insurance — Build Wealth, Leave Legacies"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Insurance — Build Wealth, Leave Legacies</h3>
+                <span>44 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Insurance/jpeg9.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Insurance/jpeg9.jpg"
+                  alt="Insurance — Protect First Responders"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Insurance — Protect First Responders</h3>
+                <span>45 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg"
+                  alt="Jelexie — Anniversary Banner"
+                  width="1330"
+                  height="268"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Anniversary Banner</h3>
+                <span>46 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg"
+                  alt="Jelexie — Birthday Discount"
+                  width="408"
+                  height="579"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Birthday Discount</h3>
+                <span>47 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg"
+                  alt="Jelexie — Calendar Promotion"
+                  width="463"
+                  height="579"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Calendar Promotion</h3>
+                <span>48 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg"
+                  alt="Jelexie — Gift Selection"
+                  width="492"
+                  height="698"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Gift Selection</h3>
+                <span>49 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg"
+                  alt="Jelexie — New Year Cakes"
+                  width="428"
+                  height="579"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — New Year Cakes</h3>
+                <span>50 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg"
+                  alt="Jelexie — Products Display"
+                  width="253"
+                  height="700"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jelexie — Products Display</h3>
+                <span>51 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Jumpshot%20Coffee%20Tyler%2C%20TX%20-%20US/post_woprice.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Jumpshot%20Coffee%20Tyler%2C%20TX%20-%20US/post_woprice.jpg"
+                  alt="Jumpshot Coffee — Coffee Promotion"
+                  width="1080"
+                  height="1080"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Jumpshot Coffee — Coffee Promotion</h3>
+                <span>52 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Logo/CL%20LOGO%20NAME%20BG.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Logo/CL%20LOGO%20NAME%20BG.jpg"
+                  alt="Logo Study — CL Logo Lockup"
+                  width="6000"
+                  height="6000"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Logo Study — CL Logo Lockup</h3>
+                <span>53 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Logo/CL%20LOGO.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Logo/CL%20LOGO.jpg"
+                  alt="Logo Study — CL Brand Mark"
+                  width="4496"
+                  height="4495"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Logo Study — CL Brand Mark</h3>
+                <span>54 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Logo/ict-antlers-deer-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Logo/ict-antlers-deer-logo.jpg"
+                  alt="Logo Study — Ict Antlers Deer Logo"
+                  width="480"
+                  height="482"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Logo Study — Ict Antlers Deer Logo</h3>
+                <span>55 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Logo/ict-antlers-geometric-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Logo/ict-antlers-geometric-logo.jpg"
+                  alt="Logo Study — Ict Antlers Geometric Logo"
+                  width="481"
+                  height="482"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Logo Study — Ict Antlers Geometric Logo</h3>
+                <span>56 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Logo/ict-antlers-outline-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Logo/ict-antlers-outline-logo.jpg"
+                  alt="Logo Study — Ict Antlers Outline Logo"
+                  width="480"
+                  height="482"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Logo Study — Ict Antlers Outline Logo</h3>
+                <span>57 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/NAKS%20%26%20CB/Clean%20Bright%20-%20Wed%20(Convience%20Focus).jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/NAKS%20%26%20CB/Clean%20Bright%20-%20Wed%20(Convience%20Focus).jpg"
+                  alt="NAKS / Clean Bright — Convenience-Focused Campaign"
+                  width="1080"
+                  height="1350"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>NAKS / Clean Bright — Convenience-Focused Campaign</h3>
+                <span>58 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Solar%20Company/solar-company-logo.jpg"
+              data-category="branding"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Solar%20Company/solar-company-logo.jpg"
+                  alt="Solar — Company Logo"
+                  width="865"
+                  height="434"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Solar — Company Logo</h3>
+                <span>59 / BRANDING & PRINT</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Solar%20Company/solar-package-promotion.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Solar%20Company/solar-package-promotion.jpg"
+                  alt="Solar — Package Promotion"
+                  width="1421"
+                  height="904"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Solar — Package Promotion</h3>
+                <span>60 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+            <a
+              class="design-item"
+              href="images/Gallery/Solar%20Company/solar-services-flyer.jpg"
+              data-category="social"
+            >
+              <div class="design-image">
+                <img
+                  src="images/Gallery/Solar%20Company/solar-services-flyer.jpg"
+                  alt="Solar — Services Flyer"
+                  width="534"
+                  height="742"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="design-caption">
+                <h3>Solar — Services Flyer</h3>
+                <span>61 / SOCIAL MEDIA</span>
+              </div>
+            </a>
+          </div>
+          <div class="gallery-more" hidden>
+            <p>Showing a curated selection first.</p>
+            <button
+              class="button button-outline"
+              id="show-more"
+              type="button"
+              aria-expanded="false"
+              hidden
+            >
+              View all 61 works <span aria-hidden="true">↓</span>
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
-
-    <section class="section contact-section" id="contact">
-      <div class="container">
-        <div class="contact-card glass reveal">
-          <div>
-            <span class="section-kicker">05 / CONTACT</span>
-            <h2>Let's build something <span class="gradient-text">useful.</span></h2>
-            <p>
-              Open to design, content, IT support, and digital-production opportunities.
+      </section>
+      <section
+        class="section container about-section"
+        id="about"
+        aria-labelledby="about-title"
+      >
+        <div
+          class="work-collage"
+          aria-label="A selection of my design and web development work"
+        >
+          <div class="art-topline">
+            <span>THE INTERSECTION</span><span>01 — 02</span>
+          </div>
+          <div class="art-grid" aria-hidden="true"></div>
+          <div class="art-circle" aria-hidden="true"></div>
+          <div class="art-web">
+            <div class="mini-browser" aria-hidden="true">
+              <i></i><i></i><i></i><span>WEB &amp; SYSTEMS</span>
+            </div>
+            <img
+              src="images/miore-preview.png"
+              alt="MIORE website project preview"
+              width="1440"
+              height="900"
+              loading="lazy"
+            />
+          </div>
+          <img
+            class="art-preview art-preview-etx"
+            src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
+            alt="ETX Valley website campaign"
+            width="1080"
+            height="1080"
+            loading="lazy"
+            decoding="async"
+          />
+          <img
+            class="art-preview art-preview-ghost"
+            src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
+            alt="GhostAI carousel post 1"
+            width="1080"
+            height="1080"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="art-label art-label-design">VISUAL THINKING ↗</span
+          ><span class="art-label art-label-code"
+            >&lt;/&gt; PRACTICAL SOLUTIONS</span
+          >
+          <div class="art-bottomline">
+            <span>GOOD DESIGN. USEFUL TECHNOLOGY.</span
+            ><span aria-hidden="true">↗</span>
+          </div>
+        </div>
+        <div class="about-copy">
+          <p class="eyebrow">03 / THE PERSON BEHIND THE WORK</p>
+          <h2 id="about-title">
+            Equal parts<br /><em>creative &amp; technical.</em>
+          </h2>
+          <p class="about-lead">
+            I care about how things look.<br />And just as much about how they
+            work.
+          </p>
+          <p>
+            My background connects IT support, operations, and graphic design.
+            That means I can think through the system behind a project and the
+            way people experience it.
+          </p>
+          <p>
+            I bring that same approach to troubleshooting a technical issue,
+            building a website, or shaping a visual message: understand the
+            problem, organize the details, and make the result clear and useful.
+          </p>
+          <a class="text-link" href="files/RikkiValbert-RESUME.pdf" download
+            >Get to know my background <span aria-hidden="true">↓</span></a
+          >
+        </div>
+      </section>
+      <section
+        class="container toolkit-section"
+        id="skills"
+        aria-labelledby="skills-title"
+      >
+        <div class="toolkit-intro">
+          <p class="eyebrow">04 / WHAT I BRING</p>
+          <h2 id="skills-title">Two disciplines.<br /><em>One toolkit.</em></h2>
+        </div>
+        <div class="skill-rows">
+          <article class="skill-row">
+            <span class="skill-number">01</span>
+            <div>
+              <h3>IT support &amp; systems</h3>
+              <p>
+                Troubleshooting, reliable workflows, and practical technical
+                solutions.
+              </p>
+              <div class="tags">
+                <span>Windows</span><span>Network support</span
+                ><span>Hardware</span><span>Microsoft 365</span
+                ><span>Google Workspace</span><span>System administration</span>
+              </div>
+            </div>
+            <span class="skill-symbol" aria-hidden="true">⌘</span>
+          </article>
+          <article class="skill-row">
+            <span class="skill-number">02</span>
+            <div>
+              <h3>Graphic design &amp; content</h3>
+              <p>
+                Clear visual communication, consistent branding, and considered
+                layouts.
+              </p>
+              <div class="tags">
+                <span>Photoshop</span><span>Canva</span><span>Premiere Pro</span
+                ><span>CapCut</span><span>Social media branding</span
+                ><span>Content planning</span>
+              </div>
+            </div>
+            <span class="skill-symbol" aria-hidden="true">✳</span>
+          </article>
+          <article class="skill-row">
+            <span class="skill-number">03</span>
+            <div>
+              <h3>Web development &amp; data</h3>
+              <p>
+                From the interface to the information that keeps it running.
+              </p>
+              <div class="tags">
+                <span>HTML / CSS / JavaScript</span><span>PHP / Laravel</span
+                ><span>MySQL</span><span>Database management</span
+                ><span>Documentation</span>
+              </div>
+            </div>
+            <span class="skill-symbol code-symbol" aria-hidden="true"
+              >&lt;/&gt;</span
+            >
+          </article>
+        </div>
+      </section>
+      <section
+        class="contact-section"
+        id="contact"
+        aria-labelledby="contact-title"
+      >
+        <div class="container">
+          <div class="contact-top">
+            <p class="eyebrow">
+              <span class="status-dot"></span> LET’S MAKE SOMETHING WORK.
             </p>
+            <span>DESIGN + IT</span>
           </div>
-
-          <div class="contact-actions">
-            <a class="btn btn-primary" href="mailto:rikkibaservalbert@gmail.com">
-              Email me
-              <span aria-hidden="true">↗</span>
-            </a>
-            <a class="btn btn-ghost" href="https://www.linkedin.com/in/rikkibaservalbert/" target="_blank" rel="noopener noreferrer">
-              LinkedIn
-              <span aria-hidden="true">↗</span>
-            </a>
+          <div class="contact-layout">
+            <h2 id="contact-title">
+              A good idea starts<br />with a <em>hello.</em>
+            </h2>
+            <div>
+              <p>
+                Need a thoughtful design, a useful website, or an extra pair of
+                hands on the technical side? Let’s talk about it.
+              </p>
+              <a
+                class="button button-accent"
+                href="mailto:rikkibaservalbert@gmail.com"
+                >Start a conversation <span aria-hidden="true">↗</span></a
+              >
+            </div>
+          </div>
+          <div class="contact-bottom">
+            <a class="email-link" href="mailto:rikkibaservalbert@gmail.com"
+              >rikkibaservalbert@gmail.com</a
+            ><a
+              class="text-link"
+              href="https://www.linkedin.com/in/rikkibaservalbert/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >LinkedIn <span aria-hidden="true">↗</span></a
+            >
           </div>
         </div>
-
-        <footer class="site-footer">
-          <span>© <span id="year"></span> Rikki Valbert Baser</span>
-          <span>Designed & built with HTML · CSS · JavaScript</span>
-        </footer>
+      </section>
+    </main>
+    <dialog class="lightbox" id="lightbox" aria-label="Artwork preview">
+      <div class="lightbox-toolbar">
+        <p id="lightbox-title"></p>
+        <button
+          class="lightbox-close"
+          type="button"
+          aria-label="Close artwork preview"
+        >
+          Close <span aria-hidden="true">×</span>
+        </button>
       </div>
-    </section>
-  </main>
-
-  <meta property="og:title" content="Rikki Valbert Baser — Portfolio">
-  <meta property="og:description" content="Graphic Designer, IT Support Specialist, and Content & Social Media Manager.">
-  <meta property="og:image" content="images/profile.jpg">
-  <meta property="og:type" content="website">
-
-  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Full size design preview" aria-hidden="true">
-    <button class="lightbox-close" type="button" aria-label="Close image preview">×</button>
-    <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
-    <img class="lightbox-image" id="lightbox-image" src="" alt="">
-    <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
-   <div class="lightbox-counter" id="lightbox-counter">1 / 12</div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
+      <div class="lightbox-stage">
+        <button
+          class="lightbox-prev"
+          type="button"
+          aria-label="Previous artwork"
+        >
+          ←
+        </button>
+        <img id="lightbox-image" alt="" />
+        <button class="lightbox-next" type="button" aria-label="Next artwork">
+          →
+        </button>
+      </div>
+      <p class="lightbox-counter" id="lightbox-counter" aria-live="polite"></p>
+    </dialog>
+    <footer class="container site-footer">
+      <a class="footer-name" href="#home">rv<span aria-hidden="true">✳</span></a
+      ><span>© <span id="year">2026</span> Rikki Valbert Baser</span
+      ><a href="#home">Back to top ↑</a>
+    </footer>
+  </body>
 </html>
