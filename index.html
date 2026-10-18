@@ -19,15 +19,18 @@
         }
         root.classList.add("intro-active");
         window.setTimeout(() => {
-          root.classList.remove("intro-active");
+          root.classList.add("intro-exiting");
+        }, 1200);
+        window.setTimeout(() => {
+          root.classList.remove("intro-active", "intro-exiting");
           document.querySelectorAll("[data-intro-inert]").forEach((element) => {
             element.inert = false;
             element.removeAttribute("data-intro-inert");
           });
           document.dispatchEvent(new Event("intro-ready"));
-        }, 2400);
+        }, 1900);
         window.addEventListener("pageshow", (event) => {
-          if (event.persisted) root.classList.remove("intro-active");
+          if (event.persisted) root.classList.remove("intro-active", "intro-exiting");
         });
       })();
     </script>
@@ -69,13 +72,16 @@
     <div class="portfolio-intro" aria-hidden="true">
       <div class="intro-echo intro-echo-top">PORT</div>
       <div class="intro-echo intro-echo-bottom">FOLIO</div>
-      <div class="intro-composition">
-        <span class="intro-port">PORT</span>
-        <span class="intro-discipline">graphics <i>×</i> IT</span>
-        <span class="intro-name">rikki valbert<br />baser</span>
-        <span class="intro-folio">FOLIO</span>
-        <span class="intro-progress"></span>
-      </div>
+      <svg class="intro-composition" viewBox="-12 -8 924 368" width="924" height="368" focusable="false">
+        <text class="intro-port" x="0" y="155" textLength="555" lengthAdjust="spacingAndGlyphs">PORT</text>
+        <text class="intro-discipline" x="625" y="120">graphics × IT</text>
+        <text class="intro-name" x="200" y="275" text-anchor="end">
+          <tspan x="200">rikki valbert</tspan><tspan x="200" dy="28">baser</tspan>
+        </text>
+        <path d="M225 280h28" fill="none" stroke="currentColor" stroke-width="2" />
+        <text class="intro-folio" x="270" y="315" textLength="630" lengthAdjust="spacingAndGlyphs">FOLIO</text>
+        <rect class="intro-progress" x="680" y="340" width="146" height="4" />
+      </svg>
     </div>
     <div class="ambient-background" aria-hidden="true">
       <span class="ambient-ring"></span

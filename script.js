@@ -382,7 +382,7 @@
     document.addEventListener(
       "intro-ready",
       () => {
-        motion = initMotion();
+        motion = initMotion(true);
       },
       { once: true },
     );
@@ -390,7 +390,7 @@
     motion = initMotion();
   }
 
-  function initMotion() {
+  function initMotion(heroAlreadyRevealed = false) {
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     const supported = typeof Element.prototype.animate === "function";
     const targets = Array.from(
@@ -418,7 +418,11 @@
         ].join(","),
       ),
     );
-    const seen = new WeakSet();
+    const seen = new WeakSet(
+      heroAlreadyRevealed
+        ? targets.filter((element) => element.closest(".hero"))
+        : [],
+    );
     const running = new Map();
     let observer;
 
