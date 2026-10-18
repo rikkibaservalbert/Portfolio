@@ -72,6 +72,33 @@
   });
   document.querySelector("#year").textContent = new Date().getFullYear();
   initCursorFollower();
+  initScrollProgress();
+
+  function initScrollProgress() {
+    const bar = document.querySelector(".scroll-progress");
+    if (!bar) return;
+    let frame = 0;
+    function update() {
+      frame = 0;
+      const page = document.scrollingElement || document.documentElement;
+      const distance = page.scrollHeight - page.clientHeight;
+      const progress = distance > 0
+        ? Math.min(1, Math.max(0, page.scrollTop / distance))
+        : 0;
+      bar.style.width = `${progress * 100}%`;
+    }
+    function scheduleUpdate() {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    }
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("pageshow", scheduleUpdate);
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(scheduleUpdate);
+      observer.observe(document.body);
+    }
+    update();
+  }
 
   function initCursorFollower() {
     const cursor = document.querySelector(".cursor-follower");

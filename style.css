@@ -1288,6 +1288,20 @@ h1 {
   -webkit-mask-image: var(--portrait-photo-mask);
   mask-image: var(--portrait-photo-mask);
 }
+.scroll-progress {
+  --progress-color: var(--accent);
+  position: fixed;
+  inset: 0 auto auto 0;
+  width: 0;
+  height: 5px;
+  z-index: 90;
+  background: var(--progress-color);
+  border-radius: 999px;
+  pointer-events: none;
+}
+:root:not([data-theme="dark"]) .scroll-progress {
+  --progress-color: #062b49;
+}
 .portrait-name {
   position: relative;
   z-index: 2;
