@@ -50,7 +50,7 @@
       `Switch to ${dark ? "light" : "dark"} theme`,
     );
     document.querySelector('meta[name="theme-color"]').content = dark
-      ? "#071b2c"
+      ? "#080808"
       : "#ffffff";
   }
   let savedTheme;
@@ -253,67 +253,45 @@
   document.addEventListener("visibilitychange", syncTyping);
   document.addEventListener("intro-ready", syncTyping);
   syncTyping();
+  const brandPanels = Array.from(document.querySelectorAll(".gallery-project-card"));
+  const galleryTrack = document.querySelector("#project-gallery-track");
+  const galleryPrevious = document.querySelector(".project-gallery-previous");
+  const galleryNext = document.querySelector(".project-gallery-next");
+  const galleryMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (galleryTrack && brandPanels.length) {
+    document.querySelector(".project-gallery-controls").hidden = false;
+    function updateGalleryNavigation() {
+      const maxScroll = galleryTrack.scrollWidth - galleryTrack.clientWidth;
+      galleryPrevious.disabled = galleryTrack.scrollLeft <= 2;
+      galleryNext.disabled = galleryTrack.scrollLeft >= maxScroll - 2;
+    }
+    function scrollGallery(direction) {
+      const step = brandPanels[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(galleryTrack).gap) || 20);
+      galleryTrack.scrollBy({ left: direction * step, behavior: galleryMotion.matches ? "instant" : "smooth" });
+    }
+    galleryPrevious.addEventListener("click", () => scrollGallery(-1));
+    galleryNext.addEventListener("click", () => scrollGallery(1));
+    galleryTrack.addEventListener("scroll", updateGalleryNavigation, { passive: true });
+    window.addEventListener("resize", updateGalleryNavigation);
+    if (typeof ResizeObserver !== "undefined") new ResizeObserver(updateGalleryNavigation).observe(galleryTrack);
+    galleryTrack.addEventListener("keydown", (event) => {
+      if (event.target !== galleryTrack) return;
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        scrollGallery(event.key === "ArrowRight" ? 1 : -1);
+      } else if (event.key === "Home" || event.key === "End") {
+        event.preventDefault();
+        galleryTrack.scrollTo({ left: event.key === "Home" ? 0 : galleryTrack.scrollWidth, behavior: galleryMotion.matches ? "instant" : "smooth" });
+      }
+    });
+    updateGalleryNavigation();
+  }
+
   const designs = Array.from(document.querySelectorAll(".design-item"));
-  const filters = Array.from(document.querySelectorAll("[data-filter]"));
-  const showMore = document.querySelector("#show-more");
-  const galleryMore = document.querySelector(".gallery-more");
-  const galleryCount = document.querySelector(".gallery-count");
-  const pageSize = 9;
-  let selectedFilter = "all";
-  let expanded = false;
-
-  function matchingDesigns() {
-    return designs.filter(
-      (item) =>
-        selectedFilter === "all" || item.dataset.category === selectedFilter,
-    );
-  }
-
-  function updateGallery() {
-    const matching = matchingDesigns();
-    designs.forEach((item) => {
-      const index = matching.indexOf(item);
-      item.hidden = index < 0 || (!expanded && index >= pageSize);
-    });
-    filters.forEach((button) =>
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.filter === selectedFilter),
-      ),
-    );
-    const visibleCount = Math.min(
-      expanded ? matching.length : pageSize,
-      matching.length,
-    );
-    galleryCount.textContent = `Showing ${visibleCount} of ${matching.length} works`;
-    showMore.hidden = matching.length <= pageSize;
-    showMore.setAttribute("aria-expanded", String(expanded));
-    showMore.innerHTML = expanded
-      ? 'Show fewer works <span aria-hidden="true">↑</span>'
-      : `View all ${matching.length} works <span aria-hidden="true">↓</span>`;
-  }
-
-  if (designs.length) {
-    document.querySelector(".filters").hidden = false;
-    galleryMore.hidden = false;
-    filters.forEach((button) =>
-      button.addEventListener("click", () => {
-        selectedFilter = button.dataset.filter;
-        expanded = false;
-        updateGallery();
-      }),
-    );
-    showMore.addEventListener("click", () => {
-      expanded = !expanded;
-      updateGallery();
-      if (!expanded)
-        document
-          .querySelector(".gallery-toolbar")
-          .scrollIntoView({ block: "start", behavior: "smooth" });
-    });
-    updateGallery();
-  }
-
+  const collectionDialog = document.querySelector("#brand-collection");
+  const collectionTitle = document.querySelector("#collection-title");
+  const collectionCount = document.querySelector("#collection-count");
+  const closeCollection = document.querySelector(".collection-close");
   const dialog = document.querySelector("#lightbox");
   const preview = document.querySelector("#lightbox-image");
   const previewTitle = document.querySelector("#lightbox-title");
@@ -321,7 +299,56 @@
   const closePreview = document.querySelector(".lightbox-close");
   let activeDesigns = [];
   let activeIndex = 0;
+  let activeCollectionId;
+  let collectionOpener;
   let previewOpener;
+
+  function syncModalState() {
+    document.body.classList.toggle("modal-open", collectionDialog.open || dialog.open);
+  }
+
+  function openCollection(id, opener) {
+    const panel = brandPanels.find((item) => item.dataset.collection === id);
+    const collectionDesigns = designs.filter((item) => item.dataset.collection === id);
+    if (!panel || !collectionDesigns.length) return;
+    activeCollectionId = id;
+    collectionOpener = opener;
+    const context = document.querySelector("#collection-context");
+    context.replaceChildren();
+    const brandDetails = panel.querySelector(".gallery-project-context");
+    if (brandDetails) context.append(brandDetails.content.cloneNode(true));
+    collectionTitle.textContent = panel.querySelector("h3").textContent.replace(/\s+/g, " ").trim();
+    collectionCount.textContent = `${collectionDesigns.length} artwork${collectionDesigns.length === 1 ? "" : "s"}`;
+    designs.forEach((item) => {
+      item.hidden = item.dataset.collection !== id;
+    });
+    collectionDialog.showModal();
+    collectionDialog.scrollTop = 0;
+    syncModalState();
+    closeCollection.focus();
+  }
+
+  if (typeof collectionDialog.showModal === "function") {
+    document.querySelectorAll("[data-open-collection]").forEach((opener) => {
+      if (opener.matches("button")) opener.hidden = false;
+      opener.setAttribute("aria-haspopup", "dialog");
+      opener.setAttribute("aria-controls", "brand-collection");
+      opener.querySelector(".brand-preview-prompt")?.removeAttribute("hidden");
+      opener.addEventListener("click", (event) => {
+        if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        openCollection(opener.dataset.openCollection, opener);
+      });
+    });
+  }
+  closeCollection.addEventListener("click", () => collectionDialog.close());
+  collectionDialog.addEventListener("click", (event) => {
+    if (event.target === collectionDialog) collectionDialog.close();
+  });
+  collectionDialog.addEventListener("close", () => {
+    syncModalState();
+    collectionOpener?.focus({ preventScroll: true });
+  });
 
   function showDesign(index) {
     if (!activeDesigns.length) return;
@@ -345,11 +372,11 @@
       )
         return;
       event.preventDefault();
-      activeDesigns = designs.filter((design) => !design.hidden);
+      activeDesigns = designs.filter((design) => design.dataset.collection === activeCollectionId);
       previewOpener = item;
       showDesign(activeDesigns.indexOf(item));
       dialog.showModal();
-      document.body.classList.add("modal-open");
+      syncModalState();
       closePreview.focus();
     }),
   );
@@ -370,7 +397,7 @@
     if (event.target === dialog) dialog.close();
   });
   dialog.addEventListener("close", () => {
-    document.body.classList.remove("modal-open");
+    syncModalState();
     preview.removeAttribute("src");
     previewOpener?.focus({ preventScroll: true });
   });
@@ -403,10 +430,8 @@
           ".discipline-strip .container > *",
           ".section-heading",
           ".project",
-          ".technical-note",
-          ".gallery-toolbar",
-          ".design-item",
-          ".gallery-more",
+          ".design-heading",
+          ".project-gallery-track",
           ".work-collage",
           ".about-copy > *",
           ".toolkit-intro",
