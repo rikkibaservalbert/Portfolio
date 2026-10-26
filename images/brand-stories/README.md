@@ -9,6 +9,6 @@ These images are extracted from the original portfolio boards supplied by the ow
 
 Only the individual artwork regions were extracted and exported for the website. Logos, colors, lettering, and the designs themselves were not regenerated or redesigned. The generated website concept images are not used as brand artwork.
 
-Each remaining collection has a responsive, seven-panel presentation in `index.html`, following the reference's two / two / three arrangement. These boards use existing artwork and labeled detail crops. Detail crops are not counted as additional artworks. Their images load when the collection is selected.
+GhostAI, ETX Valley, and Jelexie use these boards as gallery-card covers. Their collection viewers contain only the individual artworks: 16 for GhostAI, 7 for ETX, and 7 for Jelexie. Brand descriptions, color palettes, and typography notes are stored in each card's HTML template.
 
-The two files in `previews/` are smaller copies of the original CL logo files for the board. The collection viewer continues to open the full-resolution originals.
+The two files in `previews/` are retained smaller copies of the original CL logo files. They are not part of the three featured collections.

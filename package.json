@@ -1,0 +1,17 @@
+{
+  "name": "rikki-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rikki Valbert Baser's static design and IT portfolio.",
+  "scripts": {
+    "check": "node scripts/check.mjs",
+    "test": "node --test tests/portfolio.test.mjs",
+    "format": "prettier --write index.html style.css script.js scripts tests package.json README.md .prettierrc.json",
+    "format:check": "prettier --check index.html style.css script.js scripts tests package.json README.md .prettierrc.json"
+  },
+  "devDependencies": {
+    "jsdom": "30.1.3",
+    "postcss": "8.5.32",
+    "prettier": "3.9.10"
+  }
+}
