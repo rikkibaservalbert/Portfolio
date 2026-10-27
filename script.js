@@ -182,11 +182,12 @@
       return;
 
     const title = collection.querySelector("#collection-title");
-    const count = collection.querySelector("#collection-count");
     const context = collection.querySelector("#collection-context");
+    const collectionContent = collection.querySelector(".collection-content");
     const closeCollection = collection.querySelector(".collection-close");
     const image = lightbox.querySelector("#lightbox-image");
     const imageTitle = lightbox.querySelector("#lightbox-title");
+    const imageCollection = lightbox.querySelector("#lightbox-collection");
     const position = lightbox.querySelector("#lightbox-counter");
     const closeLightbox = lightbox.querySelector(".lightbox-close");
     let activeArtworks = [];
@@ -206,7 +207,6 @@
       activeArtworks = selected;
       collectionOpener = opener;
       title.textContent = card.querySelector("h3").textContent.replace(/\s+/g, " ").trim();
-      count.textContent = selected.length + (selected.length === 1 ? " artwork" : " artworks");
       context.replaceChildren();
       const details = card.querySelector(".gallery-project-context");
       if (details) context.append(details.content.cloneNode(true));
@@ -214,7 +214,7 @@
         item.hidden = item.dataset.collection !== id;
       });
       collection.showModal();
-      collection.scrollTop = 0;
+      collectionContent.scrollTop = 0;
       syncModalState();
       closeCollection.focus();
     }
@@ -226,6 +226,7 @@
       image.src = artwork.href;
       image.alt = artwork.querySelector("img").alt;
       imageTitle.textContent = artwork.querySelector("h3").textContent;
+      imageCollection.textContent = title.textContent;
       position.textContent = activeIndex + 1 + " / " + activeArtworks.length;
     }
 

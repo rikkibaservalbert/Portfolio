@@ -138,7 +138,6 @@ test("each brand opens its own artworks and retains its palette and typography n
     assert(visible.every((item) => !item.getAttribute("href").includes("brand-stories")));
     assert.equal(collection.querySelectorAll(".brand-palette li").length, 4);
     assert(collection.querySelector(".brand-story-type").textContent.trim());
-    assert.equal(collection.querySelector("#collection-count").textContent, `${count} artworks`);
     collection.querySelector(".collection-close").click();
     assert.equal(page.document.activeElement, opener);
   }
