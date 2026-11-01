@@ -32,14 +32,13 @@
     const navigation = document.querySelector(".nav-links");
     if (!menu || !navigation) return;
 
+    const menuLabel = menu.querySelector(".menu-label");
     menu.hidden = false;
 
     function setOpen(open, restoreFocus = false) {
       navigation.classList.toggle("open", open);
       menu.setAttribute("aria-expanded", String(open));
-      menu.innerHTML = open
-        ? 'Close <span aria-hidden="true">−</span>'
-        : 'Menu <span aria-hidden="true">+</span>';
+      if (menuLabel) menuLabel.textContent = open ? "Close" : "Menu";
       if (restoreFocus) menu.focus();
     }
 

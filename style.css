@@ -44,6 +44,37 @@ body {
 body.modal-open {
   overflow: hidden;
 }
+/* Shared vector icons */
+.icon-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: -0.125em;
+}
+.theme-toggle .icon {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+.menu-toggle-icon {
+  transition: transform 180ms ease;
+}
+.menu-toggle[aria-expanded="true"] .menu-toggle-icon {
+  transform: rotate(45deg);
+}
 /* Pointer feedback */
 .cursor-follower {
   position: fixed;
@@ -1828,8 +1859,8 @@ body.modal-open button {
 .collection-grid .design-image {
   background: var(--surface);
 }
-.collection-grid .design-image::after {
-  content: "↗";
+.collection-grid .design-image-icon {
+  pointer-events: none;
   position: absolute;
   right: 12px;
   bottom: 12px;
@@ -1847,8 +1878,8 @@ body.modal-open button {
     opacity 160ms ease,
     transform 160ms ease;
 }
-.collection-grid .design-item:hover .design-image::after,
-.collection-grid .design-item:focus-visible .design-image::after {
+.collection-grid .design-item:hover .design-image-icon,
+.collection-grid .design-item:focus-visible .design-image-icon {
   opacity: 1;
   transform: translateY(0);
 }
@@ -2139,8 +2170,9 @@ body.modal-open button {
     font-size: 12px;
     padding: 10px;
   }
-  .menu-toggle > span {
-    font-size: 22px;
+  .menu-toggle > .menu-toggle-icon {
+    width: 18px;
+    height: 18px;
   }
   .nav-links {
     gap: 16px;

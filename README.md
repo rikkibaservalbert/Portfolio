@@ -31,6 +31,8 @@ Each gallery card identifies a collection with `data-collection`. Its matching `
 
 Replace the PDF in `files/` and update both résumé links when its filename changes. Keep original brand artwork and palette colors separate from the site's monochrome theme.
 
+Interface icons use the shared SVG symbols at the start of `index.html`. Reference them with an `.icon` SVG and a `<use>` element; avoid Unicode arrow glyphs, which can render as colored emoji on mobile. Icons inherit their color from the surrounding control.
+
 ## Publishing
 
 Changes are pushed only when requested. The existing Vercel integration deploys commits pushed to `main`; a push can therefore update production automatically. There is no separate build command.

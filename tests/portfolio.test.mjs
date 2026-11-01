@@ -125,6 +125,30 @@ test("mobile navigation closes with Escape and restores button focus", () => {
   page.close();
 });
 
+test("UI icons use shared SVGs and the menu icon survives opening and closing", () => {
+  const page = createPage();
+  const { document } = page;
+  for (const link of document.querySelectorAll(".hero-actions a")) {
+    assert.equal(link.querySelector("svg.icon use").getAttribute("href"), "#icon-arrow-up-right");
+  }
+  for (const icon of document.querySelectorAll("svg.icon")) {
+    assert.equal(icon.getAttribute("aria-hidden"), "true");
+    assert.equal(icon.getAttribute("focusable"), "false");
+    const reference = icon.querySelector("use").getAttribute("href");
+    assert.equal(document.querySelector(reference)?.tagName.toLowerCase(), "symbol");
+  }
+  assert(!/[\u2197\u2193\u2191\u25d0\u2733\u2318]/u.test(document.body.textContent));
+  const menu = document.querySelector(".menu-toggle");
+  const menuIcon = menu.querySelector("svg");
+  menu.click();
+  assert.equal(menu.querySelector(".menu-label").textContent, "Close");
+  assert.equal(menu.querySelector("svg"), menuIcon);
+  menu.click();
+  assert.equal(menu.querySelector(".menu-label").textContent, "Menu");
+  assert.equal(menu.querySelector("svg"), menuIcon);
+  page.close();
+});
+
 test("each brand opens its own artworks and retains its palette and typography notes", () => {
   const page = createPage();
   for (const [id, count] of Object.entries({ ghostai: 16, etx: 7, jelexie: 7 })) {
