@@ -168,6 +168,78 @@ test("each brand opens its own artworks and retains its palette and typography n
   page.close();
 });
 
+test("RelDev thumbnail opens all screenshots and resets collection content between projects", () => {
+  const page = createPage();
+  const { document } = page;
+  const opener = document.querySelector('[data-open-collection="reldev"]');
+  const project = opener.closest(".project");
+  assert.equal(project.querySelector("h3").textContent, "RelDev");
+  assert(!project.textContent.includes("FJ8"));
+  assert(opener.querySelector(".project-preview-hint").textContent.includes("Click to view"));
+  assert.equal(project.querySelector(".text-link").href, "https://fj8reldev.site/");
+
+  // Opening a project after a brand must clear its palette and artwork list.
+  document.querySelector('[data-open-collection="ghostai"]').click();
+  const collection = document.querySelector("#brand-collection");
+  collection.querySelector(".collection-close").click();
+  opener.click();
+  assert.equal(collection.open, true);
+  assert.equal(collection.querySelector("#collection-title").textContent, "RelDev");
+  assert.equal(
+    collection.querySelector(".collection-toolbar .eyebrow").textContent,
+    "PROJECT SCREENSHOTS",
+  );
+  assert.equal(
+    collection.querySelector(".collection-section-heading h3").textContent,
+    "Screenshots",
+  );
+  assert.equal(collection.querySelector("#collection-context").children.length, 0);
+  const visible = [...collection.querySelectorAll(".design-item")].filter((item) => !item.hidden);
+  assert.equal(visible.length, 4);
+  assert(visible.every((item) => item.dataset.collection === "reldev"));
+  assert.deepEqual(
+    visible.map((item) => item.href.split("/").at(-1)),
+    ["welcome.png", "dashboard.png", "documents.png", "verification.png"],
+  );
+  collection.querySelector(".collection-close").click();
+  assert.equal(document.activeElement, opener);
+
+  document.querySelector('[data-open-collection="etx"]').click();
+  assert.equal(
+    collection.querySelector(".collection-toolbar .eyebrow").textContent,
+    "DESIGN COLLECTION",
+  );
+  assert.equal(
+    collection.querySelector(".collection-section-heading h3").textContent,
+    "Selected artworks",
+  );
+  assert.equal(collection.querySelectorAll(".brand-palette li").length, 4);
+  page.close();
+});
+
+test("RelDev full-size viewer navigates only its four screenshots and restores focus", () => {
+  const page = createPage();
+  const { document, window } = page;
+  document.querySelector('[data-open-collection="reldev"]').click();
+  const screenshot = document.querySelector('.design-item[data-collection="reldev"]');
+  screenshot.click();
+  const lightbox = document.querySelector("#lightbox");
+  const image = document.querySelector("#lightbox-image");
+  assert.equal(lightbox.open, true);
+  assert.equal(document.querySelector("#lightbox-counter").textContent, "1 / 4");
+  assert.equal(image.src, screenshot.href);
+  lightbox.dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowLeft" }));
+  assert.equal(document.querySelector("#lightbox-counter").textContent, "4 / 4");
+  assert(image.src.endsWith("/verification.png"));
+  assert.equal(document.querySelector("#lightbox-collection").textContent, "RelDev");
+  lightbox.querySelector(".lightbox-next").click();
+  assert.equal(document.querySelector("#lightbox-counter").textContent, "1 / 4");
+  lightbox.querySelector(".lightbox-close").click();
+  assert.equal(document.activeElement, screenshot);
+  assert.equal(document.querySelector("#brand-collection").open, true);
+  page.close();
+});
+
 test("nested artwork viewer supports keyboard navigation and keeps the collection open", () => {
   const page = createPage();
   page.document.querySelector('[data-open-collection="ghostai"]').click();

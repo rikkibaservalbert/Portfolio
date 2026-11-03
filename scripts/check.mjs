@@ -46,7 +46,8 @@ stylesheet.walkDecls((declaration) => {
 });
 
 assert.equal(document.querySelectorAll(".gallery-project-card").length, 3);
-assert.equal(document.querySelectorAll(".design-item").length, 30);
+assert.equal(document.querySelectorAll('.design-item:not([data-collection="reldev"])').length, 30);
+assert.equal(document.querySelectorAll('.design-item[data-collection="reldev"]').length, 4);
 assert.equal(document.querySelectorAll("#typed-role").length, 1);
 assert.equal(document.querySelectorAll('a[href="files/RIKKI_VALBERT_BASER-CV.pdf"]').length, 2);
 

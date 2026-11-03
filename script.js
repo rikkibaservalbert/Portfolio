@@ -173,7 +173,6 @@
   }
 
   function initArtworkViewer() {
-    const cards = Array.from(document.querySelectorAll(".gallery-project-card"));
     const artworks = Array.from(document.querySelectorAll(".design-item"));
     const collection = document.querySelector("#brand-collection");
     const lightbox = document.querySelector("#lightbox");
@@ -181,6 +180,8 @@
       return;
 
     const title = collection.querySelector("#collection-title");
+    const label = collection.querySelector(".collection-toolbar .eyebrow");
+    const heading = collection.querySelector(".collection-section-heading h3");
     const context = collection.querySelector("#collection-context");
     const collectionContent = collection.querySelector(".collection-content");
     const closeCollection = collection.querySelector(".collection-close");
@@ -199,13 +200,16 @@
     }
 
     function openCollection(id, opener) {
-      const card = cards.find((item) => item.dataset.collection === id);
+      const card = opener.closest("[data-collection]");
       const selected = artworks.filter((item) => item.dataset.collection === id);
       if (!card || !selected.length) return;
 
       activeArtworks = selected;
       collectionOpener = opener;
+      collection.dataset.collection = id;
       title.textContent = card.querySelector("h3").textContent.replace(/\s+/g, " ").trim();
+      label.textContent = card.dataset.collectionLabel || "DESIGN COLLECTION";
+      heading.textContent = card.dataset.collectionHeading || "Selected artworks";
       context.replaceChildren();
       const details = card.querySelector(".gallery-project-context");
       if (details) context.append(details.content.cloneNode(true));

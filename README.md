@@ -29,6 +29,8 @@ Open the folder with a local static server to preview the page. After editing, r
 
 Each gallery card identifies a collection with `data-collection`. Its matching `.design-item` links populate the artwork dialog; the card's template holds the brand description, palette, and typography notes. Keep the card photo count consistent with its individual artwork links. Presentation boards are used as card covers, not viewer entries.
 
+RelDev uses the same collection viewer for its four project screenshots in `images/projects/reldev/`. Its thumbnail opens the gallery; the separate “Explore project” link opens the live site. Project collections can set `data-collection-label` and `data-collection-heading` to customize the viewer headings.
+
 Replace the PDF in `files/` and update both résumé links when its filename changes. Keep original brand artwork and palette colors separate from the site's monochrome theme.
 
 Interface icons use the shared SVG symbols at the start of `index.html`. Reference them with an `.icon` SVG and a `<use>` element; avoid Unicode arrow glyphs, which can render as colored emoji on mobile. Icons inherit their color from the surrounding control.
