@@ -926,7 +926,8 @@ h1 {
 }
 .project-image {
   position: relative;
-  display: block;
+  display: flex;
+  flex-direction: column;
   aspect-ratio: 1.45;
   overflow: hidden;
   padding: 22px 32px 0;
@@ -961,12 +962,15 @@ h1 {
 .project-image img {
   width: 100%;
   height: auto;
+  flex-shrink: 0;
+  margin-top: auto;
   box-shadow: 0 8px 28px #25252522;
   border-radius: 4px 4px 0 0;
+  transform-origin: bottom center;
   transition: transform 0.4s;
 }
 .project-image:hover img {
-  transform: translateY(-6px);
+  transform: scale(1.02);
 }
 .project-preview-hint {
   position: absolute;
@@ -1035,11 +1039,11 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-top: 10px;
 }
 .project h3 {
   font-size: 25px;
   font-weight: 600;
+  line-height: 1.2;
 }
 .project-type {
   font-size: 8px;
