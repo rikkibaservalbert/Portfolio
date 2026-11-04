@@ -1035,7 +1035,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  margin-top: 23px;
+  margin-top: 10px;
 }
 .project h3 {
   font-size: 25px;
@@ -2579,7 +2579,6 @@ body.modal-open button {
     font-size: 8px;
   }
   .project-title {
-    margin-top: 18px;
     justify-content: space-between;
   }
   .project h3 {
