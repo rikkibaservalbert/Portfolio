@@ -1,23 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="js">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rikki Valbert Baser — Design &amp; IT</title>
     <meta
       name="description"
       content="Rikki Valbert Baser — graphic designer and IT support specialist in the Philippines. Visual design, websites, and systems projects."
     />
     <meta name="theme-color" content="#ffffff" />
+    <meta property="og:title" content="Rikki Valbert Baser — Design &amp; IT" />
+    <meta
+      property="og:description"
+      content="A creative eye. A technical mind. Graphic design, IT support, and useful digital experiences."
+    />
+    <meta property="og:image" content="https://rikkivalbert.vercel.app/images/profile.jpg" />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="favicon.ico?v=20261018-rv" sizes="any" />
+    <link rel="icon" href="images/favicon.svg?v=20261018-rv" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=20261018-rv" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&amp;family=Geist+Mono:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap"
+    />
+    <link rel="stylesheet" href="style.css" />
     <script>
+      // Resolve theme and opening state before first paint.
+      // Keep the colors in sync with THEME_COLORS in script.js.
       (() => {
         const root = document.documentElement;
+        let theme;
         try {
-          root.dataset.theme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
-        } catch (_) {
-          root.dataset.theme = "light";
+          theme = localStorage.getItem("theme");
+        } catch {
+          theme = null;
         }
-        const browserColor = document.querySelector('meta[name="theme-color"]');
-        browserColor.content = root.dataset.theme === "dark" ? "#080808" : "#ffffff";
+        if (theme !== "dark" && theme !== "light") {
+          theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        root.dataset.theme = theme;
+        document.querySelector('meta[name="theme-color"]').content =
+          theme === "dark" ? "#0a0a0b" : "#ffffff";
+
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
         let finished = false;
@@ -37,6 +63,7 @@
           document.dispatchEvent(new Event("intro-ready"));
         }
 
+        document.addEventListener("intro-skip", finishIntro, { once: true });
         root.classList.add("intro-active");
         exitTimer = window.setTimeout(() => root.classList.add("intro-exiting"), 1200);
         finishTimer = window.setTimeout(finishIntro, 1900);
@@ -45,2205 +72,1565 @@
         });
       })();
     </script>
-    <meta property="og:title" content="Rikki Valbert Baser — Design & IT" />
-    <meta
-      property="og:description"
-      content="A creative eye. A technical mind. Graphic design, IT support, and useful digital experiences."
-    />
-    <meta property="og:image" content="https://rikkivalbert.vercel.app/images/profile.jpg" />
-    <meta property="og:type" content="website" />
-    <title>Rikki Valbert Baser — Design & IT</title>
-    <link rel="icon" href="favicon.ico?v=20261018-rv" sizes="any" />
-    <link rel="icon" href="images/favicon.svg?v=20261018-rv" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="images/apple-touch-icon.png?v=20261018-rv" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <script src="script.js" defer></script>
+    <script src="script.js" defer=""></script>
   </head>
   <body>
-    <svg
-      class="icon-definitions"
-      xmlns="http://www.w3.org/2000/svg"
-      width="0"
-      height="0"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <defs>
-        <symbol id="icon-arrow-up-right" viewBox="0 0 24 24">
-          <path d="M5 19 19 5M5 5h14v14" />
-        </symbol>
-        <symbol id="icon-arrow-down" viewBox="0 0 24 24"><path d="M12 4v16m-6-6 6 6 6-6" /></symbol>
-        <symbol id="icon-arrow-up" viewBox="0 0 24 24"><path d="M12 20V4m-6 6 6-6 6 6" /></symbol>
-        <symbol id="icon-theme" viewBox="0 0 24 24">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none" />
-        </symbol>
-        <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 4v16M4 12h16" /></symbol>
-        <symbol id="icon-spark" viewBox="0 0 24 24">
-          <path d="M12 3v18M3 12h18M5.6 5.6l12.8 12.8M5.6 18.4 18.4 5.6" />
-        </symbol>
-        <symbol id="icon-monitor" viewBox="0 0 24 24">
-          <rect x="3" y="4" width="18" height="13" rx="2" />
-          <path d="M8 21h8m-4-4v4" />
-        </symbol>
-        <symbol id="icon-code" viewBox="0 0 24 24">
-          <path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18" />
-        </symbol>
-      </defs>
+    <svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+      <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6" /></symbol>
+      <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+      <symbol id="i-arrow-up" viewBox="0 0 24 24"><path d="M12 19V5m-6 6 6-6 6 6" /></symbol>
+      <symbol id="i-arrow-down" viewBox="0 0 24 24"><path d="M12 5v14m-6-6 6 6 6-6" /></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24">
+        <path d="M12 4v11m-5-5 5 5 5-5M5 20h14" />
+      </symbol>
+      <symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 6-6 6 6 6" /></symbol>
+      <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 9h16M4 15h16" /></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="4" />
+        <path
+          d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+        />
+      </symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24">
+        <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" />
+      </symbol>
+      <symbol id="i-images" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="2" />
+        <circle cx="9" cy="10" r="1.5" />
+        <path d="m21 15-4.5-4.5L7 20" />
+      </symbol>
+      <symbol id="i-chip" viewBox="0 0 24 24">
+        <rect x="6" y="6" width="12" height="12" rx="2" />
+        <rect x="9" y="9" width="6" height="6" rx="1" />
+        <path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4" />
+      </symbol>
+      <symbol id="i-windows" viewBox="0 0 24 24">
+        <rect x="3" y="3" width="8" height="8" rx="1" />
+        <rect x="13" y="3" width="8" height="8" rx="1" />
+        <rect x="3" y="13" width="8" height="8" rx="1" />
+        <rect x="13" y="13" width="8" height="8" rx="1" />
+      </symbol>
+      <symbol id="i-network" viewBox="0 0 24 24">
+        <rect x="8" y="2" width="8" height="6" rx="1" />
+        <rect x="2" y="16" width="7" height="6" rx="1" />
+        <rect x="15" y="16" width="7" height="6" rx="1" />
+        <path d="M12 8v4H5.5v4M12 12h6.5v4" />
+      </symbol>
+      <symbol id="i-linkedin" viewBox="0 0 24 24">
+        <path
+          fill="currentColor"
+          stroke="none"
+          fill-rule="evenodd"
+          d="M5.5 3h13A2.5 2.5 0 0 1 21 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 18.5v-13A2.5 2.5 0 0 1 5.5 3Zm2.8 5.2a1.3 1.3 0 1 0 0-2.6 1.3 1.3 0 0 0 0 2.6ZM7.1 10h2.4v7.5H7.1V10Zm4.2 0h2.3v1.1h.03c.32-.6 1.1-1.3 2.27-1.3 2.42 0 2.87 1.6 2.87 3.68v4.02h-2.4v-3.56c0-.85-.02-1.94-1.18-1.94-1.19 0-1.37.93-1.37 1.88v3.62h-2.52V10Z"
+        />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <path
+          fill="currentColor"
+          stroke="none"
+          fill-rule="evenodd"
+          d="M4.5 5h15A2.5 2.5 0 0 1 22 7.5v9a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 16.5v-9A2.5 2.5 0 0 1 4.5 5Zm.3 2.2L12 12.6l7.2-5.4a.75.75 0 0 1 .9 1.2l-7.65 5.74a.75.75 0 0 1-.9 0L3.9 8.4a.75.75 0 0 1 .9-1.2Z"
+        />
+      </symbol>
+      <symbol id="i-instagram" viewBox="0 0 24 24">
+        <rect x="3.25" y="3.25" width="17.5" height="17.5" rx="4.5" stroke-width="2" />
+        <circle cx="12" cy="12" r="4" stroke-width="2" />
+        <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none" />
+      </symbol>
     </svg>
-    <div class="scroll-progress" aria-hidden="true"></div>
-    <div class="cursor-follower" aria-hidden="true" hidden>
-      <span class="cursor-arrow"
-        ><svg
-          class="icon"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <use href="#icon-arrow-up-right" /></svg
-      ></span>
-    </div>
-    <div class="portfolio-intro" aria-hidden="true">
-      <div class="intro-echo intro-echo-top">PORT</div>
-      <div class="intro-echo intro-echo-bottom">FOLIO</div>
-      <svg
-        class="intro-composition"
-        viewBox="-12 -8 924 368"
-        width="924"
-        height="368"
-        focusable="false"
-      >
-        <text class="intro-port" x="0" y="155" textLength="555" lengthAdjust="spacingAndGlyphs">
-          PORT
-        </text>
-        <text class="intro-discipline" x="625" y="120">graphics × IT</text>
-        <text class="intro-name" x="200" y="275" text-anchor="end">
-          <tspan x="200">rikki valbert</tspan>
-          <tspan x="200" dy="28">baser</tspan>
-        </text>
-        <path d="M225 280h28" fill="none" stroke="currentColor" stroke-width="2" />
-        <text class="intro-folio" x="270" y="315" textLength="630" lengthAdjust="spacingAndGlyphs">
-          FOLIO
-        </text>
-        <rect class="intro-progress" x="680" y="340" width="146" height="4" />
-      </svg>
-    </div>
-    <div class="ambient-background" aria-hidden="true">
-      <span class="ambient-ring"></span><span class="ambient-ring ambient-ring-small"></span
-      ><span class="ambient-cross"></span><span class="ambient-diamond"></span
-      ><span class="ambient-dots"></span>
-    </div>
-    <a class="skip-link" href="#main">Skip to content</a>
-    <header class="site-header">
-      <nav class="container navigation" aria-label="Main navigation">
-        <a class="brand brand-monogram" href="#home" aria-label="Rikki Valbert, home">
-          <span aria-hidden="true">rv</span
-          ><svg
-            class="brand-monogram-star"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" />
+
+    <div class="scroll-progress" aria-hidden="true" data-scroll-progress=""></div>
+    <div class="cursor-follower" aria-hidden="true" hidden="" data-cursor=""></div>
+
+    <div class="intro" aria-label="Welcome to Rikki Valbert's portfolio" data-intro="">
+      <div class="intro__top">
+        <span>RV / PORTFOLIO</span>
+        <span>DESIGN &amp; TECHNOLOGY</span>
+      </div>
+      <div class="intro__center">
+        <div class="intro__wordmark" aria-hidden="true">
+          <span class="intro__first">RIKKI</span>
+          <svg class="intro__last" viewBox="39 280 2324 618" aria-hidden="true" focusable="false">
+            <image href="images/reference/name-valbert.png" width="2400" height="1350"></image>
           </svg>
-        </a>
-        <button
-          class="menu-toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="nav-links"
-          hidden
-        >
-          <span class="menu-label">Menu</span
-          ><svg
-            class="icon menu-toggle-icon"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <use href="#icon-plus" />
+        </div>
+        <div class="intro__line" aria-hidden="true"></div>
+      </div>
+      <div class="intro__bottom">
+        <span>MADE WITH INTENTION.</span>
+        <button class="intro__skip" type="button" data-intro-skip="">
+          Enter portfolio
+          <svg class="icon" aria-hidden="true" focusable="false">
+            <use href="#i-arrow-up-right" />
           </svg>
         </button>
-        <div class="nav-links" id="nav-links">
-          <a href="#projects">IT Projects</a><a href="#gallery">Design Work</a
-          ><a href="#about">About</a><a href="#skills">Toolkit</a
-          ><a class="nav-contact nav-mobile-contact" href="#contact"
-            >Let’s talk
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-up-right" /></svg></span
-          ></a>
-        </div>
-        <div class="nav-actions">
+      </div>
+    </div>
+
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header" data-header="">
+      <div class="container site-header__inner">
+        <a class="wordmark" href="#top">Rikki Valbert<span aria-hidden="true">.</span></a>
+
+        <nav class="site-nav" aria-label="Primary" data-nav="">
           <button
-            class="theme-toggle"
-            id="theme-toggle"
+            class="icon-button site-nav__toggle"
             type="button"
-            aria-label="Switch to dark theme"
-            aria-pressed="false"
-            hidden
+            aria-expanded="false"
+            aria-controls="site-nav-list"
+            data-nav-toggle=""
           >
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-theme" /></svg
-            ></span>
+            <span class="visually-hidden">Menu</span>
+            <svg class="icon icon--menu" aria-hidden="true" focusable="false">
+              <use href="#i-menu" />
+            </svg>
+            <svg class="icon icon--close" aria-hidden="true" focusable="false">
+              <use href="#i-close" />
+            </svg>
           </button>
-          <a class="nav-contact" href="#contact"
-            >Let’s talk
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-up-right" /></svg></span
-          ></a>
-        </div>
-      </nav>
-    </header>
-    <main id="main">
-      <section class="hero container" id="home" aria-labelledby="hero-title">
-        <div class="hero-topline">
-          <span class="eyebrow"
-            ><span class="status-dot"></span> OPEN TO CREATIVE &amp; TECHNICAL WORK</span
-          ><span class="location"
-            >BASED IN THE PHILIPPINES
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <use href="#icon-arrow-up-right" /></svg
-          ></span>
-        </div>
-        <div class="hero-layout">
-          <div class="hero-copy">
-            <h1 id="hero-title">
-              A creative eye.<br />A technical<br /><span class="serif-word">mind.</span
-              ><span class="hero-asterisk" aria-hidden="true">
-                <svg viewBox="0 0 48 48" fill="none" focusable="false">
-                  <path
-                    d="M24 5C24 17 19 24 5 24C19 24 24 31 24 43C24 31 29 24 43 24C29 24 24 17 24 5Z"
-                    stroke="currentColor"
-                    stroke-width="1.5"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </span>
-            </h1>
-            <p class="hero-role">Graphic designer. IT problem-solver.</p>
-            <p class="hero-description">
-              From a visual that tells your story to a system that makes work simpler. I bring
-              design thinking and technical know-how to the same table.
-            </p>
-            <div class="hero-actions">
-              <a class="button button-dark" href="#contact"
-                >Let’s Collaborate
-                <span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <use href="#icon-arrow-up-right" /></svg></span></a
-              ><a
-                class="button button-outline"
-                href="files/RIKKI_VALBERT_BASER-CV.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Resume
-                <span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <use href="#icon-arrow-up-right" /></svg></span
-              ></a>
-            </div>
-          </div>
-          <div class="profile-portrait">
-            <div class="portrait-frame">
-              <span class="portrait-detail" aria-hidden="true"></span>
-              <img
-                src="images/profile-cutout-v2.png"
-                alt="Rikki Valbert Baser"
-                width="1086"
-                height="1448"
-                fetchpriority="high"
-              />
-            </div>
-            <p class="portrait-name">Rikki Valbert <span class="portrait-surname">Baser</span></p>
-            <p
-              class="portrait-role"
-              aria-label="IT Support Specialist, Social Media Manager, and Graphic Designer."
-            >
-              <span class="typing-roles" aria-hidden="true"
-                ><strong id="typed-role">IT Support Specialist</strong
-                ><span class="typing-caret">|</span></span
-              >
-            </p>
-          </div>
-        </div>
-        <div class="hero-footnote">
-          <span>ONE PERSON. TWO CONNECTED DISCIPLINES.</span
-          ><a href="#projects"
-            >SCROLL TO EXPLORE
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-down" /></svg></span
-          ></a>
-        </div>
-      </section>
-      <div class="discipline-strip" aria-label="Areas of expertise">
-        <div class="container">
-          <span>Graphic design</span><b aria-hidden="true"></b><span>IT support</span
-          ><b aria-hidden="true"></b><span>Web &amp; systems</span><b aria-hidden="true"></b
-          ><span>Visual storytelling</span>
+          <ul class="site-nav__list" id="site-nav-list" data-nav-list="">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Expertise</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#work">Design work</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="site-header__actions">
+          <button
+            class="icon-button theme-toggle"
+            type="button"
+            aria-pressed="false"
+            data-theme-toggle=""
+          >
+            <span class="visually-hidden">Dark theme</span>
+            <svg class="icon icon--moon" aria-hidden="true" focusable="false">
+              <use href="#i-moon" />
+            </svg>
+            <svg class="icon icon--sun" aria-hidden="true" focusable="false">
+              <use href="#i-sun" />
+            </svg>
+          </button>
         </div>
       </div>
-      <section class="section container" id="projects" aria-labelledby="projects-title">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">01 / THE TECHNICAL SIDE</p>
-            <h2 id="projects-title">Ideas, made <em>functional.</em></h2>
-          </div>
-          <p>
-            Websites and systems built around real tasks. Clear interfaces, organized information,
-            and practical workflows.
-          </p>
-        </div>
-        <div class="projects-grid">
-          <article
-            class="project"
-            data-collection="reldev"
-            data-collection-label="PROJECT SCREENSHOTS"
-            data-collection-heading="Screenshots"
-          >
-            <a
-              class="project-image project-image-reldev"
-              href="images/projects/reldev/welcome.png"
-              data-open-collection="reldev"
-              aria-label="View all 4 RelDev screenshots"
-              ><div class="project-image-label">
-                <span>01 / DOCUMENT WORKFLOW</span
-                ><span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <use href="#icon-arrow-up-right" /></svg
-                ></span>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <!-- Hero ------------------------------------------------------------------------- -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="container hero__container">
+          <div class="hero__layout">
+            <div class="hero__copy">
+              <h1 class="hero__wordmark" id="hero-title">
+                <span class="visually-hidden">Rikki Valbert Baser</span>
+                <span class="hero__name-first enter" style="--d: 0" aria-hidden="true">RIKKI</span>
+                <svg
+                  class="hero__name-last monochrome-art enter"
+                  style="--d: 1"
+                  viewBox="39 280 2324 618"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <image
+                    href="images/reference/name-valbert.png"
+                    width="2400"
+                    height="1350"
+                  ></image>
+                </svg>
+              </h1>
+
+              <div class="hero__actions enter" style="--d: 2">
+                <a class="button button--primary" href="#contact">
+                  Let’s Collaborate
+                  <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                </a>
+                <a
+                  class="button button--ghost"
+                  href="files/RIKKI_VALBERT_BASER-CV.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Resume<span class="visually-hidden"> (PDF, opens in a new tab)</span>
+                  <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                    <use href="#i-arrow-up-right" />
+                  </svg>
+                </a>
               </div>
-              <img
-                src="images/projects/reldev/welcome.png"
-                alt="RelDev welcome page with staff sign-in and public document tracking"
-                width="2016"
-                height="1200"
-                loading="lazy"
-              />
-              <span class="project-preview-hint" aria-hidden="true">
-                <span>Click to view <span class="project-preview-count">4 screenshots</span></span>
-              </span>
-            </a>
-            <div class="project-title">
-              <h3>RelDev</h3>
-              <span class="project-type">SYSTEM DEVELOPMENT</span>
+
+              <p class="hero__role enter" style="--d: 3">
+                <span class="visually-hidden">
+                  IT Support Specialist, Graphic Designer, and Social Media Manager
+                </span>
+                <span class="rotator" aria-hidden="true" data-rotator="">
+                  <span class="rotator__item is-active">IT Specialist | Graphic Designer</span>
+                  <span class="rotator__item">IT Support Specialist</span>
+                  <span class="rotator__item">Social Media Manager</span>
+                </span>
+              </p>
+
+              <p class="hero__lead enter" style="--d: 4">
+                From a visual that tells your story to a system that makes work simpler. I bring
+                design thinking and technical know-how to the same table.
+              </p>
             </div>
-            <p>
-              A cloud-based document tracking and workflow automation system. Document routing,
-              centralized search, audit logs, and role-based access help keep information moving.
-            </p>
-            <div class="project-bottom">
-              <span>PHP / Laravel / MySQL / JavaScript</span
-              ><a
-                class="text-link"
-                href="https://fj8reldev.site"
+
+            <figure class="hero__portrait">
+              <img
+                src="images/profile-portrait.png"
+                alt="Rikki Valbert Baser, IT support specialist and graphic designer"
+                width="760"
+                height="891"
+                fetchpriority="high"
+                decoding="async"
+              />
+            </figure>
+
+            <div class="hero__socials enter" style="--d: 5" aria-label="Find me online">
+              <a
+                href="https://www.linkedin.com/in/rikkibaservalbert/"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Explore project
-                <span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <use href="#icon-arrow-up-right" /></svg></span
-              ></a>
+                aria-label="LinkedIn profile"
+              >
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="#i-linkedin" />
+                </svg>
+              </a>
+              <a href="mailto:rikkibaservalbert@gmail.com" aria-label="Email Rikki">
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="#i-mail" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/valbertrikki"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram profile"
+              >
+                <svg class="icon" aria-hidden="true" focusable="false">
+                  <use href="#i-instagram" />
+                </svg>
+              </a>
             </div>
-          </article>
-          <article class="project">
-            <a
-              class="project-image project-image-miore"
-              href="https://miore.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visit MIORE (opens in a new tab)"
-              ><div class="project-image-label">
-                <span>02 / BUSINESS WEBSITE</span
-                ><span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
+          </div>
+
+          <div class="hero__foot enter" style="--d: 6">
+            <a class="hero__scroll" href="#about">
+              <span>SCROLL</span>
+              <svg class="icon" aria-hidden="true" focusable="false">
+                <use href="#i-arrow-down" />
+              </svg>
+            </a>
+            <span class="hero__location">BASED IN THE PHILIPPINES</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Discipline Marquee Band ------------------------------------------------------ -->
+      <div
+        class="marquee"
+        aria-label="Graphic Designer, IT Support Specialist, Social Media Manager, Brand Identity, Systems and Workflows"
+      >
+        <div class="marquee__track" aria-hidden="true" data-marquee-track="">
+          <div class="marquee__group">
+            <span class="marquee__item marquee__item--solid">GRAPHIC DESIGNER</span>
+            <span class="marquee__dot"></span>
+            <span class="marquee__item marquee__item--outline">IT SUPPORT SPECIALIST</span>
+            <span class="marquee__dot"></span>
+            <span class="marquee__item marquee__item--solid">SOCIAL MEDIA MANAGER</span>
+            <span class="marquee__dot"></span>
+            <span class="marquee__item marquee__item--outline">BRAND IDENTITY</span>
+            <span class="marquee__dot"></span>
+            <span class="marquee__item marquee__item--solid">SYSTEMS &amp; WORKFLOWS</span>
+            <span class="marquee__dot"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 01 — About ------------------------------------------------------------------- -->
+      <section class="section about" id="about" aria-labelledby="about-title">
+        <div class="container">
+          <div class="about__showcase">
+            <div class="about__creative">
+              <p class="creative-statement" data-reveal-lines="">
+                <span class="statement-line" style="--line-d: 0">A creative eye.</span>
+                <span class="statement-line" style="--line-d: 1">
+                  <strong>A technical</strong>
+                </span>
+                <span class="statement-line" style="--line-d: 2">
+                  mind<span class="statement-period">.</span>
+                </span>
+              </p>
+
+              <div class="design-capabilities" aria-label="Explore my design work">
+                <svg
+                  class="capability-definitions"
+                  width="0"
+                  height="0"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <defs>
+                    <clipPath
+                      id="capability-cutouts"
+                      clipPathUnits="userSpaceOnUse"
+                      transform="translate(940 600) scale(1.296482412)"
+                    >
+                      <rect x="17" y="129" width="297" height="199" rx="42"></rect>
+                      <ellipse cx="85" cy="211" rx="77" ry="76"></ellipse>
+                      <path d="m156 81 166 32-27 140-165-30Z"></path>
+                      <rect x="352" y="76" width="315" height="209" rx="42"></rect>
+                      <path
+                        d="M383 84V65Q384 59 395 58V39Q395 32 414 32T432 38V58Q446 58 448 65L451 87Z"
+                      ></path>
+                      <path
+                        d="m432 49 17-12 38-14 6-13q3-7 25-7t33 7l6 13 31 13q8 4 14 17l14 27 8 34-170 10Z"
+                      ></path>
+                      <rect x="703" y="113" width="264" height="212" rx="40"></rect>
+                      <path d="m806 102 3-52q1-13 15-12l126 8q14 1 13 17l-14 233-132-8Z"></path>
+                      <path d="m711 117-1-9q0-9 11-10l138-9q14-1 16 13l14 197-166 12Z"></path>
+                      <circle cx="700" cy="98" r="10"></circle>
+                      <circle cx="703" cy="174" r="9"></circle>
+                      <circle cx="703" cy="277" r="11"></circle>
+                      <circle cx="967" cy="67" r="10"></circle>
+                      <circle cx="966" cy="152" r="11"></circle>
+                      <circle cx="888" cy="43" r="12"></circle>
+                    </clipPath>
+                  </defs>
+                </svg>
+
+                <a
+                  class="capability capability--logos"
+                  href="#work"
+                  aria-label="Explore logo design and brand identities"
+                >
+                  <svg
+                    class="capability__artwork"
+                    viewBox="940 600 422.65 470"
                     aria-hidden="true"
                     focusable="false"
                   >
-                    <use href="#icon-arrow-up-right" /></svg
-                ></span>
+                    <image
+                      href="images/reference/design-collage-reference.jpg"
+                      width="2400"
+                      height="1350"
+                    ></image>
+                    <g
+                      class="capability__caption"
+                      transform="translate(940 600) scale(1.296482412)"
+                    >
+                      <text x="163" y="350">LOGO DESIGN</text>
+                    </g>
+                  </svg>
+                </a>
+
+                <a
+                  class="capability capability--mockups"
+                  href="#work"
+                  aria-label="Explore branded mockups"
+                >
+                  <svg
+                    class="capability__artwork"
+                    viewBox="1387.29 600 423.94 470"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <image
+                      href="images/reference/design-collage-reference.jpg"
+                      width="2400"
+                      height="1350"
+                    ></image>
+                    <g
+                      class="capability__caption"
+                      transform="translate(940 600) scale(1.296482412)"
+                    >
+                      <text x="511" y="306">MOCKUPS</text>
+                    </g>
+                  </svg>
+                </a>
+
+                <a
+                  class="capability capability--social"
+                  href="#work"
+                  aria-label="Explore social media designs"
+                >
+                  <svg
+                    class="capability__artwork"
+                    viewBox="1829.39 600 382.46 470"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <image
+                      href="images/reference/design-collage-reference.jpg"
+                      width="2400"
+                      height="1350"
+                    ></image>
+                    <g
+                      class="capability__caption"
+                      transform="translate(940 600) scale(1.296482412)"
+                    >
+                      <text x="833" y="347">SOCIAL MEDIA</text>
+                    </g>
+                  </svg>
+                </a>
               </div>
-              <img
-                src="images/miore-preview.png"
-                alt="MIORE café and restaurant supplies website"
-                width="1440"
-                height="900"
-                loading="lazy"
-            /></a>
-            <div class="project-title">
-              <h3>MIORE</h3>
-              <span class="project-type">WEB DEVELOPMENT</span>
+
+              <p class="design-values" data-reveal="">
+                CLEAN &nbsp;|&nbsp; ELEGANT &nbsp;|&nbsp; MODERN &nbsp;|&nbsp; FRIENDLY
+                &nbsp;|&nbsp; PLAYFUL
+              </p>
             </div>
-            <p>
-              A café and restaurant supplies website with a searchable product catalog, category and
-              brand filters, and an admin dashboard for managing products and availability.
+
+            <div class="about__story" data-reveal="">
+              <p class="section-index">01 — About</p>
+              <h2 class="about__heading" id="about-title">
+                Design thinking. <em>Technical backbone.</em>
+              </h2>
+              <p class="about__degree">BS Information Technology</p>
+              <p class="about__lead">
+                My work sits where visual craft meets reliable systems — designing brand identities,
+                mockups, and social campaigns while keeping hardware, Windows environments, and
+                business workflows running smoothly.
+              </p>
+              <div class="about__meta-row">
+                <a class="text-link" href="files/RIKKI_VALBERT_BASER-CV.pdf" download="">
+                  Download my résumé
+                  <svg class="icon icon--down" aria-hidden="true" focusable="false">
+                    <use href="#i-download" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="services" data-reveal-stagger="">
+            <section class="service-group" aria-labelledby="service-it">
+              <h3 id="service-it">IT support <span class="service-group__count">06</span></h3>
+              <ul>
+                <li>Hardware &amp; software troubleshooting</li>
+                <li>Windows support &amp; Active Directory</li>
+                <li>Network connectivity troubleshooting</li>
+                <li>User account management &amp; Microsoft 365</li>
+                <li>Remote desktop support &amp; SLA ticketing</li>
+                <li>Helpdesk &amp; IT documentation</li>
+              </ul>
+            </section>
+            <section class="service-group" aria-labelledby="service-operations">
+              <h3 id="service-operations">
+                Operations <span class="service-group__count">03</span>
+              </h3>
+              <ul>
+                <li>Data entry &amp; database management</li>
+                <li>Email &amp; calendar management</li>
+                <li>File organization &amp; document formatting</li>
+              </ul>
+            </section>
+            <section class="service-group" aria-labelledby="service-social">
+              <h3 id="service-social">Social media <span class="service-group__count">05</span></h3>
+              <ul>
+                <li>Social media account management</li>
+                <li>Content planning &amp; scheduling</li>
+                <li>Audience engagement management</li>
+                <li>Platform-specific caption writing</li>
+                <li>Trend &amp; competitor research</li>
+              </ul>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 — Expertise & Tech Stack (Dark Contrast Section) -------------------------- -->
+      <section class="section skills section--contrast" id="skills" aria-labelledby="skills-title">
+        <div class="container">
+          <header class="section-header section-header--split" data-reveal="">
+            <div>
+              <p class="section-index">02 — Expertise</p>
+              <h2 class="section-title" id="skills-title">TECHNICAL <em>Expertise</em></h2>
+            </div>
+            <p class="section-note">
+              Hands-on hardware, Windows administration, network diagnostics, and the digital
+              toolkit I work with every day.
             </p>
-            <div class="project-bottom">
-              <span>HTML / CSS / JavaScript / Supabase</span
-              ><a
-                class="text-link"
+          </header>
+
+          <div class="skills__grid" data-reveal-stagger="">
+            <article class="skill-card">
+              <div class="skill-card__top">
+                <span class="skill-card__icon">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="#i-chip" />
+                  </svg>
+                </span>
+                <span class="skill-card__num">01</span>
+              </div>
+              <h3>Hardware Diagnostics</h3>
+              <p>
+                Component troubleshooting, PSU rail testing, RAM isolation, and custom PC desktop
+                assembly.
+              </p>
+              <ul class="meters" aria-label="Hardware diagnostics proficiency">
+                <li class="meter" style="--value: 0.98">
+                  <span>Laptop &amp; desktop assembly</span><span class="meter__value">98%</span>
+                </li>
+                <li class="meter" style="--value: 0.95">
+                  <span>Hardware &amp; component repair</span><span class="meter__value">95%</span>
+                </li>
+                <li class="meter" style="--value: 0.92">
+                  <span>Storage &amp; system isolation</span><span class="meter__value">92%</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-card__top">
+                <span class="skill-card__icon">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="#i-windows" />
+                  </svg>
+                </span>
+                <span class="skill-card__num">02</span>
+              </div>
+              <h3>Windows &amp; Active Directory</h3>
+              <p>
+                User management, Group Policies (GPO), password resets, domain joining, and
+                Microsoft 365 setup.
+              </p>
+              <ul class="meters" aria-label="Windows and Active Directory proficiency">
+                <li class="meter" style="--value: 0.93">
+                  <span>Windows 10/11 support</span><span class="meter__value">93%</span>
+                </li>
+                <li class="meter" style="--value: 0.89">
+                  <span>Microsoft 365 admin center</span><span class="meter__value">89%</span>
+                </li>
+                <li class="meter" style="--value: 0.85">
+                  <span>Active Directory</span><span class="meter__value">85%</span>
+                </li>
+              </ul>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-card__top">
+                <span class="skill-card__icon">
+                  <svg class="icon" aria-hidden="true" focusable="false">
+                    <use href="#i-network" />
+                  </svg>
+                </span>
+                <span class="skill-card__num">03</span>
+              </div>
+              <h3>Networking &amp; Support</h3>
+              <p>
+                TCP/IP configuration, network printer mapping, RJ45 Cat6 cabling, and ticketing
+                workflows.
+              </p>
+              <ul class="meters" aria-label="Networking and support proficiency">
+                <li class="meter" style="--value: 0.9">
+                  <span>Printer &amp; peripheral setup</span><span class="meter__value">90%</span>
+                </li>
+                <li class="meter" style="--value: 0.88">
+                  <span>Help desk ticketing</span><span class="meter__value">88%</span>
+                </li>
+                <li class="meter" style="--value: 0.85">
+                  <span>TCP/IP, DNS &amp; DHCP checks</span><span class="meter__value">85%</span>
+                </li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="stack-table" data-reveal-stagger="">
+            <div class="stack-row">
+              <h3 class="stack-row__title">Development &amp; Cloud</h3>
+              <ul class="chip-list">
+                <li>VS Code</li>
+                <li>Antigravity</li>
+                <li>Git</li>
+                <li>GitHub</li>
+                <li>Vercel</li>
+                <li>Hostinger</li>
+                <li>Supabase</li>
+              </ul>
+            </div>
+            <div class="stack-row">
+              <h3 class="stack-row__title">Design &amp; Creative</h3>
+              <ul class="chip-list">
+                <li>Figma</li>
+                <li>Photoshop</li>
+                <li>Canva</li>
+              </ul>
+            </div>
+            <div class="stack-row">
+              <h3 class="stack-row__title">AI &amp; Workflow</h3>
+              <ul class="chip-list">
+                <li>Gemini</li>
+                <li>ChatGPT</li>
+                <li>Claude</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 — Selected Projects ------------------------------------------------------- -->
+      <section class="section projects" id="projects" aria-labelledby="projects-title">
+        <div class="container">
+          <header class="section-header section-header--split" data-reveal="">
+            <div>
+              <p class="section-index">03 — Projects</p>
+              <h2 class="section-title" id="projects-title">SELECTED <em>Projects</em></h2>
+            </div>
+            <p class="section-note">
+              Web applications and workflow systems built to keep operations organized.
+            </p>
+          </header>
+
+          <div class="projects__showcase" data-reveal-stagger="">
+            <article class="project-card project-card--featured">
+              <a
+                class="project-card__media"
+                href="images/projects/reldev/welcome.png"
+                data-open-collection="reldev"
+                aria-label="View 4 RelDev screenshots"
+              >
+                <span class="project-card__chrome" aria-hidden="true">
+                  <span class="project-card__dots"><i></i><i></i><i></i></span>
+                  <span class="project-card__url">fj8reldev.site</span>
+                </span>
+                <span class="project-card__viewport">
+                  <img
+                    src="images/projects/reldev/welcome.png"
+                    alt=""
+                    width="2016"
+                    height="1200"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="media-hint" aria-hidden="true">
+                    <svg class="icon" aria-hidden="true" focusable="false">
+                      <use href="#i-images" />
+                    </svg>
+                    Click to view 4 screenshots
+                  </span>
+                </span>
+              </a>
+              <div class="project-card__body">
+                <div class="project-card__head">
+                  <span class="project-card__eyebrow">01 / WORKFLOW AUTOMATION</span>
+                  <h3>RelDev</h3>
+                </div>
+                <p>
+                  A cloud-based document tracking and workflow automation system. Document routing,
+                  centralized search, audit logs, and role-based access help keep information moving
+                  from submission to verified approval.
+                </p>
+                <dl class="project-card__metrics">
+                  <div>
+                    <dt>Core flow</dt>
+                    <dd>Track &amp; route</dd>
+                  </div>
+                  <div>
+                    <dt>Security</dt>
+                    <dd>Role-based access &amp; QR verification</dd>
+                  </div>
+                </dl>
+                <ul class="tag-list" aria-label="Built with">
+                  <li>Next.js</li>
+                  <li>TypeScript</li>
+                  <li>Supabase</li>
+                </ul>
+                <div class="project-card__links">
+                  <a
+                    class="text-link"
+                    href="https://fj8reldev.site"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Live site<span class="visually-hidden"> (opens in a new tab)</span>
+                    <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-up-right" />
+                    </svg>
+                  </a>
+                  <a
+                    class="text-link"
+                    href="images/projects/reldev/welcome.png"
+                    data-open-collection="reldev"
+                  >
+                    Screenshots (4)
+                    <svg class="icon icon--forward" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-right" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+              <template id="collection-reldev" data-title="RelDev" data-label="Project screenshots">
+                <ul class="viewer__thumb-list" data-slot="items">
+                  <li>
+                    <a href="images/projects/reldev/welcome.png">
+                      <img
+                        src="images/thumbs/reldev/welcome.jpg"
+                        alt="RelDev welcome page with staff sign-in and public document tracking"
+                        width="400"
+                        height="238"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/projects/reldev/dashboard.png">
+                      <img
+                        src="images/thumbs/reldev/dashboard.jpg"
+                        alt="RelDev operations dashboard showing document totals, workflow distribution, and throughput"
+                        width="400"
+                        height="214"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/projects/reldev/documents.png">
+                      <img
+                        src="images/thumbs/reldev/documents.jpg"
+                        alt="RelDev document registry with search filters, approval statuses, and record owners"
+                        width="400"
+                        height="212"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/projects/reldev/verification.png">
+                      <img
+                        src="images/thumbs/reldev/verification.jpg"
+                        alt="RelDev approved document verification with reference details and a QR code"
+                        width="400"
+                        height="212"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                </ul>
+              </template>
+            </article>
+
+            <article class="project-card project-card--featured project-card--reverse">
+              <a
+                class="project-card__media"
                 href="https://miore.vercel.app/"
                 target="_blank"
                 rel="noopener noreferrer"
-                >Explore project
-                <span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
+                aria-label="Visit MIORE (opens in a new tab)"
+              >
+                <span class="project-card__chrome" aria-hidden="true">
+                  <span class="project-card__dots"><i></i><i></i><i></i></span>
+                  <span class="project-card__url">miore.vercel.app</span>
+                </span>
+                <span class="project-card__viewport">
+                  <img
+                    src="images/miore-preview.png"
+                    alt=""
+                    width="1440"
+                    height="900"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <span class="media-hint" aria-hidden="true">
+                    <svg class="icon" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-up-right" />
+                    </svg>
+                    Visit live site
+                  </span>
+                </span>
+              </a>
+              <div class="project-card__body">
+                <div class="project-card__head">
+                  <span class="project-card__eyebrow">02 / PRODUCT CATALOG &amp; ADMIN</span>
+                  <h3>MIORE</h3>
+                </div>
+                <p>
+                  A café and restaurant supplies website with a searchable product catalog, category
+                  and brand filters, and an admin dashboard for managing products and real-time
+                  availability.
+                </p>
+                <dl class="project-card__metrics">
+                  <div>
+                    <dt>Storefront</dt>
+                    <dd>Search &amp; category filtering</dd>
+                  </div>
+                  <div>
+                    <dt>Backoffice</dt>
+                    <dd>Supabase inventory management</dd>
+                  </div>
+                </dl>
+                <ul class="tag-list" aria-label="Built with">
+                  <li>HTML</li>
+                  <li>CSS</li>
+                  <li>JavaScript</li>
+                  <li>Supabase</li>
+                </ul>
+                <div class="project-card__links">
+                  <a
+                    class="text-link"
+                    href="https://miore.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    <use href="#icon-arrow-up-right" /></svg></span
-              ></a>
-            </div>
-          </article>
+                    Live site<span class="visually-hidden"> (opens in a new tab)</span>
+                    <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-up-right" />
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
-      <section class="design-section section" id="gallery" aria-labelledby="graphic-design-title">
+
+      <!-- 04 — Design work ------------------------------------------------------------- -->
+      <section class="section work" id="work" aria-labelledby="work-title">
         <div class="container">
-          <div class="design-intro">
+          <header class="section-header section-header--split" data-reveal="">
             <div>
-              <p class="eyebrow">02 / SELECTED WORK · GRAPHIC DESIGN</p>
-              <h2 id="graphic-design-title">Ideas made <em>visible.</em></h2>
+              <p class="section-index">04 — Design work</p>
+              <h2 class="section-title" id="work-title">IDEAS MADE <em>Visible.</em></h2>
             </div>
-            <p>
-              Social campaigns, brand identities, print materials, and event invitations created for
-              businesses in the Philippines and the US.
+            <p class="section-note">
+              Brand identity systems, social media campaigns, and visual storytelling collections.
             </p>
-          </div>
-          <div class="project-gallery-heading">
-            <div
-              class="project-gallery-controls"
-              role="group"
-              aria-label="Browse project gallery"
-              hidden
-            >
-              <button
-                class="project-gallery-previous"
-                type="button"
-                aria-label="Previous projects"
-                aria-controls="project-gallery-track"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
-              </button>
-              <button
-                class="project-gallery-next"
-                type="button"
-                aria-label="Next projects"
-                aria-controls="project-gallery-track"
-              >
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg>
-              </button>
-            </div>
-          </div>
-          <div
-            class="project-gallery-track"
-            id="project-gallery-track"
-            tabindex="0"
-            role="region"
-            aria-label="Graphic design project collections. Scroll horizontally to explore."
-          >
-            <article
-              class="gallery-project-card"
-              id="work-ghostai"
-              data-collection="ghostai"
-              aria-labelledby="project-ghostai-title"
-            >
+          </header>
+
+          <div class="work__grid" data-reveal-stagger="">
+            <!-- GhostAI ------------------------------------------------------------------ -->
+            <article class="work-card">
               <a
-                class="gallery-project-link"
+                class="work-card__link"
                 href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
                 data-open-collection="ghostai"
-                aria-label="Open GhostAI Solutions, 16 photos"
               >
-                <div class="gallery-project-preview">
+                <div class="work-card__media">
                   <img
                     src="images/brand-stories/ghostai-brand-board.jpg"
-                    alt="GhostAI Solutions — brand identity collection preview"
-                    width="680"
-                    height="420"
+                    alt=""
+                    width="1536"
+                    height="1040"
                     loading="lazy"
                     decoding="async"
-                  /><span class="gallery-photo-count">16 PHOTOS</span>
+                  />
+                  <span class="work-card__cta" aria-hidden="true">
+                    View collection
+                    <svg class="icon" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-right" />
+                    </svg>
+                  </span>
                 </div>
-                <div class="gallery-project-info">
-                  <h3 id="project-ghostai-title">GhostAI Solutions</h3>
-                  <p>BRAND IDENTITY &amp; SOCIAL MEDIA</p>
+                <div class="work-card__body">
+                  <h3 class="work-card__title">GhostAI Solutions</h3>
+                  <p class="work-card__meta">Brand identity &amp; social media</p>
+                  <p class="work-card__count">16 works</p>
+                  <span class="work-card__swatches" aria-hidden="true">
+                    <i style="--swatch: #000000"></i>
+                    <i style="--swatch: #061f20"></i>
+                    <i style="--swatch: #27978d"></i>
+                    <i style="--swatch: #ffffff"></i>
+                  </span>
                 </div>
               </a>
-              <template class="gallery-project-context"
-                ><p class="brand-story-label">BRAND IDENTITY</p>
-                <p class="brand-story-description">
-                  A bold teal and black visual language for websites, AI systems, and workflow
-                  automation.
-                </p>
-                <ul class="brand-palette" aria-label="GhostAI Solutions color palette">
-                  <li style="--swatch: #000000" title="Black #000000">
-                    <span class="visually-hidden">Black #000000</span>
+              <template
+                id="collection-ghostai"
+                data-title="GhostAI Solutions"
+                data-label="Brand identity &amp; social media"
+              >
+                <div data-slot="details">
+                  <p class="viewer__description">
+                    A bold teal and black visual language for websites, AI systems, and workflow
+                    automation.
+                  </p>
+                  <div class="viewer__block">
+                    <h3 class="label">Palette</h3>
+                    <ul class="palette">
+                      <li style="--swatch: #000000">Black <code>#000000</code></li>
+                      <li style="--swatch: #061f20">Deep teal <code>#061F20</code></li>
+                      <li style="--swatch: #27978d">Teal <code>#27978D</code></li>
+                      <li style="--swatch: #ffffff">White <code>#FFFFFF</code></li>
+                    </ul>
+                  </div>
+                  <div class="viewer__block">
+                    <h3 class="label">Typography</h3>
+                    <p>Sora / Inter · High contrast · Teal accents</p>
+                  </div>
+                </div>
+                <ul class="viewer__thumb-list" data-slot="items">
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/product-showcase.jpg"
+                        alt="GhostAI — Product Showcase"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #061f20" title="Deep teal #061f20">
-                    <span class="visually-hidden">Deep teal #061f20</span>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/ai-in-for-business.jpg"
+                        alt="GhostAI — AI for Business"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #27978d" title="Teal #27978d">
-                    <span class="visually-hidden">Teal #27978d</span>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-1.jpg"
+                        alt="GhostAI — Carousel 1"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #ffffff" title="White #ffffff">
-                    <span class="visually-hidden">White #ffffff</span>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-2.jpg"
+                        alt="GhostAI — Carousel 2"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-3.jpg"
+                        alt="GhostAI — Carousel 3"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-4.jpg"
+                        alt="GhostAI — Carousel 4"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-5.jpg"
+                        alt="GhostAI — Carousel 5"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg">
+                      <img
+                        src="images/thumbs/ghostai/carousel-6.jpg"
+                        alt="GhostAI — Carousel 6"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/carousel-post-1.jpg"
+                        alt="GhostAI — Carousel Post 1"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/carousel-post-2.jpg"
+                        alt="GhostAI — Carousel Post 2"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/carousel-post-4.jpg"
+                        alt="GhostAI — Carousel Post 4"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/carousel-post-5.jpg"
+                        alt="GhostAI — Carousel Post 5"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/carousel-post-6.jpg"
+                        alt="GhostAI — Carousel Post 6"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/how-can-ghost-ai-help.jpg"
+                        alt="GhostAI — How GhostAI Can Help"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/interactive-comment-post-2.jpg"
+                        alt="GhostAI — Interactive Comment Campaign 02"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
+                    >
+                      <img
+                        src="images/thumbs/ghostai/interactive-comment-post.jpg"
+                        alt="GhostAI — Interactive Comment Campaign"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
                 </ul>
-                <p class="brand-story-type">
-                  Sora / Inter · High contrast · Teal accents
-                </p></template
-              >
+              </template>
             </article>
-            <article
-              class="gallery-project-card"
-              id="work-etx"
-              data-collection="etx"
-              aria-labelledby="project-etx-title"
-            >
+
+            <!-- ETX Valley --------------------------------------------------------------- -->
+            <article class="work-card">
               <a
-                class="gallery-project-link"
+                class="work-card__link"
                 href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
                 data-open-collection="etx"
-                aria-label="Open ETX Valley, 7 photos"
               >
-                <div class="gallery-project-preview">
+                <div class="work-card__media">
                   <img
                     src="images/brand-stories/etx-valley-applications.jpg"
-                    alt="ETX Valley — brand identity collection preview"
-                    width="680"
-                    height="420"
+                    alt=""
+                    width="1536"
+                    height="1040"
                     loading="lazy"
                     decoding="async"
-                  /><span class="gallery-photo-count">7 PHOTOS</span>
+                  />
+                  <span class="work-card__cta" aria-hidden="true">
+                    View collection
+                    <svg class="icon" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-right" />
+                    </svg>
+                  </span>
                 </div>
-                <div class="gallery-project-info">
-                  <h3 id="project-etx-title">ETX Valley</h3>
-                  <p>BRAND IDENTITY &amp; SOCIAL MEDIA</p>
+                <div class="work-card__body">
+                  <h3 class="work-card__title">ETX Valley</h3>
+                  <p class="work-card__meta">Brand identity &amp; social media</p>
+                  <p class="work-card__count">7 works</p>
+                  <span class="work-card__swatches" aria-hidden="true">
+                    <i style="--swatch: #103c20"></i>
+                    <i style="--swatch: #edc13a"></i>
+                    <i style="--swatch: #111111"></i>
+                    <i style="--swatch: #ffffff"></i>
+                  </span>
                 </div>
               </a>
-              <template class="gallery-project-context"
-                ><p class="brand-story-label">BRAND IDENTITY</p>
-                <p class="brand-story-description">
-                  A green and gold visual identity connecting tree services, promotional graphics,
-                  and clear digital communication.
-                </p>
-                <ul class="brand-palette" aria-label="ETX Valley color palette">
-                  <li style="--swatch: #103c20" title="Forest green #103c20">
-                    <span class="visually-hidden">Forest green #103c20</span>
+              <template
+                id="collection-etx"
+                data-title="ETX Valley"
+                data-label="Brand identity &amp; social media"
+              >
+                <div data-slot="details">
+                  <p class="viewer__description">
+                    A green and gold visual identity connecting tree services, promotional graphics,
+                    and clear digital communication.
+                  </p>
+                  <div class="viewer__block">
+                    <h3 class="label">Palette</h3>
+                    <ul class="palette">
+                      <li style="--swatch: #103c20">Forest green <code>#103C20</code></li>
+                      <li style="--swatch: #edc13a">Gold <code>#EDC13A</code></li>
+                      <li style="--swatch: #111111">Black <code>#111111</code></li>
+                      <li style="--swatch: #ffffff">White <code>#FFFFFF</code></li>
+                    </ul>
+                  </div>
+                  <div class="viewer__block">
+                    <h3 class="label">Typography</h3>
+                    <p>Oswald / Inter</p>
+                  </div>
+                </div>
+                <ul class="viewer__thumb-list" data-slot="items">
+                  <li>
+                    <a
+                      href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
+                    >
+                      <img
+                        src="images/thumbs/etx/service-showcase-1.jpg"
+                        alt="ETX Valley — Service Showcase 1"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #edc13a" title="Gold #edc13a">
-                    <span class="visually-hidden">Gold #edc13a</span>
+                  <li>
+                    <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg">
+                      <img
+                        src="images/thumbs/etx/etx-calling-card.jpg"
+                        alt="ETX Valley — Calling Card"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #111111" title="Black #111111">
-                    <span class="visually-hidden">Black #111111</span>
+                  <li>
+                    <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg">
+                      <img
+                        src="images/thumbs/etx/etx-wesbite.jpg"
+                        alt="ETX Valley — Website Campaign"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #ffffff" title="White #ffffff">
-                    <span class="visually-hidden">White #ffffff</span>
+                  <li>
+                    <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg">
+                      <img
+                        src="images/thumbs/etx/fri-promos.jpg"
+                        alt="ETX Valley — Friday Service Promotion"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg">
+                      <img
+                        src="images/thumbs/etx/safety-tips.jpg"
+                        alt="ETX Valley — Tree Safety Tips"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
+                    >
+                      <img
+                        src="images/thumbs/etx/service-showcase-2.jpg"
+                        alt="ETX Valley — Service Showcase 2"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
+                    >
+                      <img
+                        src="images/thumbs/etx/service-showcase-3.jpg"
+                        alt="ETX Valley — Service Showcase 3"
+                        width="400"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
                 </ul>
-                <p class="brand-story-type">Type suggestion: Oswald / Inter</p></template
-              >
+              </template>
             </article>
-            <article
-              class="gallery-project-card"
-              id="work-jelexie"
-              data-collection="jelexie"
-              aria-labelledby="project-jelexie-title"
-            >
+
+            <!-- Jelexie Bakeshop --------------------------------------------------------- -->
+            <article class="work-card">
               <a
-                class="gallery-project-link"
+                class="work-card__link"
                 href="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
                 data-open-collection="jelexie"
-                aria-label="Open Jelexie Bakeshop, 7 photos"
               >
-                <div class="gallery-project-preview">
+                <div class="work-card__media">
                   <img
                     src="images/brand-stories/jelexie-campaigns.jpg"
-                    alt="Jelexie Bakeshop — campaigns &amp; brand applications collection preview"
-                    width="680"
-                    height="420"
+                    alt=""
+                    width="1536"
+                    height="1040"
                     loading="lazy"
                     decoding="async"
-                  /><span class="gallery-photo-count">7 PHOTOS</span>
+                  />
+                  <span class="work-card__cta" aria-hidden="true">
+                    View collection
+                    <svg class="icon" aria-hidden="true" focusable="false">
+                      <use href="#i-arrow-right" />
+                    </svg>
+                  </span>
                 </div>
-                <div class="gallery-project-info">
-                  <h3 id="project-jelexie-title">Jelexie Bakeshop</h3>
-                  <p>BRAND IDENTITY &amp; SOCIAL MEDIA</p>
+                <div class="work-card__body">
+                  <h3 class="work-card__title">Jelexie Bakeshop</h3>
+                  <p class="work-card__meta">Brand identity &amp; social media</p>
+                  <p class="work-card__count">7 works</p>
+                  <span class="work-card__swatches" aria-hidden="true">
+                    <i style="--swatch: #bb221a"></i>
+                    <i style="--swatch: #ffd64b"></i>
+                    <i style="--swatch: #ffffff"></i>
+                    <i style="--swatch: #0a6f43"></i>
+                  </span>
                 </div>
               </a>
-              <template class="gallery-project-context"
-                ><p class="brand-story-label">BRAND IDENTITY</p>
-                <p class="brand-story-description">
-                  Product-led campaigns and brand applications, using warm reds, golden accents, and
-                  a consistent bakery identity.
-                </p>
-                <ul class="brand-palette" aria-label="Jelexie Bakeshop color palette">
-                  <li style="--swatch: #bb221a" title="Red #bb221a">
-                    <span class="visually-hidden">Red #bb221a</span>
+              <template
+                id="collection-jelexie"
+                data-title="Jelexie Bakeshop"
+                data-label="Brand identity &amp; social media"
+              >
+                <div data-slot="details">
+                  <p class="viewer__description">
+                    Product-led campaigns and brand applications, using warm reds, golden accents,
+                    and a consistent bakery identity.
+                  </p>
+                  <div class="viewer__block">
+                    <h3 class="label">Palette</h3>
+                    <ul class="palette">
+                      <li style="--swatch: #bb221a">Red <code>#BB221A</code></li>
+                      <li style="--swatch: #ffd64b">Yellow <code>#FFD64B</code></li>
+                      <li style="--swatch: #ffffff">White <code>#FFFFFF</code></li>
+                      <li style="--swatch: #0a6f43">Green <code>#0A6F43</code></li>
+                    </ul>
+                  </div>
+                  <div class="viewer__block">
+                    <h3 class="label">Typography</h3>
+                    <p>Heritage typography / Product-led imagery</p>
+                  </div>
+                </div>
+                <ul class="viewer__thumb-list" data-slot="items">
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-red-velvet-poster.jpg"
+                        alt="Jelexie — Red Velvet Poster"
+                        width="321"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #ffd64b" title="Yellow #ffd64b">
-                    <span class="visually-hidden">Yellow #ffd64b</span>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-anniversary-banner.jpg"
+                        alt="Jelexie — Anniversary Banner"
+                        width="400"
+                        height="81"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #ffffff" title="White #ffffff">
-                    <span class="visually-hidden">White #ffffff</span>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-birthday-discount.jpg"
+                        alt="Jelexie — Birthday Discount"
+                        width="282"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
-                  <li style="--swatch: #0a6f43" title="Green #0a6f43">
-                    <span class="visually-hidden">Green #0a6f43</span>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-calendar-promotion.jpg"
+                        alt="Jelexie — Calendar Promotion"
+                        width="320"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-gift-selection.jpg"
+                        alt="Jelexie — Gift Selection"
+                        width="282"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-new-year-cakes.jpg"
+                        alt="Jelexie — New Year Cakes"
+                        width="296"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
+                  </li>
+                  <li>
+                    <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg">
+                      <img
+                        src="images/thumbs/jelexie/jelexie-products-display.jpg"
+                        alt="Jelexie — Products Display"
+                        width="145"
+                        height="400"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </a>
                   </li>
                 </ul>
-                <p class="brand-story-type">Heritage typography / Product-led imagery</p></template
-              >
+              </template>
             </article>
           </div>
-          <noscript
-            ><details class="collection-fallback">
-              <summary>Browse all design collections</summary>
-              <h3>GhostAI Solutions</h3>
-              <ul>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
-                    >GhostAI — Product Showcase</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
-                    >GhostAI — AI for Business</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg"
-                    >GhostAI — Carousel 1</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg"
-                    >GhostAI — Carousel 2</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg"
-                    >GhostAI — Carousel 3</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg"
-                    >GhostAI — Carousel 4</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg"
-                    >GhostAI — Carousel 5</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg"
-                    >GhostAI — Carousel 6</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
-                    >GhostAI — Carousel Post 1</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
-                    >GhostAI — Carousel Post 2</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
-                    >GhostAI — Carousel Post 4</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
-                    >GhostAI — Carousel Post 5</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
-                    >GhostAI — Carousel Post 6</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
-                    >GhostAI — How GhostAI Can Help</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
-                    >GhostAI — Interactive Comment Campaign 02</a
-                  >
-                </li>
-                <li>
-                  <a
-                    href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
-                    >GhostAI — Interactive Comment Campaign</a
-                  >
-                </li>
-              </ul>
-              <h3>ETX Valley</h3>
-              <ul>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
-                    >ETX Valley — Service Showcase 1</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg"
-                    >ETX Valley — Calling Card</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
-                    >ETX Valley — Website Campaign</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg"
-                    >ETX Valley — Friday Service Promotion</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg"
-                    >ETX Valley — Tree Safety Tips</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
-                    >ETX Valley — Service Showcase 2</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
-                    >ETX Valley — Service Showcase 3</a
-                  >
-                </li>
-              </ul>
-              <h3>Jelexie Bakeshop</h3>
-              <ul>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
-                    >Jelexie — Red Velvet Poster</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg"
-                    >Jelexie — Anniversary Banner</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg"
-                    >Jelexie — Birthday Discount</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg"
-                    >Jelexie — Calendar Promotion</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg"
-                    >Jelexie — Gift Selection</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg"
-                    >Jelexie — New Year Cakes</a
-                  >
-                </li>
-                <li>
-                  <a href="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg"
-                    >Jelexie — Products Display</a
-                  >
-                </li>
-              </ul>
-            </details></noscript
-          >
         </div>
       </section>
-      <section class="section container about-section" id="about" aria-labelledby="about-title">
-        <div class="work-collage" aria-label="A selection of my design and web development work">
-          <div class="art-topline"><span>THE INTERSECTION</span><span>01 — 02</span></div>
-          <div class="art-grid" aria-hidden="true"></div>
-          <div class="art-circle" aria-hidden="true"></div>
-          <div class="art-web">
-            <div class="mini-browser" aria-hidden="true">
-              <i></i><i></i><i></i><span>WEB &amp; SYSTEMS</span>
-            </div>
-            <img
-              src="images/miore-preview.png"
-              alt="MIORE website project preview"
-              width="1440"
-              height="900"
-              loading="lazy"
-            />
-          </div>
-          <img
-            class="art-preview art-preview-etx"
-            src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
-            alt="ETX Valley website campaign"
-            width="1080"
-            height="1080"
-            loading="lazy"
-            decoding="async"
-          />
-          <img
-            class="art-preview art-preview-ghost"
-            src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
-            alt="GhostAI carousel post 1"
-            width="1080"
-            height="1080"
-            loading="lazy"
-            decoding="async"
-          />
-          <span class="art-label art-label-design"
-            >VISUAL THINKING
-            <svg
-              class="icon"
-              viewBox="0 0 24 24"
-              width="24"
-              height="24"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <use href="#icon-arrow-up-right" /></svg></span
-          ><span class="art-label art-label-code">&lt;/&gt; PRACTICAL SOLUTIONS</span>
-          <div class="art-bottomline">
-            <span>GOOD DESIGN. USEFUL TECHNOLOGY.</span
-            ><span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-up-right" /></svg
-            ></span>
-          </div>
-        </div>
-        <div class="about-copy">
-          <p class="eyebrow">03 / THE PERSON BEHIND THE WORK</p>
-          <h2 id="about-title">Equal parts<br /><em>creative &amp; technical.</em></h2>
-          <p class="about-lead">
-            I care about how things look.<br />And just as much about how they work.
-          </p>
-          <p>
-            My background connects IT support, operations, and graphic design. That means I can
-            think through the system behind a project and the way people experience it.
-          </p>
-          <p>
-            I bring that same approach to troubleshooting a technical issue, building a website, or
-            shaping a visual message: understand the problem, organize the details, and make the
-            result clear and useful.
-          </p>
-          <a class="text-link" href="files/RIKKI_VALBERT_BASER-CV.pdf" download
-            >Get to know my background
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-down" /></svg></span
-          ></a>
-        </div>
-      </section>
-      <section class="container toolkit-section" id="skills" aria-labelledby="skills-title">
-        <div class="toolkit-intro">
-          <p class="eyebrow">04 / WHAT I BRING</p>
-          <h2 id="skills-title">Two disciplines.<br /><em>One toolkit.</em></h2>
-        </div>
-        <div class="skill-rows">
-          <article class="skill-row">
-            <span class="skill-number">01</span>
-            <div>
-              <h3>IT support &amp; systems</h3>
-              <p>Troubleshooting, reliable workflows, and practical technical solutions.</p>
-              <div class="tags">
-                <span>Windows</span><span>Network support</span><span>Hardware</span
-                ><span>Microsoft 365</span><span>Google Workspace</span
-                ><span>System administration</span>
-              </div>
-            </div>
-            <span class="skill-symbol" aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-monitor" /></svg
-            ></span>
-          </article>
-          <article class="skill-row">
-            <span class="skill-number">02</span>
-            <div>
-              <h3>Graphic design &amp; content</h3>
-              <p>Clear visual communication, consistent branding, and considered layouts.</p>
-              <div class="tags">
-                <span>Photoshop</span><span>Canva</span><span>Premiere Pro</span><span>CapCut</span
-                ><span>Social media branding</span><span>Content planning</span>
-              </div>
-            </div>
-            <span class="skill-symbol" aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-spark" /></svg
-            ></span>
-          </article>
-          <article class="skill-row">
-            <span class="skill-number">03</span>
-            <div>
-              <h3>Web development &amp; data</h3>
-              <p>From the interface to the information that keeps it running.</p>
-              <div class="tags">
-                <span>HTML / CSS / JavaScript</span><span>PHP / Laravel</span><span>MySQL</span
-                ><span>Database management</span><span>Documentation</span>
-              </div>
-            </div>
-            <span class="skill-symbol code-symbol" aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-code" /></svg
-            ></span>
-          </article>
-        </div>
-      </section>
-      <section class="contact-section" id="contact" aria-labelledby="contact-title">
+
+      <!-- Closing Philosophy Statement ------------------------------------------------- -->
+      <section class="closing-quote" aria-label="Philosophy">
         <div class="container">
-          <div class="contact-top">
-            <p class="eyebrow"><span class="status-dot"></span> LET’S MAKE SOMETHING WORK.</p>
-            <span>DESIGN + IT</span>
+          <p class="closing-quote__text" data-reveal="" data-scroll-words="">
+            I care about creating visuals that look sharp and keeping technical systems dependable —
+            so teams can focus on <em>doing great work.</em>
+          </p>
+        </div>
+      </section>
+
+      <!-- 05 — Contact (Dark Architectural Closing) ------------------------------------ -->
+      <section class="contact" id="contact" aria-labelledby="contact-title">
+        <div class="container">
+          <div class="contact__top" data-reveal="">
+            <p class="eyebrow">
+              <span class="status-dot" aria-hidden="true"></span>05 — LET’S MAKE SOMETHING WORK
+            </p>
+            <span class="contact__tag">DESIGN + IT</span>
           </div>
-          <div class="contact-layout">
-            <h2 id="contact-title">A good idea starts<br />with a <em>hello.</em></h2>
-            <div>
-              <p>
-                Need a thoughtful design, a useful website, or an extra pair of hands on the
-                technical side? Let’s talk about it.
-              </p>
-              <a class="button button-accent" href="mailto:rikkibaservalbert@gmail.com"
-                >Start a conversation
-                <span aria-hidden="true"
-                  ><svg
-                    class="icon"
-                    viewBox="0 0 24 24"
-                    width="24"
-                    height="24"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <use href="#icon-arrow-up-right" /></svg></span
-              ></a>
-            </div>
-          </div>
-          <div class="contact-bottom">
-            <a class="email-link" href="mailto:rikkibaservalbert@gmail.com"
-              >rikkibaservalbert@gmail.com</a
-            ><a
-              class="text-link"
-              href="https://www.linkedin.com/in/rikkibaservalbert/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >LinkedIn
-              <span aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg></span
-            ></a>
-          </div>
+
+          <h2 class="contact__title" id="contact-title" data-reveal="">
+            A GOOD IDEA<br />STARTS WITH A <em>Hello.</em>
+          </h2>
+          <p class="contact__lead" data-reveal="">
+            Need a thoughtful design, a useful website, or a reliable pair of hands on the technical
+            side? Let’s talk about it.
+          </p>
+
+          <a class="contact__email" href="mailto:rikkibaservalbert@gmail.com" data-reveal="">
+            <span>rikkibaservalbert@gmail.com</span>
+            <svg class="icon icon--external" aria-hidden="true" focusable="false">
+              <use href="#i-arrow-up-right" />
+            </svg>
+          </a>
+
+          <ul class="contact__rail" data-reveal-stagger="">
+            <li>
+              <a
+                class="contact__rail-link"
+                href="https://www.linkedin.com/in/rikkibaservalbert/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></span>
+                <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                  <use href="#i-arrow-up-right" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                class="contact__rail-link"
+                href="https://www.instagram.com/valbertrikki"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Instagram<span class="visually-hidden"> (opens in a new tab)</span></span>
+                <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                  <use href="#i-arrow-up-right" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a class="contact__rail-link" href="mailto:rikkibaservalbert@gmail.com">
+                <span>Email</span>
+                <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                  <use href="#i-arrow-up-right" />
+                </svg>
+              </a>
+            </li>
+            <li>
+              <a
+                class="contact__rail-link"
+                href="files/RIKKI_VALBERT_BASER-CV.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>Résumé<span class="visually-hidden"> (PDF, opens in a new tab)</span></span>
+                <svg class="icon icon--external" aria-hidden="true" focusable="false">
+                  <use href="#i-arrow-up-right" />
+                </svg>
+              </a>
+            </li>
+          </ul>
         </div>
       </section>
     </main>
-    <dialog class="collection-dialog" id="brand-collection" aria-labelledby="collection-title">
-      <div class="collection-toolbar">
-        <div>
-          <p class="eyebrow">DESIGN COLLECTION</p>
-          <h2 id="collection-title">Brand artwork</h2>
-        </div>
-        <button class="collection-close" type="button" aria-label="Close collection">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6" /></svg>
-        </button>
+
+    <footer class="site-footer">
+      <div class="container site-footer__bar">
+        <p class="site-footer__copy">© <span data-year="">2026</span> Rikki Valbert Baser</p>
+        <p class="site-footer__locale">Philippines · UTC+8</p>
+        <a class="site-footer__top-link" href="#top">
+          Back to top
+          <svg class="icon icon--up" aria-hidden="true" focusable="false">
+            <use href="#i-arrow-up" />
+          </svg>
+        </a>
       </div>
-      <div class="collection-content">
-        <div class="collection-context" id="collection-context"></div>
-        <div class="collection-section-heading">
-          <h3>Selected artworks</h3>
-          <p class="collection-instruction">
-            Select to explore
-            <span aria-hidden="true"
-              ><svg
-                class="icon"
-                viewBox="0 0 24 24"
-                width="24"
-                height="24"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <use href="#icon-arrow-up-right" /></svg
-            ></span>
-          </p>
-        </div>
-        <div class="design-grid collection-grid">
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Product%20Showcase.jpg"
-                alt="GhostAI — Product Showcase"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Product Showcase</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Ai%20in-for%20Business.jpg"
-                alt="GhostAI — AI for Business"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — AI for Business</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%201.jpg"
-                alt="GhostAI — Carousel 1"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 1</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%202.jpg"
-                alt="GhostAI — Carousel 2"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 2</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%203.jpg"
-                alt="GhostAI — Carousel 3"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 3</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%204.jpg"
-                alt="GhostAI — Carousel 4"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 4</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%205.jpg"
-                alt="GhostAI — Carousel 5"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 5</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%206.jpg"
-                alt="GhostAI — Carousel 6"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel 6</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%201.jpg"
-                alt="GhostAI — Carousel Post 1"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel Post 1</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%202.jpg"
-                alt="GhostAI — Carousel Post 2"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel Post 2</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%204.jpg"
-                alt="GhostAI — Carousel Post 4"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel Post 4</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%205.jpg"
-                alt="GhostAI — Carousel Post 5"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel Post 5</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Carousel%20Post%206.jpg"
-                alt="GhostAI — Carousel Post 6"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Carousel Post 6</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/How%20can%20Ghost%20ai%20Help.jpg"
-                alt="GhostAI — How GhostAI Can Help"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — How GhostAI Can Help</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post%202.jpg"
-                alt="GhostAI — Interactive Comment Campaign 02"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Interactive Comment Campaign 02</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="ghostai"
-            href="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/GhostAI%20Tyler%2C%20TX%20-%20US/Interactive%20Comment%20Post.jpg"
-                alt="GhostAI — Interactive Comment Campaign"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>GhostAI — Interactive Comment Campaign</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%201.jpg"
-                alt="ETX Valley — Service Showcase 1"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Service Showcase 1</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg"
-            data-category="branding"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Calling%20Card.jpg"
-                alt="ETX Valley — Calling Card"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Calling Card</h3>
-              <span>BRANDING & PRINT</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/ETX%20Wesbite.jpg"
-                alt="ETX Valley — Website Campaign"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Website Campaign</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Fri%20Promos.jpg"
-                alt="ETX Valley — Friday Service Promotion"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Friday Service Promotion</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Safety%20Tips.jpg"
-                alt="ETX Valley — Tree Safety Tips"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Tree Safety Tips</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%202.jpg"
-                alt="ETX Valley — Service Showcase 2"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Service Showcase 2</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="etx"
-            href="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/ETX%20Tyler%2C%20TX%20-%20US/Service%20Showcase%203.jpg"
-                alt="ETX Valley — Service Showcase 3"
-                width="1080"
-                height="1080"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>ETX Valley — Service Showcase 3</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-red-velvet-poster.jpg"
-                alt="Jelexie — Red Velvet Poster"
-                width="560"
-                height="698"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Red Velvet Poster</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-anniversary-banner.jpg"
-                alt="Jelexie — Anniversary Banner"
-                width="1330"
-                height="268"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Anniversary Banner</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-birthday-discount.jpg"
-                alt="Jelexie — Birthday Discount"
-                width="408"
-                height="579"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Birthday Discount</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-calendar-promotion.jpg"
-                alt="Jelexie — Calendar Promotion"
-                width="463"
-                height="579"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Calendar Promotion</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-gift-selection.jpg"
-                alt="Jelexie — Gift Selection"
-                width="492"
-                height="698"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Gift Selection</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-new-year-cakes.jpg"
-                alt="Jelexie — New Year Cakes"
-                width="428"
-                height="579"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — New Year Cakes</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="jelexie"
-            href="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg"
-            data-category="social"
-          >
-            <div class="design-image">
-              <img
-                src="images/Gallery/Jelexie%20Bakeshop/jelexie-products-display.jpg"
-                alt="Jelexie — Products Display"
-                width="253"
-                height="700"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true"
-                ><svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" /></svg
-              ></span>
-            </div>
-            <div class="design-caption">
-              <h3>Jelexie — Products Display</h3>
-              <span>SOCIAL MEDIA</span>
-            </div>
-          </a>
-          <a class="design-item" data-collection="reldev" href="images/projects/reldev/welcome.png">
-            <div class="design-image">
-              <img
-                src="images/projects/reldev/welcome.png"
-                alt="RelDev welcome page with staff sign-in and public document tracking"
-                width="2016"
-                height="1200"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true">
-                <svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" />
-                </svg>
-              </span>
-            </div>
-            <div class="design-caption">
-              <h3>Welcome &amp; document tracking</h3>
-              <span>RELDEV / 01</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="reldev"
-            href="images/projects/reldev/dashboard.png"
-          >
-            <div class="design-image">
-              <img
-                src="images/projects/reldev/dashboard.png"
-                alt="RelDev operations dashboard showing document totals, workflow distribution, and throughput"
-                width="2502"
-                height="1338"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true">
-                <svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" />
-                </svg>
-              </span>
-            </div>
-            <div class="design-caption">
-              <h3>Operations dashboard</h3>
-              <span>RELDEV / 02</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="reldev"
-            href="images/projects/reldev/documents.png"
-          >
-            <div class="design-image">
-              <img
-                src="images/projects/reldev/documents.png"
-                alt="RelDev document registry with search filters, approval statuses, and record owners"
-                width="2526"
-                height="1339"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true">
-                <svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" />
-                </svg>
-              </span>
-            </div>
-            <div class="design-caption">
-              <h3>Document registry</h3>
-              <span>RELDEV / 03</span>
-            </div>
-          </a>
-          <a
-            class="design-item"
-            data-collection="reldev"
-            href="images/projects/reldev/verification.png"
-          >
-            <div class="design-image">
-              <img
-                src="images/projects/reldev/verification.png"
-                alt="RelDev approved document verification with reference details and a QR code"
-                width="2527"
-                height="1338"
-                loading="lazy"
-                decoding="async"
-              />
-              <span class="design-image-icon" aria-hidden="true">
-                <svg
-                  class="icon"
-                  viewBox="0 0 24 24"
-                  width="24"
-                  height="24"
-                  aria-hidden="true"
-                  focusable="false"
-                >
-                  <use href="#icon-arrow-up-right" />
-                </svg>
-              </span>
-            </div>
-            <div class="design-caption">
-              <h3>Document verification</h3>
-              <span>RELDEV / 04</span>
-            </div>
-          </a>
-        </div>
-      </div>
-    </dialog>
-    <dialog class="lightbox" id="lightbox" aria-labelledby="lightbox-title">
-      <div class="lightbox-toolbar">
-        <div class="lightbox-heading">
-          <p class="eyebrow" id="lightbox-collection">ARTWORK PREVIEW</p>
-          <h2 id="lightbox-title"></h2>
-        </div>
-        <button class="lightbox-close" type="button" aria-label="Close artwork preview">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M6 18 18 6" /></svg>
-        </button>
-      </div>
-      <div class="lightbox-stage">
-        <img id="lightbox-image" alt="" />
-      </div>
-      <div class="lightbox-navigation">
-        <div class="lightbox-pagination" role="group" aria-label="Browse images">
-          <button
-            class="lightbox-prev"
-            type="button"
-            aria-label="Previous artwork"
-            aria-controls="lightbox-image"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg>
-          </button>
-          <p class="lightbox-counter" id="lightbox-counter" aria-live="polite"></p>
-          <button
-            class="lightbox-next"
-            type="button"
-            aria-label="Next artwork"
-            aria-controls="lightbox-image"
-          >
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg>
-          </button>
-        </div>
-      </div>
-    </dialog>
-    <footer class="container site-footer">
-      <a class="footer-name" href="#home"
-        >rv<span aria-hidden="true"
-          ><svg
-            class="icon"
-            viewBox="0 0 24 24"
-            width="24"
-            height="24"
-            aria-hidden="true"
-            focusable="false"
-          >
-            <use href="#icon-spark" /></svg></span></a
-      ><span>© <span id="year">2026</span> Rikki Valbert Baser</span
-      ><a href="#home"
-        >Back to top
-        <svg
-          class="icon"
-          viewBox="0 0 24 24"
-          width="24"
-          height="24"
-          aria-hidden="true"
-          focusable="false"
-        >
-          <use href="#icon-arrow-up" /></svg
-      ></a>
     </footer>
+
+    <!-- Collection viewer: filled from the <template id="collection-*"> of the clicked item. -->
+    <dialog class="viewer" aria-labelledby="viewer-title" data-viewer="">
+      <div class="viewer__layout">
+        <header class="viewer__header">
+          <div class="viewer__heading">
+            <p class="eyebrow" data-viewer-label=""></p>
+            <h2 class="viewer__title" id="viewer-title" data-viewer-title=""></h2>
+          </div>
+          <p class="viewer__counter" data-viewer-counter=""></p>
+          <button class="icon-button" type="button" data-viewer-close="">
+            <span class="visually-hidden">Close viewer</span>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#i-close" /></svg>
+          </button>
+        </header>
+
+        <div class="viewer__stage" data-viewer-stage="">
+          <button class="icon-button viewer__nav" type="button" data-viewer-previous="">
+            <span class="visually-hidden">Previous image</span>
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="#i-chevron-left" />
+            </svg>
+          </button>
+          <figure class="viewer__figure">
+            <img alt="" draggable="false" data-viewer-image="" />
+            <figcaption aria-live="polite" data-viewer-caption=""></figcaption>
+          </figure>
+          <button class="icon-button viewer__nav" type="button" data-viewer-next="">
+            <span class="visually-hidden">Next image</span>
+            <svg class="icon" aria-hidden="true" focusable="false">
+              <use href="#i-chevron-right" />
+            </svg>
+          </button>
+        </div>
+
+        <div class="viewer__details" data-viewer-details=""></div>
+        <nav
+          class="viewer__thumbs"
+          aria-label="Images in this collection"
+          data-viewer-thumbs=""
+        ></nav>
+      </div>
+    </dialog>
   </body>
 </html>

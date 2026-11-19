@@ -18,20 +18,27 @@ document.querySelectorAll("script:not([src])").forEach((element) => {
   new vm.Script(element.textContent, { filename: "index.html bootstrap" });
 });
 
-const ids = [...document.querySelectorAll("[id]")].map((element) => element.id);
+const roots = [
+  document,
+  ...[...document.querySelectorAll("template")].map((template) => template.content),
+];
+
+const ids = roots.flatMap((scope) => [...scope.querySelectorAll("[id]")].map((el) => el.id));
 assert.equal(new Set(ids).size, ids.length, "Element IDs must be unique");
 
 let localLinks = 0;
-for (const element of document.querySelectorAll("[src], [href]")) {
-  for (const attribute of ["src", "href"]) {
-    const target = element.getAttribute(attribute);
-    if (!target || /^(?:https?:|mailto:|tel:|data:|\/\/)/i.test(target)) continue;
-    if (target.startsWith("#")) {
-      assert(ids.includes(target.slice(1)), `Missing anchor: ${target}`);
-    } else {
-      const file = decodeURIComponent(target.split(/[?#]/)[0]);
-      assert(existsSync(path.join(root, file)), `Missing file: ${file}`);
-      localLinks++;
+for (const scope of roots) {
+  for (const element of scope.querySelectorAll("[src], [href]")) {
+    for (const attribute of ["src", "href"]) {
+      const target = element.getAttribute(attribute);
+      if (!target || /^(?:https?:|mailto:|tel:|data:|\/\/)/i.test(target)) continue;
+      if (target.startsWith("#")) {
+        assert(ids.includes(target.slice(1)), `Missing anchor: ${target}`);
+      } else {
+        const file = decodeURIComponent(target.split(/[?#]/)[0]);
+        assert(existsSync(path.join(root, file)), `Missing file: ${file}`);
+        localLinks++;
+      }
     }
   }
 }
@@ -39,17 +46,41 @@ for (const element of document.querySelectorAll("[src], [href]")) {
 const declaredVariables = new Set();
 stylesheet.walkDecls(/^--/, (declaration) => declaredVariables.add(declaration.prop));
 for (const match of html.matchAll(/--([\w-]+)\s*:/g)) declaredVariables.add(`--${match[1]}`);
+for (const match of script.matchAll(/setProperty\(\s*["'](--[\w-]+)["']/g))
+  declaredVariables.add(match[1]);
+
 stylesheet.walkDecls((declaration) => {
-  for (const match of declaration.value.matchAll(/var\(\s*(--[\w-]+)\s*\)/g)) {
+  for (const match of declaration.value.matchAll(/var\(\s*(--[\w-]+)/g)) {
     assert(declaredVariables.has(match[1]), `Undefined CSS variable: ${match[1]}`);
   }
 });
 
-assert.equal(document.querySelectorAll(".gallery-project-card").length, 3);
-assert.equal(document.querySelectorAll('.design-item:not([data-collection="reldev"])').length, 30);
-assert.equal(document.querySelectorAll('.design-item[data-collection="reldev"]').length, 4);
-assert.equal(document.querySelectorAll("#typed-role").length, 1);
-assert.equal(document.querySelectorAll('a[href="files/RIKKI_VALBERT_BASER-CV.pdf"]').length, 2);
+assert.equal(document.querySelectorAll(".work-card").length, 3);
+assert.equal(
+  document
+    .querySelector("#collection-ghostai")
+    .content.querySelectorAll('[data-slot="items"] a[href]').length,
+  16,
+);
+assert.equal(
+  document.querySelector("#collection-etx").content.querySelectorAll('[data-slot="items"] a[href]')
+    .length,
+  7,
+);
+assert.equal(
+  document
+    .querySelector("#collection-jelexie")
+    .content.querySelectorAll('[data-slot="items"] a[href]').length,
+  7,
+);
+assert.equal(
+  document
+    .querySelector("#collection-reldev")
+    .content.querySelectorAll('[data-slot="items"] a[href]').length,
+  4,
+);
+assert.equal(document.querySelectorAll("[data-rotator] .rotator__item").length, 3);
+assert.equal(document.querySelectorAll('a[href="files/RIKKI_VALBERT_BASER-CV.pdf"]').length, 3);
 
 console.log(
   `Source checks passed: JavaScript, CSS, unique IDs, ${localLinks} local files, anchors, and portfolio content.`,

@@ -1,124 +1,279 @@
 (() => {
   "use strict";
 
+  const THEME_COLORS = {
+    light: "#ffffff",
+    dark: "#0a0a0b",
+  };
+
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   document.documentElement.classList.add("js");
 
-  initIntro();
-  initNavigation();
+  initIntro(reducedMotion);
   initTheme();
-  initRoleTyping(reducedMotion);
-  initProjectCarousel(reducedMotion);
-  initArtworkViewer();
+  initHeader();
+  initNavigation();
+  initRoleRotator(reducedMotion);
+  initMarquee();
+  initScrollWords(reducedMotion);
   initCursorFollower(reducedMotion);
-  initScrollProgress();
-  initMotion(reducedMotion);
+  initReveal(reducedMotion);
+  initCollectionViewer();
+  initFooterYear();
 
-  const year = document.querySelector("#year");
-  if (year) year.textContent = String(new Date().getFullYear());
-
-  function initIntro() {
+  function initIntro(preference) {
     if (!document.documentElement.classList.contains("intro-active")) return;
+
+    const intro = document.querySelector("[data-intro]");
+    const skipButton = intro?.querySelector("[data-intro-skip]");
+    let restoreFocus = Boolean(intro?.contains(document.activeElement));
+
+    function skipIntro() {
+      document.dispatchEvent(new Event("intro-skip"));
+    }
+
+    if (preference.matches) {
+      skipIntro();
+      return;
+    }
 
     document.querySelectorAll(".skip-link, .site-header, main, .site-footer").forEach((element) => {
       if (element.inert) return;
       element.inert = true;
       element.setAttribute("data-intro-inert", "");
     });
-  }
 
-  function initNavigation() {
-    const menu = document.querySelector(".menu-toggle");
-    const navigation = document.querySelector(".nav-links");
-    if (!menu || !navigation) return;
-
-    const menuLabel = menu.querySelector(".menu-label");
-    menu.hidden = false;
-
-    function setOpen(open, restoreFocus = false) {
-      navigation.classList.toggle("open", open);
-      menu.setAttribute("aria-expanded", String(open));
-      if (menuLabel) menuLabel.textContent = open ? "Close" : "Menu";
-      if (restoreFocus) menu.focus();
+    function handleEscape(event) {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      skipIntro();
     }
 
-    menu.addEventListener("click", () => setOpen(!navigation.classList.contains("open")));
-    navigation
-      .querySelectorAll("a")
-      .forEach((link) => link.addEventListener("click", () => setOpen(false)));
-    document.addEventListener("click", (event) => {
-      if (!event.target.closest(".navigation")) setOpen(false);
-    });
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && navigation.classList.contains("open")) setOpen(false, true);
-    });
-    window.matchMedia("(min-width: 801px)").addEventListener("change", () => setOpen(false));
+    function handleMotionChange(event) {
+      if (event.matches) skipIntro();
+    }
+
+    function trackFocus(event) {
+      restoreFocus = Boolean(intro?.contains(event.target));
+    }
+
+    skipButton?.addEventListener("click", skipIntro);
+    document.addEventListener("keydown", handleEscape);
+    document.addEventListener("focusin", trackFocus);
+    preference.addEventListener("change", handleMotionChange);
+    document.addEventListener(
+      "intro-ready",
+      () => {
+        skipButton?.removeEventListener("click", skipIntro);
+        document.removeEventListener("keydown", handleEscape);
+        document.removeEventListener("focusin", trackFocus);
+        preference.removeEventListener("change", handleMotionChange);
+        if (restoreFocus) {
+          document.querySelector("#main")?.focus({ preventScroll: true });
+        }
+      },
+      { once: true },
+    );
+  }
+
+  function initFooterYear() {
+    const year = document.querySelector("[data-year]");
+    if (year) year.textContent = String(new Date().getFullYear());
   }
 
   function initTheme() {
-    const button = document.querySelector("#theme-toggle");
-    const browserColor = document.querySelector('meta[name="theme-color"]');
+    const button = document.querySelector("[data-theme-toggle]");
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
     if (!button) return;
 
-    button.hidden = false;
+    const label = button.querySelector(".visually-hidden");
+
+    function hasSavedPreference() {
+      try {
+        const saved = localStorage.getItem("theme");
+        return saved === "dark" || saved === "light";
+      } catch {
+        return false;
+      }
+    }
 
     function applyTheme(theme) {
-      const dark = theme === "dark";
-      document.documentElement.dataset.theme = theme;
-      button.setAttribute("aria-pressed", String(dark));
-      button.setAttribute("aria-label", dark ? "Switch to light theme" : "Switch to dark theme");
-      if (browserColor) browserColor.content = dark ? "#080808" : "#ffffff";
+      const isDark = theme === "dark";
+      const resolved = isDark ? "dark" : "light";
+      document.documentElement.dataset.theme = resolved;
+      button.setAttribute("aria-pressed", String(isDark));
+      button.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+      if (label) label.textContent = isDark ? "Switch to light theme" : "Switch to dark theme";
+      if (metaTheme) metaTheme.content = THEME_COLORS[resolved];
     }
 
     applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+
     button.addEventListener("click", () => {
-      const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
-      applyTheme(theme);
+      const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      applyTheme(next);
       try {
-        localStorage.setItem("theme", theme);
+        localStorage.setItem("theme", next);
       } catch {
-        // The current theme still works when browser storage is unavailable.
+        // Storage may be unavailable in restricted contexts; in-memory theme still updates.
+      }
+    });
+
+    systemDark.addEventListener("change", (event) => {
+      if (!hasSavedPreference()) {
+        applyTheme(event.matches ? "dark" : "light");
       }
     });
   }
 
-  function initRoleTyping(preference) {
-    const role = document.querySelector("#typed-role");
-    if (!role) return;
+  function initHeader() {
+    const header = document.querySelector("[data-header]");
+    const progressBar = document.querySelector("[data-scroll-progress]");
+    if (!header && !progressBar) return;
 
-    const titles = ["IT Support Specialist", "Social Media Manager", "Graphic Designer"];
-    let index = 0;
-    let length = titles[0].length;
-    let deleting = true;
-    let timer;
-
-    function tick() {
-      if (document.hidden || preference.matches) return;
-      const title = titles[index];
-      length += deleting ? -1 : 1;
-      role.textContent = title.slice(0, length);
-      let delay = deleting ? 40 : 75;
-
-      if (length === 0) {
-        index = (index + 1) % titles.length;
-        deleting = false;
-        delay = 300;
-      } else if (length === title.length && !deleting) {
-        deleting = true;
-        delay = 2200;
+    function syncScroll() {
+      const page = document.scrollingElement || document.documentElement;
+      if (header) {
+        const threshold = header.offsetHeight || 48;
+        header.classList.toggle("is-scrolled", page.scrollTop > threshold);
       }
-      timer = window.setTimeout(tick, delay);
+      if (progressBar) {
+        const distance = page.scrollHeight - page.clientHeight;
+        const ratio = distance > 0 ? Math.min(1, Math.max(0, page.scrollTop / distance)) : 0;
+        progressBar.style.width = `${ratio * 100}%`;
+      }
+    }
+
+    window.addEventListener("scroll", syncScroll, { passive: true });
+    window.addEventListener("resize", syncScroll);
+    window.addEventListener("pageshow", syncScroll);
+    syncScroll();
+  }
+
+  function initNavigation() {
+    const nav = document.querySelector("[data-nav]");
+    const toggle = document.querySelector("[data-nav-toggle]");
+    const list = document.querySelector("[data-nav-list]");
+    if (!nav || !toggle || !list) return;
+
+    const links = Array.from(list.querySelectorAll('a[href^="#"]'));
+
+    function setOpen(open, restoreFocus = false) {
+      list.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+      if (restoreFocus) toggle.focus();
+    }
+
+    toggle.addEventListener("click", () => {
+      setOpen(!list.classList.contains("is-open"));
+    });
+
+    links.forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    document.addEventListener("click", (event) => {
+      if (list.classList.contains("is-open") && !event.target.closest("[data-nav]")) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && list.classList.contains("is-open")) {
+        event.preventDefault();
+        setOpen(false, true);
+      }
+    });
+
+    window.matchMedia("(min-width: 761px)").addEventListener("change", (event) => {
+      if (event.matches) setOpen(false);
+    });
+
+    if ("IntersectionObserver" in window) {
+      const hero = document.getElementById("top");
+      const sectionMap = new Map();
+      links.forEach((link) => {
+        const id = link.getAttribute("href").slice(1);
+        const section = document.getElementById(id);
+        if (section) sectionMap.set(section, link);
+      });
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            if (entry.target === hero) {
+              links.forEach((link) => link.removeAttribute("aria-current"));
+              return;
+            }
+            const activeLink = sectionMap.get(entry.target);
+            if (!activeLink) return;
+            links.forEach((link) => {
+              if (link === activeLink) {
+                link.setAttribute("aria-current", "true");
+              } else {
+                link.removeAttribute("aria-current");
+              }
+            });
+          });
+        },
+        { rootMargin: "-35% 0px -55% 0px", threshold: 0 },
+      );
+
+      if (hero) observer.observe(hero);
+      sectionMap.forEach((_, section) => observer.observe(section));
+    }
+  }
+
+  function initRoleRotator(preference) {
+    const rotator = document.querySelector("[data-rotator]");
+    if (!rotator) return;
+
+    const items = Array.from(rotator.querySelectorAll(".rotator__item"));
+    if (items.length < 2) return;
+
+    let activeIndex = 0;
+    let timerId = 0;
+    let exitTimerId = 0;
+
+    function showIndex(nextIndex) {
+      const previousIndex = activeIndex;
+      activeIndex = (nextIndex + items.length) % items.length;
+      items.forEach((item, index) => {
+        item.classList.remove("is-exiting");
+        if (index === activeIndex) {
+          item.classList.add("is-active");
+        } else if (index === previousIndex && previousIndex !== activeIndex) {
+          item.classList.remove("is-active");
+          item.classList.add("is-exiting");
+        } else {
+          item.classList.remove("is-active");
+        }
+      });
+      window.clearTimeout(exitTimerId);
+      exitTimerId = window.setTimeout(() => {
+        items[previousIndex]?.classList.remove("is-exiting");
+      }, 380);
+    }
+
+    function step() {
+      if (document.hidden || preference.matches) return;
+      showIndex(activeIndex + 1);
+      timerId = window.setTimeout(step, 2800);
     }
 
     function sync() {
-      window.clearTimeout(timer);
+      window.clearTimeout(timerId);
+      window.clearTimeout(exitTimerId);
       if (preference.matches) {
-        index = 0;
-        length = titles[0].length;
-        deleting = true;
-        role.textContent = titles[0];
+        activeIndex = 0;
+        items.forEach((item, index) => {
+          item.classList.toggle("is-active", index === 0);
+          item.classList.remove("is-exiting");
+        });
       } else if (!document.hidden && !document.documentElement.classList.contains("intro-active")) {
-        timer = window.setTimeout(tick, 1600);
+        timerId = window.setTimeout(step, 2800);
       }
     }
 
@@ -128,205 +283,87 @@
     sync();
   }
 
-  function initProjectCarousel(preference) {
-    const track = document.querySelector("#project-gallery-track");
-    const cards = Array.from(document.querySelectorAll(".gallery-project-card"));
-    const controls = document.querySelector(".project-gallery-controls");
-    const previous = document.querySelector(".project-gallery-previous");
-    const next = document.querySelector(".project-gallery-next");
-    if (!track || !cards.length || !controls || !previous || !next) return;
+  function initMarquee() {
+    const track = document.querySelector("[data-marquee-track]");
+    const group = track?.querySelector(".marquee__group");
+    if (!track || !group) return;
+    track.append(group.cloneNode(true));
+  }
 
-    controls.hidden = false;
-    const behavior = () => (preference.matches ? "auto" : "smooth");
+  function initScrollWords(preference) {
+    const statements = Array.from(document.querySelectorAll("[data-scroll-words]"));
+    if (!statements.length) return;
 
-    function updateNavigation() {
-      previous.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 2;
-    }
+    const groups = statements
+      .map((statement) => {
+        const words = [];
 
-    function scroll(direction) {
-      const cardWidth = cards[0].getBoundingClientRect().width;
-      const gap = parseFloat(getComputedStyle(track).gap) || 20;
-      track.scrollBy({ left: direction * (cardWidth + gap), behavior: behavior() });
-    }
+        function wrapTextNodes(node) {
+          Array.from(node.childNodes).forEach((child) => {
+            if (child.nodeType === 3) {
+              const tokens = child.textContent.split(/(\s+)/);
+              const fragment = document.createDocumentFragment();
+              tokens.forEach((token) => {
+                if (!token) return;
+                if (/^\s+$/.test(token)) {
+                  fragment.append(document.createTextNode(token));
+                } else {
+                  const span = document.createElement("span");
+                  span.className = "scroll-word";
+                  span.textContent = token;
+                  words.push(span);
+                  fragment.append(span);
+                }
+              });
+              child.replaceWith(fragment);
+            } else if (child.nodeType === 1) {
+              wrapTextNodes(child);
+            }
+          });
+        }
 
-    previous.addEventListener("click", () => scroll(-1));
-    next.addEventListener("click", () => scroll(1));
-    track.addEventListener("scroll", updateNavigation, { passive: true });
-    window.addEventListener("resize", updateNavigation);
-    if (typeof ResizeObserver !== "undefined") new ResizeObserver(updateNavigation).observe(track);
+        wrapTextNodes(statement);
+        return { statement, words };
+      })
+      .filter((group) => group.words.length > 0);
 
-    track.addEventListener("keydown", (event) => {
-      if (event.target !== track) return;
-      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
-        event.preventDefault();
-        scroll(event.key === "ArrowRight" ? 1 : -1);
-      } else if (event.key === "Home" || event.key === "End") {
-        event.preventDefault();
-        track.scrollTo({
-          left: event.key === "Home" ? 0 : track.scrollWidth,
-          behavior: behavior(),
+    if (!groups.length) return;
+
+    function updateWords() {
+      const viewport = window.innerHeight || 800;
+      const start = viewport * 0.82;
+      const end = viewport * 0.22;
+
+      groups.forEach(({ statement, words }) => {
+        if (preference.matches) {
+          words.forEach((word) => word.style.setProperty("--word-opacity", "1"));
+          return;
+        }
+        const rect = statement.getBoundingClientRect();
+        const progress = Math.min(1, Math.max(0, (start - rect.top) / Math.max(1, start - end)));
+        const total = words.length;
+
+        words.forEach((word, index) => {
+          const wordStart = index / total;
+          const wordEnd = (index + 1) / total;
+          const local = Math.min(1, Math.max(0, (progress - wordStart) / (wordEnd - wordStart)));
+          const opacity = (0.18 + local * 0.82).toFixed(3);
+          word.style.setProperty("--word-opacity", opacity);
         });
-      }
-    });
-    updateNavigation();
-  }
-
-  function initArtworkViewer() {
-    const artworks = Array.from(document.querySelectorAll(".design-item"));
-    const collection = document.querySelector("#brand-collection");
-    const lightbox = document.querySelector("#lightbox");
-    if (!collection || !lightbox || !artworks.length || typeof collection.showModal !== "function")
-      return;
-
-    const title = collection.querySelector("#collection-title");
-    const label = collection.querySelector(".collection-toolbar .eyebrow");
-    const heading = collection.querySelector(".collection-section-heading h3");
-    const context = collection.querySelector("#collection-context");
-    const collectionContent = collection.querySelector(".collection-content");
-    const closeCollection = collection.querySelector(".collection-close");
-    const image = lightbox.querySelector("#lightbox-image");
-    const imageTitle = lightbox.querySelector("#lightbox-title");
-    const imageCollection = lightbox.querySelector("#lightbox-collection");
-    const position = lightbox.querySelector("#lightbox-counter");
-    const closeLightbox = lightbox.querySelector(".lightbox-close");
-    let activeArtworks = [];
-    let activeIndex = 0;
-    let collectionOpener;
-    let artworkOpener;
-
-    function syncModalState() {
-      document.body.classList.toggle("modal-open", collection.open || lightbox.open);
-    }
-
-    function openCollection(id, opener) {
-      const card = opener.closest("[data-collection]");
-      const selected = artworks.filter((item) => item.dataset.collection === id);
-      if (!card || !selected.length) return;
-
-      activeArtworks = selected;
-      collectionOpener = opener;
-      collection.dataset.collection = id;
-      title.textContent = card.querySelector("h3").textContent.replace(/\s+/g, " ").trim();
-      label.textContent = card.dataset.collectionLabel || "DESIGN COLLECTION";
-      heading.textContent = card.dataset.collectionHeading || "Selected artworks";
-      context.replaceChildren();
-      const details = card.querySelector(".gallery-project-context");
-      if (details) context.append(details.content.cloneNode(true));
-      artworks.forEach((item) => {
-        item.hidden = item.dataset.collection !== id;
       });
-      collection.showModal();
-      collectionContent.scrollTop = 0;
-      syncModalState();
-      closeCollection.focus();
     }
 
-    function showArtwork(index) {
-      if (!activeArtworks.length) return;
-      activeIndex = (index + activeArtworks.length) % activeArtworks.length;
-      const artwork = activeArtworks[activeIndex];
-      image.src = artwork.href;
-      image.alt = artwork.querySelector("img").alt;
-      imageTitle.textContent = artwork.querySelector("h3").textContent;
-      imageCollection.textContent = title.textContent;
-      position.textContent = activeIndex + 1 + " / " + activeArtworks.length;
-    }
-
-    document.querySelectorAll("[data-open-collection]").forEach((opener) => {
-      opener.setAttribute("aria-haspopup", "dialog");
-      opener.setAttribute("aria-controls", collection.id);
-      opener.addEventListener("click", (event) => {
-        if (isModifiedClick(event)) return;
-        event.preventDefault();
-        openCollection(opener.dataset.openCollection, opener);
-      });
-    });
-
-    artworks.forEach((artwork) =>
-      artwork.addEventListener("click", (event) => {
-        if (isModifiedClick(event)) return;
-        event.preventDefault();
-        artworkOpener = artwork;
-        showArtwork(activeArtworks.indexOf(artwork));
-        lightbox.showModal();
-        syncModalState();
-        closeLightbox.focus();
-      }),
-    );
-
-    closeCollection.addEventListener("click", () => collection.close());
-    closeLightbox.addEventListener("click", () => lightbox.close());
-    lightbox
-      .querySelector(".lightbox-prev")
-      .addEventListener("click", () => showArtwork(activeIndex - 1));
-    lightbox
-      .querySelector(".lightbox-next")
-      .addEventListener("click", () => showArtwork(activeIndex + 1));
-    lightbox.addEventListener("keydown", (event) => {
-      if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
-      event.preventDefault();
-      showArtwork(activeIndex + (event.key === "ArrowRight" ? 1 : -1));
-    });
-
-    // Ignore clicks in the dialog's empty padding; close only on its backdrop.
-    [collection, lightbox].forEach((dialog) =>
-      dialog.addEventListener("click", (event) => {
-        if (event.target !== dialog) return;
-        const bounds = dialog.getBoundingClientRect();
-        if (
-          event.clientX < bounds.left ||
-          event.clientX > bounds.right ||
-          event.clientY < bounds.top ||
-          event.clientY > bounds.bottom
-        )
-          dialog.close();
-      }),
-    );
-
-    collection.addEventListener("close", () => {
-      syncModalState();
-      collectionOpener?.focus({ preventScroll: true });
-    });
-    lightbox.addEventListener("close", () => {
-      syncModalState();
-      image.removeAttribute("src");
-      artworkOpener?.focus({ preventScroll: true });
-    });
+    window.addEventListener("scroll", updateWords, { passive: true });
+    window.addEventListener("resize", updateWords);
+    preference.addEventListener("change", updateWords);
+    updateWords();
   }
 
-  function isModifiedClick(event) {
-    return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
-  }
-
-  function initScrollProgress() {
-    const bar = document.querySelector(".scroll-progress");
-    if (!bar) return;
-    let frame = 0;
-    function update() {
-      frame = 0;
-      const page = document.scrollingElement || document.documentElement;
-      const distance = page.scrollHeight - page.clientHeight;
-      const progress = distance > 0 ? Math.min(1, Math.max(0, page.scrollTop / distance)) : 0;
-      bar.style.width = `${progress * 100}%`;
-    }
-    function scheduleUpdate() {
-      if (!frame) frame = window.requestAnimationFrame(update);
-    }
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    window.addEventListener("pageshow", scheduleUpdate);
-    if (typeof ResizeObserver !== "undefined") {
-      const observer = new ResizeObserver(scheduleUpdate);
-      observer.observe(document.body);
-    }
-    update();
-  }
-
-  function initCursorFollower(reducedMotion) {
-    const cursor = document.querySelector(".cursor-follower");
+  function initCursorFollower(preference) {
+    const cursor = document.querySelector("[data-cursor]");
     if (!cursor || typeof window.requestAnimationFrame !== "function") return;
-    const pointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+
     let frame = 0;
     let x = 0;
     let y = 0;
@@ -335,26 +372,27 @@
     let positioned = false;
     let previousTime = 0;
 
-    function enabled() {
+    function isEnabled() {
       return (
-        pointer.matches &&
-        !reducedMotion.matches &&
+        finePointer.matches &&
+        !preference.matches &&
         !document.hidden &&
         !document.documentElement.classList.contains("intro-active") &&
         !document.body.classList.contains("modal-open")
       );
     }
+
     function hideCursor() {
       window.cancelAnimationFrame(frame);
       frame = 0;
       positioned = false;
       cursor.classList.remove("is-visible", "is-interactive", "is-pressed");
-      document.documentElement.classList.remove("custom-cursor");
       cursor.hidden = true;
     }
+
     function draw(time) {
       frame = 0;
-      if (!enabled()) return hideCursor();
+      if (!isEnabled()) return hideCursor();
       const amount = 1 - Math.exp(-Math.min(time - previousTime, 64) / 65);
       previousTime = time;
       x += (targetX - x) * amount;
@@ -364,13 +402,11 @@
         frame = window.requestAnimationFrame(draw);
       }
     }
+
     document.addEventListener(
       "pointermove",
       (event) => {
-        if (!enabled() || (event.pointerType && event.pointerType !== "mouse")) {
-          return hideCursor();
-        }
-        if (event.target.closest("input, textarea, select, [contenteditable]")) {
+        if (!isEnabled() || (event.pointerType && event.pointerType !== "mouse")) {
           return hideCursor();
         }
         targetX = event.clientX;
@@ -382,23 +418,23 @@
           cursor.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         }
         cursor.hidden = false;
-        document.documentElement.classList.add("custom-cursor");
         cursor.classList.add("is-visible");
         cursor.classList.toggle(
           "is-interactive",
           Boolean(
-            event.target.closest(
-              "a[href], button:not(:disabled), summary, label[for], [role='button'], [role='link'], [role='menuitem'], [role='option'], [tabindex='0']",
+            event.target.closest?.(
+              "a[href], button:not(:disabled), [role='button'], [tabindex='0']",
             ),
           ),
         );
         if (!frame) {
-          previousTime = performance.now();
+          previousTime = window.performance?.now?.() || Date.now();
           frame = window.requestAnimationFrame(draw);
         }
       },
       { passive: true },
     );
+
     document.addEventListener(
       "pointerdown",
       () => {
@@ -417,131 +453,227 @@
     });
     document.addEventListener("visibilitychange", hideCursor);
     window.addEventListener("blur", hideCursor);
-    pointer.addEventListener("change", hideCursor);
-    reducedMotion.addEventListener("change", hideCursor);
+    finePointer.addEventListener("change", hideCursor);
+    preference.addEventListener("change", hideCursor);
   }
 
-  function initMotion(preference) {
-    if (document.documentElement.classList.contains("intro-active")) {
-      document.addEventListener("intro-ready", () => initRevealAnimations(preference, true), {
-        once: true,
-      });
-    } else {
-      initRevealAnimations(preference);
-    }
-  }
-
-  function initRevealAnimations(preference, heroAlreadyRevealed = false) {
-    const supported = typeof Element.prototype.animate === "function";
+  function initReveal(preference) {
     const targets = Array.from(
-      document.querySelectorAll(
-        [
-          ".hero-topline",
-          ".hero-copy > *",
-          ".profile-portrait",
-          ".hero-footnote",
-          ".discipline-strip .container > *",
-          ".section-heading",
-          ".project",
-          ".design-intro",
-          ".project-gallery-track",
-          ".work-collage",
-          ".about-copy > *",
-          ".toolkit-intro",
-          ".skill-row",
-          ".contact-top",
-          ".contact-layout > *",
-          ".contact-bottom",
-          ".site-footer",
-        ].join(","),
-      ),
+      document.querySelectorAll("[data-reveal], [data-reveal-stagger], [data-reveal-lines]"),
     );
-    const seen = new WeakSet(
-      heroAlreadyRevealed ? targets.filter((element) => element.closest(".hero")) : [],
-    );
-    const running = new Map();
-    let observer;
+    if (!targets.length) return;
 
-    function animate(element, frames, options) {
-      if (!supported || preference.matches || document.hidden) return;
-      running.get(element)?.cancel();
-      const animation = element.animate(frames, options);
-      running.set(element, animation);
-      animation.finished
-        .then(() => {
-          if (running.get(element) === animation) running.delete(element);
-        })
-        .catch(() => {});
-    }
-
-    function reveal(element) {
-      if (seen.has(element) || element.hidden) return;
-      seen.add(element);
-      const siblingIndex = Array.from(element.parentElement.children)
-        .filter((child) => !child.hidden)
-        .indexOf(element);
-      const stagger = element.matches(".design-item, .project, .skill-row")
-        ? siblingIndex % 3
-        : Math.min(siblingIndex, 4);
-      animate(
-        element,
-        [
-          { opacity: 0, transform: "translateY(22px)" },
-          { opacity: 1, transform: "translateY(0)" },
-        ],
-        {
-          duration: 620,
-          delay: stagger * 65,
-          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-          fill: "backwards",
-        },
-      );
-    }
-
-    function observePage() {
-      observer?.disconnect();
-      if (preference.matches || !supported) return;
-      if ("IntersectionObserver" in window) {
-        observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach(({ isIntersecting, target }) => {
-              if (isIntersecting && !target.hidden) {
-                reveal(target);
-                observer.unobserve(target);
-              }
-            });
-          },
-          { threshold: 0.06 },
-        );
-        targets
-          .filter((element) => !seen.has(element))
-          .forEach((element) => observer.observe(element));
-      } else {
-        // Keep all content visible; animate only the first screen as a fallback.
-        targets.filter((element) => element.closest(".hero")).forEach(reveal);
+    targets.forEach((target) => {
+      if (target.hasAttribute("data-reveal-stagger")) {
+        Array.from(target.children)
+          .filter((child) => !child.classList.contains("capability-definitions"))
+          .forEach((child, index) => {
+            child.style.setProperty("--stagger", String(index));
+          });
       }
+    });
+
+    function revealAll() {
+      targets.forEach((target) => target.classList.add("is-visible"));
     }
 
-    function stopAnimations() {
-      running.forEach((animation) => animation.cancel());
-      running.clear();
+    if (preference.matches || !("IntersectionObserver" in window)) {
+      revealAll();
+      return;
     }
-    preference.addEventListener("change", () => {
-      stopAnimations();
-      observePage();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -32px 0px" },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+
+    preference.addEventListener("change", (event) => {
+      if (event.matches) {
+        observer.disconnect();
+        revealAll();
+      }
     });
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) stopAnimations();
-    });
-    // Keyboard focus must never wait for an entrance animation to finish.
+
     document.addEventListener("focusin", (event) => {
-      running.forEach((animation, element) => {
-        if (element === event.target || element.contains(event.target)) {
-          animation.cancel();
-          running.delete(element);
+      const container = event.target.closest?.(
+        "[data-reveal], [data-reveal-stagger], [data-reveal-lines]",
+      );
+      if (container && !container.classList.contains("is-visible")) {
+        container.classList.add("is-visible");
+        observer.unobserve(container);
+      }
+    });
+  }
+
+  function initCollectionViewer() {
+    const viewer = document.querySelector("[data-viewer]");
+    if (!viewer || typeof viewer.showModal !== "function") return;
+
+    const title = viewer.querySelector("[data-viewer-title]");
+    const label = viewer.querySelector("[data-viewer-label]");
+    const counter = viewer.querySelector("[data-viewer-counter]");
+    const closeButton = viewer.querySelector("[data-viewer-close]");
+    const prevButton = viewer.querySelector("[data-viewer-previous]");
+    const nextButton = viewer.querySelector("[data-viewer-next]");
+    const stage = viewer.querySelector("[data-viewer-stage]");
+    const stageImage = viewer.querySelector("[data-viewer-image]");
+    const stageCaption = viewer.querySelector("[data-viewer-caption]");
+    const detailsContainer = viewer.querySelector("[data-viewer-details]");
+    const thumbsContainer = viewer.querySelector("[data-viewer-thumbs]");
+
+    let activeItems = [];
+    let activeIndex = 0;
+    let activeOpener = null;
+
+    function showItem(index) {
+      if (!activeItems.length) return;
+      activeIndex = (index + activeItems.length) % activeItems.length;
+      const item = activeItems[activeIndex];
+      const thumbImg = item.querySelector("img");
+      const href = item.getAttribute("href") || item.href;
+      const alt = thumbImg ? thumbImg.alt : "";
+
+      stageImage.src = href;
+      stageImage.alt = alt;
+      stageCaption.textContent = alt;
+      counter.textContent = `${activeIndex + 1} / ${activeItems.length}`;
+
+      activeItems.forEach((link, idx) => {
+        if (idx === activeIndex) {
+          link.setAttribute("aria-current", "true");
+          link.scrollIntoView?.({ block: "nearest", inline: "nearest" });
+        } else {
+          link.removeAttribute("aria-current");
         }
       });
+    }
+
+    function openCollection(id, opener) {
+      const template = document.getElementById(`collection-${id}`);
+      if (!template) return;
+
+      const fragment = template.content.cloneNode(true);
+      const detailsSlot = fragment.querySelector('[data-slot="details"]');
+      const itemsSlot = fragment.querySelector('[data-slot="items"]');
+      if (!itemsSlot) return;
+
+      const thumbLinks = Array.from(itemsSlot.querySelectorAll("a[href]"));
+      if (!thumbLinks.length) return;
+
+      activeOpener = opener;
+      activeItems = thumbLinks;
+      viewer.dataset.collection = id;
+      title.textContent = template.dataset.title || "";
+      label.textContent = template.dataset.label || "Collection";
+
+      detailsContainer.replaceChildren();
+      if (detailsSlot) {
+        detailsContainer.append(detailsSlot);
+        detailsContainer.hidden = false;
+      } else {
+        detailsContainer.hidden = true;
+      }
+
+      thumbsContainer.replaceChildren(itemsSlot);
+      thumbLinks.forEach((link, idx) => {
+        link.addEventListener("click", (event) => {
+          if (isModifiedClick(event)) return;
+          event.preventDefault();
+          showItem(idx);
+        });
+      });
+
+      showItem(0);
+      if (!viewer.open) viewer.showModal();
+      document.body.classList.add("modal-open");
+      closeButton.focus();
+    }
+
+    document.querySelectorAll("[data-open-collection]").forEach((opener) => {
+      opener.setAttribute("aria-haspopup", "dialog");
+      opener.addEventListener("click", (event) => {
+        if (isModifiedClick(event)) return;
+        event.preventDefault();
+        openCollection(opener.dataset.openCollection, opener);
+      });
     });
-    observePage();
+
+    closeButton.addEventListener("click", () => viewer.close());
+    prevButton.addEventListener("click", () => showItem(activeIndex - 1));
+    nextButton.addEventListener("click", () => showItem(activeIndex + 1));
+
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    stage?.addEventListener(
+      "pointerdown",
+      (event) => {
+        if (event.pointerType === "mouse") return;
+        swipeStartX = event.clientX;
+        swipeStartY = event.clientY;
+      },
+      { passive: true },
+    );
+    stage?.addEventListener(
+      "pointerup",
+      (event) => {
+        if (event.pointerType === "mouse" || !swipeStartX) return;
+        const dx = event.clientX - swipeStartX;
+        const dy = event.clientY - swipeStartY;
+        swipeStartX = 0;
+        if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) {
+          showItem(activeIndex + (dx < 0 ? 1 : -1));
+        }
+      },
+      { passive: true },
+    );
+
+    viewer.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        showItem(activeIndex - 1);
+      } else if (event.key === "ArrowRight") {
+        event.preventDefault();
+        showItem(activeIndex + 1);
+      } else if (event.key === "Home") {
+        event.preventDefault();
+        showItem(0);
+      } else if (event.key === "End") {
+        event.preventDefault();
+        showItem(activeItems.length - 1);
+      }
+    });
+
+    viewer.addEventListener("click", (event) => {
+      if (event.target !== viewer) return;
+      const bounds = viewer.getBoundingClientRect();
+      if (
+        event.clientX < bounds.left ||
+        event.clientX > bounds.right ||
+        event.clientY < bounds.top ||
+        event.clientY > bounds.bottom
+      ) {
+        viewer.close();
+      }
+    });
+
+    viewer.addEventListener("close", () => {
+      document.body.classList.remove("modal-open");
+      stageImage.removeAttribute("src");
+      stageImage.alt = "";
+      activeOpener?.focus({ preventScroll: true });
+    });
+  }
+
+  function isModifiedClick(event) {
+    return event.ctrlKey || event.metaKey || event.shiftKey || event.altKey;
   }
 })();

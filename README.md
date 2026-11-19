@@ -1,15 +1,16 @@
 # Rikki Valbert Baser — Portfolio
 
-A static portfolio built with HTML, CSS, and browser JavaScript. It has no runtime dependencies or build step.
+A static portfolio built with semantic HTML, modern CSS, and browser JavaScript. It has no runtime dependencies or build step.
 
 ## Files
 
-- `index.html`: page content, project collections, and a small head bootstrap for the saved theme and intro.
-- `style.css`: themes, components, responsive layouts, and motion preferences. Rule order is intentional.
-- `script.js`: independent initializers for navigation, theme, role text, project carousel, artwork dialogs, cursor, and page motion.
-- `images/`: portfolio artwork and profile assets.
+- `index.html`: page content, `<template id="collection-*">` definitions, inline SVG icon sprite, and theme bootstrap.
+- `style.css`: design tokens, light and dark themes, layout components, responsive breakpoints, and `prefers-reduced-motion` safeguards.
+- `script.js`: independent initializers for theme persistence, header scroll state, mobile navigation and active section tracking, role rotator, scroll-reveal animations, and the unified collection viewer dialog.
+- `images/`: portfolio artwork, brand previews, filmstrip thumbnails (`images/thumbs/`), and portrait assets.
 - `files/`: the current résumé PDF.
-- `scripts/check.mjs`: source, anchor, asset, and CSS variable checks.
+- `scripts/make-thumbnails.ps1`: generates lightweight filmstrip thumbnails in `images/thumbs/<collection>/` from full-resolution artwork.
+- `scripts/check.mjs`: source, anchor, asset, template link, and CSS variable checks.
 - `tests/portfolio.test.mjs`: interaction tests using a simulated DOM.
 
 ## Development
@@ -27,13 +28,20 @@ Open the folder with a local static server to preview the page. After editing, r
 
 ## Updating content
 
-Each gallery card identifies a collection with `data-collection`. Its matching `.design-item` links populate the artwork dialog; the card's template holds the brand description, palette, and typography notes. Keep the card photo count consistent with its individual artwork links. Presentation boards are used as card covers, not viewer entries.
+Each project or design collection defines a `<template id="collection-<id>">` with `data-title` and `data-label`. Inside the template:
 
-RelDev uses the same collection viewer for its four project screenshots in `images/projects/reldev/`. Its thumbnail opens the gallery; the separate “Explore project” link opens the live site. Project collections can set `data-collection-label` and `data-collection-heading` to customize the viewer headings.
+- `[data-slot="details"]` (optional) holds the brand description, color palette swatches, and typography notes.
+- `[data-slot="items"]` holds the filmstrip list (`<li><a href="full-size-image"><img src="thumbnail-image" alt="..." /></a></li>`).
 
-Replace the PDF in `files/` and update both résumé links when its filename changes. Keep original brand artwork and palette colors separate from the site's monochrome theme.
+Any link with `data-open-collection="<id>"` opens the unified `<dialog class="viewer" data-viewer>` populated from `#collection-<id>`. Full-resolution images are fetched on demand only when selected on the viewer stage.
 
-Interface icons use the shared SVG symbols at the start of `index.html`. Reference them with an `.icon` SVG and a `<use>` element; avoid Unicode arrow glyphs, which can render as colored emoji on mobile. Icons inherit their color from the surrounding control.
+After adding or replacing collection artwork, regenerate the filmstrip thumbnails on Windows:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/make-thumbnails.ps1
+```
+
+Replace the PDF in `files/` and update the résumé links in `index.html` when its filename changes.
 
 ## Publishing
 

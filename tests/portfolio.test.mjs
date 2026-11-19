@@ -2,12 +2,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { JSDOM } from "jsdom";
-import postcss from "postcss";
 
 const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
 const source = readFileSync(new URL("../script.js", import.meta.url), "utf8");
 
-function createPage({ reducedMotion = true, savedTheme } = {}) {
+function createPage({ reducedMotion = true, prefersDark = false, savedTheme } = {}) {
   const dom = new JSDOM(html, {
     url: "https://portfolio.test/",
     runScripts: "outside-only",
@@ -23,19 +22,25 @@ function createPage({ reducedMotion = true, savedTheme } = {}) {
   window.matchMedia = (query) => {
     if (!media.has(query)) {
       const listeners = new Set();
+      let matches = false;
+      if (query.includes("reduced-motion")) matches = reducedMotion;
+      else if (query.includes("prefers-color-scheme: dark")) matches = prefersDark;
+      else if (query.includes("min-width")) matches = true;
+
       media.set(query, {
-        matches: query.includes("reduced-motion") ? reducedMotion : query.includes("min-width"),
+        matches,
         media: query,
         addEventListener: (_, listener) => listeners.add(listener),
         removeEventListener: (_, listener) => listeners.delete(listener),
-        change(matches) {
-          this.matches = matches;
+        change(nextMatches) {
+          this.matches = nextMatches;
           listeners.forEach((listener) => listener(this));
         },
       });
     }
     return media.get(query);
   };
+
   window.ResizeObserver = class {
     observe() {}
     disconnect() {}
@@ -74,63 +79,76 @@ function createPage({ reducedMotion = true, savedTheme } = {}) {
     dialog.getBoundingClientRect = () => ({ left: 100, right: 1100, top: 100, bottom: 800 });
   });
 
-  const track = document.querySelector("#project-gallery-track");
-  Object.defineProperties(track, {
-    scrollWidth: { value: 1200 },
-    clientWidth: { value: 600 },
-  });
-  track.scrollLeft = 0;
-  track.scrollTo = (options) => {
-    track.lastScroll = options;
-    track.scrollLeft = Math.max(0, Math.min(600, options.left));
-    track.dispatchEvent(new window.Event("scroll"));
-  };
-  track.scrollBy = (options) =>
-    track.scrollTo({ ...options, left: track.scrollLeft + options.left });
-  document.querySelectorAll(".gallery-project-card").forEach((card) => {
-    card.getBoundingClientRect = () => ({ width: 340 });
-  });
-
   if (savedTheme) window.localStorage.setItem("theme", savedTheme);
   document
     .querySelectorAll("script:not([src])")
     .forEach((element) => window.eval(element.textContent));
   window.eval(source);
-  return { window, document, media, advance, track, close: () => window.close() };
+  return { window, document, media, advance, close: () => window.close() };
 }
 
-test("theme restores the saved preference and updates storage and browser color", () => {
+test("theme restores saved preference, falls back to system preference, and updates meta color", () => {
   const page = createPage({ savedTheme: "dark" });
   const { document, window } = page;
-  const button = document.querySelector("#theme-toggle");
+  const button = document.querySelector("[data-theme-toggle]");
   assert.equal(document.documentElement.dataset.theme, "dark");
-  assert.equal(document.querySelector('meta[name="theme-color"]').content, "#080808");
+  assert.equal(document.querySelector('meta[name="theme-color"]').content, "#0a0a0b");
+  assert.equal(button.getAttribute("aria-pressed"), "true");
+
   button.click();
   assert.equal(document.documentElement.dataset.theme, "light");
   assert.equal(button.getAttribute("aria-label"), "Switch to dark theme");
   assert.equal(window.localStorage.getItem("theme"), "light");
+  assert.equal(document.querySelector('meta[name="theme-color"]').content, "#ffffff");
+
   button.click();
   assert.equal(document.documentElement.dataset.theme, "dark");
   page.close();
+
+  const systemPage = createPage({ prefersDark: true });
+  assert.equal(systemPage.document.documentElement.dataset.theme, "dark");
+  systemPage.media.get("(prefers-color-scheme: dark)").change(false);
+  assert.equal(systemPage.document.documentElement.dataset.theme, "light");
+  systemPage.close();
 });
 
-test("mobile navigation closes with Escape and restores button focus", () => {
+test("header toggles is-scrolled on scroll to reveal wordmark and slide navigation right", () => {
   const page = createPage();
-  const menu = page.document.querySelector(".menu-toggle");
-  menu.click();
-  assert.equal(menu.getAttribute("aria-expanded"), "true");
-  page.document.dispatchEvent(new page.window.KeyboardEvent("keydown", { key: "Escape" }));
-  assert.equal(menu.getAttribute("aria-expanded"), "false");
-  assert.equal(page.document.activeElement, menu);
+  const { document, window } = page;
+  const header = document.querySelector("[data-header]");
+  assert.equal(header.classList.contains("is-scrolled"), false);
+
+  document.documentElement.scrollTop = 120;
+  window.dispatchEvent(new window.Event("scroll"));
+  assert.equal(header.classList.contains("is-scrolled"), true);
+
+  document.documentElement.scrollTop = 0;
+  window.dispatchEvent(new window.Event("scroll"));
+  assert.equal(header.classList.contains("is-scrolled"), false);
   page.close();
 });
 
-test("UI icons use shared SVGs and the menu icon survives opening and closing", () => {
+test("mobile navigation opens, closes with Escape, and restores toggle focus", () => {
+  const page = createPage();
+  const toggle = page.document.querySelector("[data-nav-toggle]");
+  const list = page.document.querySelector("[data-nav-list]");
+
+  toggle.click();
+  assert.equal(toggle.getAttribute("aria-expanded"), "true");
+  assert(list.classList.contains("is-open"));
+
+  page.document.dispatchEvent(
+    new page.window.KeyboardEvent("keydown", { key: "Escape", cancelable: true }),
+  );
+  assert.equal(toggle.getAttribute("aria-expanded"), "false");
+  assert.equal(list.classList.contains("is-open"), false);
+  assert.equal(page.document.activeElement, toggle);
+  page.close();
+});
+
+test("all SVG icon references resolve to sprite symbols with accessible attributes", () => {
   const page = createPage();
   const { document } = page;
-  for (const link of document.querySelectorAll(".hero-actions a")) {
-    assert.equal(link.querySelector("svg.icon use").getAttribute("href"), "#icon-arrow-up-right");
-  }
   for (const icon of document.querySelectorAll("svg.icon")) {
     assert.equal(icon.getAttribute("aria-hidden"), "true");
     assert.equal(icon.getAttribute("focusable"), "false");
@@ -138,200 +156,145 @@ test("UI icons use shared SVGs and the menu icon survives opening and closing", 
     assert.equal(document.querySelector(reference)?.tagName.toLowerCase(), "symbol");
   }
   assert(!/[\u2197\u2193\u2191\u25d0\u2733\u2318]/u.test(document.body.textContent));
-  const menu = document.querySelector(".menu-toggle");
-  const menuIcon = menu.querySelector("svg");
-  menu.click();
-  assert.equal(menu.querySelector(".menu-label").textContent, "Close");
-  assert.equal(menu.querySelector("svg"), menuIcon);
-  menu.click();
-  assert.equal(menu.querySelector(".menu-label").textContent, "Menu");
-  assert.equal(menu.querySelector("svg"), menuIcon);
   page.close();
 });
 
-test("each brand opens its own artworks and retains its palette and typography notes", () => {
+test("each brand collection opens its artworks, palette, and typography in the unified viewer", () => {
   const page = createPage();
+  const { document } = page;
+  const viewer = document.querySelector("[data-viewer]");
+
   for (const [id, count] of Object.entries({ ghostai: 16, etx: 7, jelexie: 7 })) {
-    const opener = page.document.querySelector(`[data-open-collection="${id}"]`);
+    const opener = document.querySelector(`.work-card [data-open-collection="${id}"]`);
     opener.click();
-    const collection = page.document.querySelector("#brand-collection");
-    assert.equal(collection.open, true);
-    const visible = [...collection.querySelectorAll(".design-item")].filter((item) => !item.hidden);
-    assert.equal(visible.length, count);
-    assert(visible.every((item) => item.dataset.collection === id));
-    assert(visible.every((item) => !item.getAttribute("href").includes("brand-stories")));
-    assert.equal(collection.querySelectorAll(".brand-palette li").length, 4);
-    assert(collection.querySelector(".brand-story-type").textContent.trim());
-    collection.querySelector(".collection-close").click();
-    assert.equal(page.document.activeElement, opener);
+    assert.equal(viewer.open, true);
+    assert.equal(viewer.dataset.collection, id);
+
+    const thumbs = viewer.querySelectorAll("[data-viewer-thumbs] a[href]");
+    assert.equal(thumbs.length, count);
+    assert.equal(viewer.querySelector("[data-viewer-counter]").textContent, `1 / ${count}`);
+    assert.equal(thumbs[0].getAttribute("aria-current"), "true");
+    assert.equal(viewer.querySelector("[data-viewer-details]").hidden, false);
+    assert.equal(viewer.querySelectorAll(".palette li").length, 4);
+
+    // Clicking a filmstrip thumbnail switches the stage image without leaving the page.
+    thumbs[1].click();
+    assert.equal(viewer.querySelector("[data-viewer-counter]").textContent, `2 / ${count}`);
+    assert.equal(thumbs[1].getAttribute("aria-current"), "true");
+    assert.equal(
+      viewer.querySelector("[data-viewer-image]").getAttribute("src"),
+      thumbs[1].getAttribute("href"),
+    );
+
+    viewer.querySelector("[data-viewer-close]").click();
+    assert.equal(viewer.open, false);
+    assert.equal(document.activeElement, opener);
   }
   page.close();
 });
 
-test("RelDev thumbnail opens all screenshots and resets collection content between projects", () => {
-  const page = createPage();
-  const { document } = page;
-  const opener = document.querySelector('[data-open-collection="reldev"]');
-  const project = opener.closest(".project");
-  assert.equal(project.querySelector("h3").textContent, "RelDev");
-  assert(!project.textContent.includes("FJ8"));
-  assert(opener.querySelector(".project-preview-hint").textContent.includes("Click to view"));
-  assert.equal(project.querySelector(".text-link").href, "https://fj8reldev.site/");
-
-  // Opening a project after a brand must clear its palette and artwork list.
-  document.querySelector('[data-open-collection="ghostai"]').click();
-  const collection = document.querySelector("#brand-collection");
-  collection.querySelector(".collection-close").click();
-  opener.click();
-  assert.equal(collection.open, true);
-  assert.equal(collection.querySelector("#collection-title").textContent, "RelDev");
-  assert.equal(
-    collection.querySelector(".collection-toolbar .eyebrow").textContent,
-    "PROJECT SCREENSHOTS",
-  );
-  assert.equal(
-    collection.querySelector(".collection-section-heading h3").textContent,
-    "Screenshots",
-  );
-  assert.equal(collection.querySelector("#collection-context").children.length, 0);
-  const visible = [...collection.querySelectorAll(".design-item")].filter((item) => !item.hidden);
-  assert.equal(visible.length, 4);
-  assert(visible.every((item) => item.dataset.collection === "reldev"));
-  assert.deepEqual(
-    visible.map((item) => item.href.split("/").at(-1)),
-    ["welcome.png", "dashboard.png", "documents.png", "verification.png"],
-  );
-  collection.querySelector(".collection-close").click();
-  assert.equal(document.activeElement, opener);
-
-  document.querySelector('[data-open-collection="etx"]').click();
-  assert.equal(
-    collection.querySelector(".collection-toolbar .eyebrow").textContent,
-    "DESIGN COLLECTION",
-  );
-  assert.equal(
-    collection.querySelector(".collection-section-heading h3").textContent,
-    "Selected artworks",
-  );
-  assert.equal(collection.querySelectorAll(".brand-palette li").length, 4);
-  page.close();
-});
-
-test("RelDev full-size viewer navigates only its four screenshots and restores focus", () => {
+test("RelDev opens its 4 screenshots, clears brand details, and supports keyboard navigation", () => {
   const page = createPage();
   const { document, window } = page;
-  document.querySelector('[data-open-collection="reldev"]').click();
-  const screenshot = document.querySelector('.design-item[data-collection="reldev"]');
-  screenshot.click();
-  const lightbox = document.querySelector("#lightbox");
-  const image = document.querySelector("#lightbox-image");
-  assert.equal(lightbox.open, true);
-  assert.equal(document.querySelector("#lightbox-counter").textContent, "1 / 4");
-  assert.equal(image.src, screenshot.href);
-  lightbox.dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowLeft" }));
-  assert.equal(document.querySelector("#lightbox-counter").textContent, "4 / 4");
-  assert(image.src.endsWith("/verification.png"));
-  assert.equal(document.querySelector("#lightbox-collection").textContent, "RelDev");
-  lightbox.querySelector(".lightbox-next").click();
-  assert.equal(document.querySelector("#lightbox-counter").textContent, "1 / 4");
-  lightbox.querySelector(".lightbox-close").click();
-  assert.equal(document.activeElement, screenshot);
-  assert.equal(document.querySelector("#brand-collection").open, true);
+  const viewer = document.querySelector("[data-viewer]");
+
+  // Open a brand collection first to ensure details are cleared when opening RelDev.
+  document.querySelector('[data-open-collection="ghostai"]').click();
+  viewer.querySelector("[data-viewer-close]").click();
+
+  const opener = document.querySelector('.project-card__media[data-open-collection="reldev"]');
+  opener.click();
+  assert.equal(viewer.open, true);
+  assert.equal(viewer.querySelector("[data-viewer-title]").textContent, "RelDev");
+  assert.equal(viewer.querySelector("[data-viewer-label]").textContent, "Project screenshots");
+  assert.equal(viewer.querySelector("[data-viewer-details]").hidden, true);
+  assert.equal(viewer.querySelector("[data-viewer-details]").children.length, 0);
+
+  const thumbs = [...viewer.querySelectorAll("[data-viewer-thumbs] a[href]")];
+  assert.equal(thumbs.length, 4);
+  assert.deepEqual(
+    thumbs.map((item) => item.getAttribute("href").split("/").at(-1)),
+    ["welcome.png", "dashboard.png", "documents.png", "verification.png"],
+  );
+  assert.equal(viewer.querySelector("[data-viewer-counter]").textContent, "1 / 4");
+
+  viewer.dispatchEvent(new window.KeyboardEvent("keydown", { key: "ArrowLeft" }));
+  assert.equal(viewer.querySelector("[data-viewer-counter]").textContent, "4 / 4");
+  assert(
+    viewer.querySelector("[data-viewer-image]").getAttribute("src").endsWith("/verification.png"),
+  );
+
+  viewer.querySelector("[data-viewer-next]").click();
+  assert.equal(viewer.querySelector("[data-viewer-counter]").textContent, "1 / 4");
+
+  // Clicking inside dialog bounds must not close it.
+  viewer.dispatchEvent(new window.MouseEvent("click", { clientX: 200, clientY: 200 }));
+  assert.equal(viewer.open, true);
+
+  // Clicking outside dialog bounds (backdrop) closes it and restores focus.
+  viewer.dispatchEvent(new window.MouseEvent("click", { clientX: 20, clientY: 20 }));
+  assert.equal(viewer.open, false);
+  assert.equal(document.body.classList.contains("modal-open"), false);
+  assert.equal(document.activeElement, opener);
   page.close();
 });
 
-test("nested artwork viewer supports keyboard navigation and keeps the collection open", () => {
-  const page = createPage();
-  page.document.querySelector('[data-open-collection="ghostai"]').click();
-  const artwork = page.document.querySelector('.design-item[data-collection="ghostai"]');
-  artwork.click();
-  const lightbox = page.document.querySelector("#lightbox");
-  assert.equal(lightbox.open, true);
-  assert.equal(page.document.querySelector("#lightbox-counter").textContent, "1 / 16");
-  lightbox.dispatchEvent(new page.window.KeyboardEvent("keydown", { key: "ArrowLeft" }));
-  assert.equal(page.document.querySelector("#lightbox-counter").textContent, "16 / 16");
-  lightbox.querySelector(".lightbox-next").click();
-  assert.equal(page.document.querySelector("#lightbox-counter").textContent, "1 / 16");
-  lightbox.dispatchEvent(new page.window.MouseEvent("click", { clientX: 200, clientY: 200 }));
-  assert.equal(lightbox.open, true, "clicking dialog padding must not close it");
-  lightbox.querySelector(".lightbox-close").click();
-  assert.equal(page.document.activeElement, artwork);
-  assert.equal(page.document.querySelector("#brand-collection").open, true);
-  assert(page.document.body.classList.contains("modal-open"));
-  page.document.querySelector(".collection-close").click();
-  assert.equal(page.document.body.classList.contains("modal-open"), false);
-  page.close();
-});
-
-test("carousel clamps navigation and supports Home/End with reduced motion", () => {
-  const page = createPage();
-  const previous = page.document.querySelector(".project-gallery-previous");
-  const next = page.document.querySelector(".project-gallery-next");
-  assert.equal(previous.disabled, true);
-  next.click();
-  assert.equal(page.track.scrollLeft, 360);
-  assert.equal(page.track.lastScroll.behavior, "auto");
-  page.track.dispatchEvent(new page.window.KeyboardEvent("keydown", { key: "End" }));
-  assert.equal(page.track.scrollLeft, 600);
-  assert.equal(next.disabled, true);
-  page.track.dispatchEvent(new page.window.KeyboardEvent("keydown", { key: "Home" }));
-  assert.equal(page.track.scrollLeft, 0);
-  assert.equal(previous.disabled, true);
-  page.close();
-});
-
-test("reduced motion skips the intro lock and leaves a complete role title", () => {
-  const page = createPage();
-  assert.equal(page.document.documentElement.classList.contains("intro-active"), false);
-  assert.equal(page.document.querySelectorAll("[data-intro-inert]").length, 0);
-  assert.equal(page.document.querySelector("#typed-role").textContent, "IT Support Specialist");
-  page.advance(10000);
-  assert.equal(page.document.querySelector("#typed-role").textContent, "IT Support Specialist");
-  page.close();
-});
-
-test("intro releases page controls and typing stops when reduced motion is enabled", () => {
+test("opening screen releases page controls after completion or skip, and role rotator cycles roles", () => {
   const page = createPage({ reducedMotion: false });
-  assert(page.document.documentElement.classList.contains("intro-active"));
-  assert(page.document.querySelector("main").inert);
+  const { document } = page;
+  const items = [...document.querySelectorAll("[data-rotator] .rotator__item")];
+  assert.equal(items.length, 3);
+  assert(document.documentElement.classList.contains("intro-active"));
+  assert(document.querySelector("main").inert);
+
   page.advance(1900);
-  assert.equal(page.document.documentElement.classList.contains("intro-active"), false);
-  assert.equal(page.document.querySelector("main").inert, false);
-  page.advance(1600);
-  assert.equal(page.document.querySelector("#typed-role").textContent, "IT Support Specialis");
+  assert.equal(document.documentElement.classList.contains("intro-active"), false);
+  assert.equal(document.querySelector("main").inert, false);
+  assert(items[0].classList.contains("is-active"));
+
+  page.advance(2800);
+  assert(items[1].classList.contains("is-active"));
+
+  page.advance(2800);
+  assert(items[2].classList.contains("is-active"));
+
   page.media.get("(prefers-reduced-motion: reduce)").change(true);
+  assert(items[0].classList.contains("is-active"));
+  assert.equal(items[1].classList.contains("is-active"), false);
+  assert.equal(items[2].classList.contains("is-active"), false);
+
   page.advance(10000);
-  assert.equal(page.document.querySelector("#typed-role").textContent, "IT Support Specialist");
+  assert(items[0].classList.contains("is-active"));
   page.close();
+
+  const skipPage = createPage({ reducedMotion: false });
+  const skipButton = skipPage.document.querySelector("[data-intro-skip]");
+  skipButton.focus();
+  skipButton.click();
+  assert.equal(skipPage.document.documentElement.classList.contains("intro-active"), false);
+  assert.equal(skipPage.document.querySelector("main").inert, false);
+  assert.equal(skipPage.document.activeElement, skipPage.document.querySelector("#main"));
+  skipPage.close();
 });
 
-test("latest portrait sizing and halfway hero alignment survive the cleanup", () => {
-  const stylesheet = postcss.parse(readFileSync(new URL("../style.css", import.meta.url), "utf8"));
-  let alignment;
-  let portraitWidth;
-  stylesheet.walkRules((rule) => {
-    if (rule.selector === ".hero-copy" && rule.parent.params === "(min-width: 801px)") {
-      rule.walkDecls("align-self", (declaration) => {
-        alignment = declaration.value;
-      });
-    }
-    if (rule.selector === ".hero .portrait-frame") {
-      rule.walkDecls("width", (declaration) => {
-        portraitWidth = declaration.value;
-      });
-    }
-  });
-  assert.equal(alignment, "center");
-  assert.equal(portraitWidth, "110.25%");
-});
-
-test("restoring a cached page releases the intro's inert controls immediately", () => {
+test("marquee duplicates track group and scroll-scrubbed statement illuminates words on scroll", () => {
   const page = createPage({ reducedMotion: false });
-  const restore = new page.window.Event("pageshow");
-  Object.defineProperty(restore, "persisted", { value: true });
-  page.window.dispatchEvent(restore);
-  assert.equal(page.document.documentElement.classList.contains("intro-active"), false);
-  assert.equal(page.document.querySelector("main").inert, false);
-  assert.equal(page.document.querySelectorAll("[data-intro-inert]").length, 0);
+  const { document, window } = page;
+  assert.equal(document.querySelectorAll("[data-marquee-track] .marquee__group").length, 2);
+
+  const statement = document.querySelector("[data-scroll-words]");
+  const words = [...statement.querySelectorAll(".scroll-word")];
+  assert(words.length > 10);
+
+  statement.getBoundingClientRect = () => ({ top: 900 });
+  window.dispatchEvent(new window.Event("scroll"));
+  assert.equal(words[0].style.getPropertyValue("--word-opacity"), "0.180");
+
+  statement.getBoundingClientRect = () => ({ top: 100 });
+  window.dispatchEvent(new window.Event("scroll"));
+  assert.equal(words.at(-1).style.getPropertyValue("--word-opacity"), "1.000");
+
+  page.media.get("(prefers-reduced-motion: reduce)").change(true);
+  assert(words.every((word) => word.style.getPropertyValue("--word-opacity") === "1"));
   page.close();
 });
